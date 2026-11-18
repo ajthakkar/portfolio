@@ -7,7 +7,7 @@ const mono = JetBrains_Mono({ subsets: ["latin"], weight: ["400", "500"], variab
 
 export const metadata: Metadata = {
   title: "Aayush Thakkar",
-  description: "Information Systems student at Ohio State's Fisher College of Business.",
+  description: "Business student at Ohio State's Fisher College of Business.",
 };
 
 const themeScript = `try{if(localStorage.getItem("theme")==="dark")document.documentElement.classList.add("dark")}catch(e){}`;
