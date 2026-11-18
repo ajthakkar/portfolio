@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  color-scheme: light;
+  background-color: #f7f4ee;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+html.dark {
+  color-scheme: dark;
+  background-color: #090a0f;
+}
