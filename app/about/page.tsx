@@ -100,8 +100,8 @@ export default function AboutPage() {
       <section id="puzzle" aria-labelledby="puzzle-heading" className="scroll-mt-20 pt-20 sm:pt-24">
         <SectionTitle
           kicker="Your move"
-          title={<span id="puzzle-heading">A puzzle</span>}
-          aside={<p className="max-w-xs text-sm text-muted sm:text-right">Mate in two. No engine allowed.</p>}
+          title={<span id="puzzle-heading">A puzzle from my games</span>}
+          aside={<p className="max-w-xs text-sm text-muted sm:text-right">I found it with seconds on the clock. You have all the time you want.</p>}
         />
         <div className="pt-8">
           <PuzzleLoader />

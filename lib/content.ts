@@ -50,7 +50,7 @@ export const now = {
   items: [
     "Running stakeholder interviews for BDAA's product discovery project with OSU University Libraries",
     "Treasurer on the Ohio State Chess Club executive board",
-    "Starting my first analytics project, on my own chess games",
+    "Picking my next project: a finance model or a machine learning build",
   ],
 };
 
@@ -92,10 +92,81 @@ export type Case = {
   /** Questions for Aayush. Shown only in `npm run dev`, never on the live site. */
   gaps?: string[];
   /** An interactive demo shown on the project page. */
-  demo?: "knights-tour";
+  demo?: "knights-tour" | "chess-insights";
 };
 
 export const cases: Case[] = [
+  {
+    slug: "chess-analytics",
+    number: "06",
+    kind: "Main quest",
+    title: "Do I Tilt?",
+    rewards: ["sql", "statistics", "dataviz", "python"],
+    dek: "What 14,547 of my rated online games say about tilt, fatigue, time of day, the clock, and openings, tested with honest error bars.",
+    period: "Nov 2026",
+    role: "Solo project",
+    tools: ["Python", "SQL (DuckDB)", "pandas", "statsmodels", "matplotlib", "pytest"],
+    result: "No tilt, but I quit after losses",
+    stats: [
+      { value: "14,547", label: "rated games from Chess.com and Lichess, 2017–2026" },
+      { value: "−0.6", label: "points per 100 games after a loss vs. a win: no tilt" },
+      { value: "23% vs 15%", label: "chance I stop for the night after a loss vs. a win" },
+      { value: "+12.6", label: "net bullet games per 100 won on time" },
+    ],
+    demo: "chess-insights",
+    position: [
+      "I've played more than 14,000 rated games online since 2017, mostly bullet. Like most players, I had a story about myself: I tilt after losses, and I play worse late at night.",
+      "Those are testable claims, and my own games are a dataset I understand better than anyone. So I pulled every rated game from Chess.com and Lichess and checked.",
+    ],
+    plan: [
+      "Put both sites into one clean table: one row per game, with pre-game ratings, the result, how it ended, the clocks, the opening, and which session it belonged to.",
+      "Judge every game against what I usually score in that situation, so a night of tough opponents doesn't look like a bad night.",
+      "Use error bars that respect how the data was made: games from the same night move together, and testing 30 openings means some will look special by luck.",
+    ],
+    moves: [
+      {
+        glyph: "!!",
+        title: "Check the yardstick first",
+        body: "The Elo formula was the obvious baseline, but a calibration chart showed it overrates big rating gaps in my games. After a win my next opponent averaged 39 points below me; after a loss, 15. That alone would have made losses look harmless, so I fitted my own baseline from all 14,547 games.",
+      },
+      {
+        glyph: "!",
+        title: "Fix the data before trusting it",
+        body: "Chess.com's archive stores each rating after the game, not before. I checked: the rating change matches that game's result 91–93% of the time. So every pre-game rating is rebuilt from the game before it.",
+      },
+      {
+        glyph: "!",
+        title: "Cluster by session",
+        body: "One bad night drags down several games at once. Treating 14,547 games as independent would make every interval too narrow, so the error bars are computed session by session, in SQL.",
+      },
+      {
+        glyph: "?",
+        title: "Openings that only looked good",
+        body: "My first pass said the Queen's Gambit Declined and the Slav were my best openings. They were White's first-move advantage in disguise. Measured against my usual White results and corrected for testing 30 openings, no opening stands out.",
+      },
+      {
+        glyph: "!",
+        title: "One model for everything",
+        body: "Late-night games are also games deep into long sessions. A regression with previous result, session depth, and time of day together keeps one effect from passing for another.",
+      },
+    ],
+    outcome: [
+      "No tilt. After a loss I score 0.6 points per 100 games lower than after a win, with a 95% interval of −2.4 to +1.2: indistinguishable from zero, and it rules out a hit bigger than about 17 rating points.",
+      "What a loss changes is whether I keep playing: I stop for the night after 23% of losses and 15% of wins.",
+      "No fatigue, even 20+ games into a session. My weakest hours are 5–9 PM and my strongest are 3–6 AM, worth about 50 rating points, though the players online at 4 AM are a different crowd.",
+      "In bullet I win 12.6 more games per 100 on time than I lose, and more than half my bullet wins come on the clock.",
+      "SQL queries for every comparison, 17 tests, and a README with every chart.",
+    ],
+    postGame: [
+      "The first answers were wrong twice, and both times the mistake was in what I compared against, not in the effect I was looking for. Checking the baseline is most of the work.",
+      "I probably don't tilt because I already quit when a loss bothers me. Next, I'd run an engine over a sample of games to measure move quality instead of just results, and see whether the habit holds up in next year's games.",
+    ],
+    links: [{ label: "Code and full write-up on GitHub", href: "https://github.com/ajthakkar/chess-analytics" }],
+    gaps: [
+      "Read the reflection (The position, Key moves, Post-game) and rewrite anything that doesn't sound like you.",
+      "These findings are about your habits (quitting after losses, playing at 3–6 AM). Cut any you'd rather not have public.",
+    ],
+  },
   {
     slug: "knights-tour",
     number: "05",
@@ -162,6 +233,75 @@ export const cases: Case[] = [
     ],
     links: [{ label: "Code on GitHub", href: "https://github.com/ajthakkar/knights-tour" }],
     gaps: ["Read the reflection (The position, Key moves, Post-game) and rewrite anything that doesn't sound like you."],
+  },
+  {
+    slug: "hackohio-outage-model",
+    number: "07",
+    kind: "Main quest",
+    title: "Storm Outage Model",
+    rewards: ["ml", "statistics", "python"],
+    dek: "HackOHI/O 2026, AEP's challenge: tell a customer how likely a storm is to knock out their power, and for how long. I replaced a guessed risk score with one measured from real storms.",
+    period: "Oct 2026",
+    role: "Outage model",
+    team: "Team of 4",
+    tools: ["Python", "pandas", "scikit-learn", "SciPy", "C# / WPF", "Claude Code"],
+    result: "Held-out accuracy 0.39 → 0.72 on the worst storm",
+    stats: [
+      { value: "0.72", label: "AUC on the Feb 2025 ice storm, unseen in training (old score: 0.39)" },
+      { value: "11", label: "real storms, each held out in turn" },
+      { value: "0.68 vs 0.60", label: "simple model vs. logistic regression on unseen big storms" },
+      { value: "0", label: "hand-picked multipliers left" },
+    ],
+    position: [
+      "HackOHI/O is Ohio State's annual hackathon. AEP, the power company, asked for an outage concierge: before and during a storm, tell a customer how likely they are to lose power, how long it could last, and how to prepare, using AEP's anonymized grid map and damage records from real storms.",
+      "Our first build was a web app with three services and a 14-feature model. Late on the first night we dropped it for a teammate's simpler desktop app, L.A.R.P. Its risk score still ran on hand-picked weights, and that became my job.",
+    ],
+    plan: [
+      "Answer two questions with numbers that trace back to the data: will I lose power, and how long until it's back?",
+      "Judge every option the same way: train on 10 storms, score on the 11th, and repeat for all 11.",
+      "Keep it simple enough to explain to judges who aren't data scientists.",
+    ],
+    moves: [
+      {
+        glyph: "?",
+        title: "Starting too big",
+        body: "Our first version spread a complex model across three services. We spent most of the night wiring it together instead of checking whether the numbers made sense. Next time: one question, one model, tested, then the app.",
+      },
+      {
+        glyph: "!!",
+        title: "Test it before trusting it",
+        body: "On storms it had never seen, the app's original score ranked homes backwards in the biggest storms: an AUC of 0.39, worse than a coin flip at 0.5. Dense neighborhoods had the most past damage nearby, but big storms hit long rural lines.",
+      },
+      {
+        glyph: "!",
+        title: "Model the physics",
+        body: "Storms break overhead lines, so the expected damage on a home's power path is the storm's damage rate times the kilometers of overhead line between the home and its substation. The chance of an outage is 1 − e^(−expected), a standard Poisson model. The storm rates are measured from the real storms, not chosen.",
+      },
+      {
+        glyph: "!",
+        title: "Give machine learning a fair shot",
+        body: "A logistic regression and a gradient-boosted model got every feature we had. On unseen storms both did worse than the three-part physical model: with only 11 storms, more features meant memorizing past storms instead of learning what carries over.",
+      },
+      {
+        glyph: "!?",
+        title: "Shrink noisy history",
+        body: "Each line section's damage history counts, but pulled toward average when there's little data (empirical Bayes). The amount of pull was chosen by the held-out test, not by feel.",
+      },
+    ],
+    outcome: [
+      "On the three biggest storms, held-out AUC rose from 0.44 to 0.68 on average, and from 0.39 to 0.72 on the February 2025 ice storm.",
+      "Restoration time follows AEP's own guide: damage is placed on the real network 200 times per storm type, each repair is priced from AEP's labor tables, and crews are scheduled to restore the most customers first.",
+      "The model shipped in L.A.R.P., the team's submission, with a write-up of every method we compared and why it lost. I also wrote plain-English answers to every question we expected from the judges.",
+    ],
+    postGame: [
+      "The simplest model was the most accurate and the easiest to explain. Testing on storms the model hadn't seen is what proved it, and what showed the original score was worse than guessing.",
+    ],
+    links: [{ label: "L.A.R.P. on GitHub", href: "https://github.com/rlin122006/HackOHIO-2026-larp" }],
+    gaps: [
+      "How did the team place? Add it to the result line if you placed.",
+      "Confirm your role: I wrote 'Outage model' because you authored that commit and led the model decisions in your Claude Code sessions.",
+      "Your teammates' names, if you want to credit them.",
+    ],
   },
   {
     slug: "roam-travel",
@@ -236,9 +376,9 @@ export const cases: Case[] = [
     kind: "Main quest",
     title: "Long Constellation Energy",
     rewards: ["equity-research", "valuation"],
-    dek: "A stock pitch arguing that AI's power problem makes the largest US nuclear operator undervalued.",
+    dek: "My application pitch to Buckeye Capital Investors: AI's power problem makes the largest US nuclear operator undervalued.",
     period: "Sep 2026",
-    role: "Solo stock pitch",
+    role: "Solo · BCI application",
     tools: ["Equity research", "Valuation multiples", "Earnings reports", "SEC filings"],
     result: "Long at $285.93 · $355 target",
     stats: [
@@ -248,6 +388,7 @@ export const cases: Case[] = [
       { value: "12–36 mo", label: "holding period" },
     ],
     position: [
+      "Buckeye Capital Investors (BCI) is Ohio State's student investment club. To get an interview, applicants submit a stock pitch. This was mine.",
       "The main constraint on AI has shifted from chips and memory toward power and cooling. US data centers used 4.4% of national electricity in 2023 and could reach 6.7–12% by 2028, and the IEA expects global data center demand to more than double by 2030.",
       "Constellation Energy (NASDAQ: CEG) is the largest nuclear operator in the US, with about 55 GW of capacity after acquiring Calpine, and its fleet ran at about a 93% capacity factor in the second quarter.",
     ],
@@ -281,12 +422,15 @@ export const cases: Case[] = [
     outcome: [
       "Recommended a long position at the Sep 10, 2026 close of $285.93, with a 12-month target of $355 (about 24% upside) and a 12–36 month holding period.",
       "Downside cushions: roughly 30% of clean baseload output is already contracted with investment-grade buyers, and the 45U credit floors nuclear revenue at up to $15/MWh through 2032.",
+      "The pitch earned me a first-round interview. The feedback was that I did well, but not well enough to stand out, and I didn't advance.",
     ],
-    postGame: [],
+    postGame: [
+      "The pitch got me in the room. What I hadn't done was meet anyone: I applied knowing zero members. In a club that recruits through relationships as much as interviews, that's the move I'd change first.",
+      "The research habit stuck. Every number in the pitch is tied to a filing or an earnings release, and I flagged what I couldn't verify instead of guessing.",
+    ],
     note: "A student stock pitch, not investment advice.",
     gaps: [
-      "What is BCI, and who did you pitch to?",
-      "How did it go: feedback, a vote, or what the stock has done since?",
+      "Check the outcome and post-game wording; cut the interview result if you'd rather not show it.",
       "Want the full pitch PDF linked from this page?",
     ],
   },
@@ -296,25 +440,59 @@ export const cases: Case[] = [
     kind: "Side quest",
     title: "Hack For The World",
     rewards: [],
-    dek: "First place overall at a 12-hour sustainability hackathon.",
+    dek: "A first-person shooter in the browser: fight off oil zombies and repair a failing oil rig before it spills. First place overall.",
     period: "Feb 2026",
-    role: "Team member",
-    tools: [],
+    role: "Team of 4",
+    team: "4 students",
+    tools: ["JavaScript", "Three.js", "Vite", "WebGL", "GitHub"],
     result: "1st place overall",
     stats: [
       { value: "1st", label: "place overall" },
-      { value: "12 hrs", label: "to build" },
+      { value: "12 hrs", label: "to build it" },
+      { value: "54", label: "JavaScript modules" },
+      { value: "~6,000", label: "lines of code" },
     ],
     position: [
-      "A 12-hour sustainability hackathon at Naperville North, with teams from high schools across Chicagoland.",
+      "Hack For The World was a 12-hour sustainability hackathon at Naperville North, with high school teams from across Chicagoland.",
+      "Instead of another dashboard, we built a game. An offshore oil rig is about to fail, oil zombies have overrun the deck, and you have to fight your way to the drill shaft and repair it before the timer runs out and the spill hits the ocean.",
     ],
-    plan: ["Build a sustainability product with a team in 12 hours."],
-    moves: [],
-    outcome: ["Placed 1st overall."],
+    plan: [
+      "Make the sustainability message something you feel instead of read: if you lose, the rig fails.",
+      "Write the requirements before any code, so four people could build in parallel without stepping on each other.",
+      "Pick a stack we could finish in 12 hours and that judges could open with no install.",
+    ],
+    moves: [
+      {
+        glyph: "!",
+        title: "Browser over Unity",
+        body: "We considered Unity, but chose Three.js in the browser: no install for judges, instant reloads while building, and one link anyone can open.",
+      },
+      {
+        glyph: "!",
+        title: "Requirements first",
+        body: "A requirements doc set the core loop, controls, enemy behavior, win and lose states, and a 60 FPS target before anyone wrote code. A structure doc split the game into input, combat, enemies, objective, and UI.",
+      },
+      {
+        glyph: "!",
+        title: "Systems that don't know about each other",
+        body: "Modules talk through an event bus, and one state machine owns the menu, play, pause, win, and lose screens. That kept late changes from breaking unrelated parts.",
+      },
+      {
+        glyph: "!?",
+        title: "A real-looking rig",
+        body: "Rusted metal and concrete textures and 3D barrels, tanks, and crates made the rig feel like a place, which mattered for a game whose point is what happens if it fails.",
+      },
+    ],
+    outcome: [
+      "Won 1st place overall.",
+      "A playable first-person shooter: pointer-lock mouse look, raycast shooting, zombie AI with wave spawning, a rig-failure timer, a hold-to-repair objective, and a live HUD.",
+    ],
     postGame: [],
+    links: [{ label: "Code on GitHub", href: "https://github.com/mmbar08/HACK26repo" }],
     gaps: [
-      "What did your team build, and what was your part?",
-      "Tools or languages used, and a screenshot or demo link if you have one.",
+      "What was your part (design, a system, the pitch, the presentation)? The page says 'we' until you tell me.",
+      "One line for Post-game: what you'd do differently, or what winning taught you.",
+      "Want a playable build hosted and linked from this page?",
     ],
   },
   {
@@ -513,26 +691,26 @@ export const about = {
       name: "Chess",
       line: "US Chess Expert (peak 2075). Online peaks: 2661 bullet on Lichess, and 2605 bullet and 2548 blitz on Chess.com.",
     },
-    { name: "Poker", line: "Chess with hidden information, and a lot more luck." },
-    { name: "Logic puzzles", line: "The kind with one right answer. A knight's tour solver is my next project." },
+    {
+      name: "Poker",
+      line: "Chess with hidden information and more luck. A good decision can still lose a hand, which is a useful thing to make peace with.",
+    },
+    { name: "Logic puzzles", line: "The kind with one right answer. The knight's tour became a project." },
     { name: "Languages", line: "English, Gujarati, and Spanish." },
   ],
-  gaps: [
-    "A photo of you for the About page (portrait or candid).",
-    "A personal line for poker, or a stat that makes it yours.",
-    "A position from one of your own games for the puzzle (I can swap it in).",
-  ],
+  gaps: ["A fuller photo, if you want one (swap public/me.jpg)."],
 };
 
-/** "Opera Game", Morphy vs. Duke Karl and Count Isouard, Paris 1858. White mates in 2. */
+/** From one of my Lichess bullet games (August 2023), lichess.org/ab25lFak. White mates in 2.
+ *  Checked with python-chess: Qg8+ is the only first move that forces mate in 2, and there's no mate in 1. */
 export const puzzle = {
-  fen: "4kb1r/p2n1ppp/4q3/4p1B1/4P3/1Q6/PPP2PPP/2KR4 w k - 0 16",
-  // Alternating moves: White, Black reply, White. Checked with chess.js.
-  solution: ["b3b8", "d7b8", "d1d8"],
-  sanLine: "16. Qb8+!! Nxb8 17. Rd8#",
+  fen: "r1r4k/p3R1bp/3pQ1pN/2p2n2/1p6/7P/P1P2P2/1n4K1 w - - 6 33",
+  // Alternating moves: White, Black reply, White.
+  solution: ["e6g8", "c8g8", "h6f7"],
+  sanLine: "33. Qg8+!! Rxg8 34. Nf7#",
   title: "White to play, mate in 2",
-  source: "The finish of Paul Morphy's Opera Game, Paris 1858.",
-  hint: "The queen is worth less than the mate. Look at the d-file.",
+  source: "From one of my own Lichess bullet games, August 2023. I'm White, with 7 seconds left on my clock.",
+  hint: "The king is boxed in by its own pieces. Make it worse.",
 };
 
 /* ─────────────────────────────── Skill tree ─────────────────────────────── */
@@ -633,7 +811,6 @@ export type UpcomingQuest = {
 };
 
 export const upcoming: UpcomingQuest[] = [
-  { title: "???", branch: "analytics", state: "locked", dek: "Locked. Coming soon.", rewards: [] },
   { title: "???", branch: "finance", state: "locked", dek: "Locked. Coming soon.", rewards: [] },
   { title: "???", branch: "ai", state: "locked", dek: "Locked. Coming soon.", rewards: [] },
 ];

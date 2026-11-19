@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { MoveList } from "@/components/case-reading";
+import { ChessInsights } from "@/components/chess-insights";
 import { KnightsLab } from "@/components/knights-lab";
 import { CountUp } from "@/components/hud";
 import { TransitionLink } from "@/components/transition-link";
@@ -137,6 +138,24 @@ export default function ProjectPage({ params }: Params) {
             </p>
           </div>
           <KnightsLab />
+        </section>
+      )}
+
+      {c.demo === "chess-insights" && (
+        <section aria-labelledby="demo-heading" className="pt-14 lg:pt-20">
+          <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
+            <div className="space-y-2">
+              <Kicker>Explore it</Kicker>
+              <h2 id="demo-heading" className="font-display text-3xl font-extrabold tracking-[-0.03em] text-ink">
+                Ask my games a question
+              </h2>
+            </div>
+            <p className="max-w-sm text-sm text-muted">
+              Every number compares a game to what I usually score at that rating gap, color, and time control, so
+              a run of strong or weak opponents doesn&apos;t skew it.
+            </p>
+          </div>
+          <ChessInsights />
         </section>
       )}
 
