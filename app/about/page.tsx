@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import { ArrowUpRight } from "lucide-react";
 import { PuzzleLoader } from "@/components/puzzle-loader";
+import { RatingHistory } from "@/components/rating-history";
 import { Gaps, Kicker, SectionTitle } from "@/components/ui";
-import { about, profile } from "@/lib/content";
+import { about, playLinks, profile } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "About",
@@ -27,17 +29,24 @@ export default function AboutPage() {
           </div>
         </div>
 
-        {/* Photo slot: drop a file at public/me.jpg and swap this block for an <img>. */}
-        <figure className="rise mx-auto w-full max-w-[240px] rotate-[2deg] transition-transform duration-500 hover:rotate-0" style={{ "--i": 3 } as React.CSSProperties}>
-          <div className="border border-line bg-paper p-2.5 pb-10 shadow-[0_18px_40px_-18px_rgb(0_0_0/0.35)]">
-            <div className="grid aspect-[4/5] place-items-center bg-[repeating-conic-gradient(rgb(var(--sq-light))_0_25%,rgb(var(--sq-dark))_0_50%)] bg-[length:25%_20%]">
-              <span className="bg-paper/90 px-3 py-1.5 font-display text-3xl text-accent">
-                {profile.firstName[0]}
-                {profile.lastName[0]}
-              </span>
+        {/* Character portrait. Swap public/me.jpg for a new photo any time. */}
+        <figure className="rise group mx-auto w-full max-w-[240px]" style={{ "--i": 3 } as React.CSSProperties}>
+          <div className="notch bg-accent p-[3px] transition-transform duration-300 group-hover:-translate-y-1">
+            <div className="notch overflow-hidden bg-paper-2">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/me.jpg"
+                alt={`${profile.name}, smiling, in a suit and light blue shirt`}
+                width={640}
+                height={640}
+                className="aspect-square w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+              />
             </div>
           </div>
-          <figcaption className="-mt-8 text-center pixel text-faint">Columbus, Ohio</figcaption>
+          <figcaption className="mt-3 flex items-center justify-between">
+            <span className="pixel text-accent">Player 1</span>
+            <span className="pixel text-faint">{profile.location}</span>
+          </figcaption>
         </figure>
       </header>
 
@@ -60,6 +69,32 @@ export default function AboutPage() {
             </li>
           ))}
         </ul>
+      </section>
+
+      <section id="ratings" aria-labelledby="ratings-heading" className="scroll-mt-20 pt-20 sm:pt-24">
+        <SectionTitle
+          kicker="Rating history"
+          title={<span id="ratings-heading">Every rated game, charted</span>}
+          aside={
+            <div className="flex flex-wrap gap-3 sm:justify-end">
+              {playLinks.map((p) => (
+                <a
+                  key={p.site}
+                  href={p.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-game inline-flex items-center gap-1.5 bg-lime px-3.5 py-2 font-display text-sm font-bold text-lime-ink"
+                >
+                  Play me on {p.site}
+                  <ArrowUpRight aria-hidden="true" className="h-3.5 w-3.5" />
+                </a>
+              ))}
+            </div>
+          }
+        />
+        <div className="pt-6">
+          <RatingHistory />
+        </div>
       </section>
 
       <section id="puzzle" aria-labelledby="puzzle-heading" className="scroll-mt-20 pt-20 sm:pt-24">

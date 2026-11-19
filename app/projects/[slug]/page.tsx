@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { MoveList } from "@/components/case-reading";
+import { KnightsLab } from "@/components/knights-lab";
 import { CountUp } from "@/components/hud";
 import { TransitionLink } from "@/components/transition-link";
 import { CaseBoard, ExternalLink, Gaps, Glyph, Kicker, Panel, StatusChip } from "@/components/ui";
@@ -120,6 +121,24 @@ export default function ProjectPage({ params }: Params) {
           ))}
         </dl>
       </Panel>
+
+      {c.demo === "knights-tour" && (
+        <section aria-labelledby="demo-heading" className="pt-14 lg:pt-20">
+          <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
+            <div className="space-y-2">
+              <Kicker>Try it</Kicker>
+              <h2 id="demo-heading" className="font-display text-3xl font-extrabold tracking-[-0.03em] text-ink">
+                Race the two searches
+              </h2>
+            </div>
+            <p className="max-w-sm text-sm text-muted">
+              Both boards start on the same square and take the same number of steps per frame. One of them knows where
+              to go.
+            </p>
+          </div>
+          <KnightsLab />
+        </section>
+      )}
 
       {/* Body */}
       <div className="grid gap-12 pt-14 lg:grid-cols-[220px_1fr] lg:gap-16 lg:pt-20">

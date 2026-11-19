@@ -8,6 +8,7 @@ import { SkillTree } from "@/components/skill-tree";
 import { TransitionLink } from "@/components/transition-link";
 import { ExternalLink, Gaps, Kicker, Panel, PieceIcon, SectionTitle, Ticker } from "@/components/ui";
 import { allSkills, branches, experience, highlights, now, profile, skillState, type Branch } from "@/lib/content";
+import { uscfClass, uscfSummary } from "@/lib/ratings";
 
 const stagger = (i: number) => ({ "--i": i }) as React.CSSProperties;
 
@@ -44,6 +45,7 @@ function BranchBar({ branch }: { branch: Branch }) {
 
 function PlayerCard() {
   const unlocked = allSkills.filter((s) => skillState(s) === "unlocked").length;
+  const uscf = uscfSummary();
   return (
     <Panel className="rise" inner="p-5 sm:p-6">
       <div className="flex items-center justify-between border-b border-line pb-3">
@@ -53,7 +55,14 @@ function PlayerCard() {
       <dl className="divide-y divide-line">
         <Row label="Class">{profile.playerClass}</Row>
         <Row label="Rating">
-          <ChessRating />
+          <ChessRating uscf={uscf && { current: uscf.current, peak: uscf.peak, title: uscfClass(uscf.current) }} />
+          <TransitionLink
+            href="/about/#ratings"
+            className="mt-2 inline-flex items-center gap-1 font-mono text-[11px] text-muted transition-colors hover:text-ink"
+          >
+            Rating history
+            <ArrowRight aria-hidden="true" className="h-3 w-3" />
+          </TransitionLink>
         </Row>
         <Row label="Taught">
           <CountUp value="1,000+" className="font-mono text-base" /> <span className="text-muted">chess students</span>

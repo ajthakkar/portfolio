@@ -1,5 +1,7 @@
 /* All site content lives here. Edit text in this file, not in components. */
 
+import chessAccounts from "./chess-accounts.json";
+
 export const profile = {
   name: "Aayush Thakkar",
   firstName: "Aayush",
@@ -17,19 +19,23 @@ export const profile = {
   /** Player card "class" line. */
   playerClass: "Business Admin · Ohio State",
   chess: {
-    uscf: 2070,
-    uscfTitle: "Expert",
-    /** Usernames turn on the live rating and the "Play me" link. Leave empty to hide them. */
-    lichess: "",
-    chesscom: "",
+    /** Usernames and US Chess ID live in lib/chess-accounts.json (the ratings script reads them too). */
+    lichess: chessAccounts.lichess,
+    chesscom: chessAccounts.chesscom,
+    uscfId: chessAccounts.uscfId,
   },
-  /** Gaps for the home page. Shown only in `npm run dev`. */
-  gaps: ["Your Lichess and/or Chess.com usernames, for the live rating and the 'Play me' button."],
+  gaps: [] as string[],
 };
+
+/** "Play me" links: open a challenge on each site. */
+export const playLinks = [
+  { site: "Chess.com", href: `https://www.chess.com/play/online/new?opponent=${chessAccounts.chesscom}` },
+  { site: "Lichess", href: `https://lichess.org/?user=${chessAccounts.lichess}#friend` },
+];
 
 /** The scrolling strip under the home page hero. */
 export const highlights = [
-  "USCF Expert · 2070",
+  "US Chess Expert · peak 2075",
   "IHSA State Finals · Board 1 gold · 7/7",
   "1,000+ chess students taught",
   "Hack For The World · 1st overall",
@@ -44,7 +50,7 @@ export const now = {
   items: [
     "Running stakeholder interviews for BDAA's product discovery project with OSU University Libraries",
     "Treasurer on the Ohio State Chess Club executive board",
-    "Starting my next project: a knight's tour solver",
+    "Starting my first analytics project, on my own chess games",
   ],
 };
 
@@ -85,9 +91,78 @@ export type Case = {
   note?: string;
   /** Questions for Aayush. Shown only in `npm run dev`, never on the live site. */
   gaps?: string[];
+  /** An interactive demo shown on the project page. */
+  demo?: "knights-tour";
 };
 
 export const cases: Case[] = [
+  {
+    slug: "knights-tour",
+    number: "05",
+    kind: "Main quest",
+    title: "Knight's Tour",
+    rewards: ["algorithms", "python"],
+    dek: "Three ways to send a knight across every square of the board once, tested, measured, and raced in the browser.",
+    period: "Nov 2026",
+    role: "Solo project",
+    tools: ["Python", "pytest", "matplotlib", "TypeScript", "React"],
+    result: "64/64 tours on 8x8 with zero backtracks",
+    stats: [
+      { value: "64/64", label: "8x8 tours found with Warnsdorff order" },
+      { value: "0/64", label: "found by brute force within 1,000,000 steps" },
+      { value: "96.7%", label: "worst greedy success rate, 8x8 to 40x40" },
+      { value: "93 ms", label: "for a 65,536-square tour in pure Python" },
+    ],
+    demo: "knights-tour",
+    position: [
+      "The knight's tour is a puzzle more than a thousand years old: move a knight so it lands on every square of the board exactly once. An animated one used to sit on my homepage as decoration.",
+      "I wanted to understand how a tour is actually found, and to show I can take an algorithm from an idea to tested, measured code instead of just describing it.",
+    ],
+    plan: [
+      "Write three solvers in Python: brute-force backtracking, H. C. Warnsdorff's greedy rule from 1823 (always move to the square with the fewest onward moves), and a backtracking search that tries moves in Warnsdorff order.",
+      "Prove the answers are right with tests instead of eyeballing them, including the cases where no tour can exist.",
+      "Run every start square on boards up to 8x8, and the greedy rule on boards up to 40x40, then chart where each method breaks.",
+    ],
+    moves: [
+      {
+        glyph: "!!",
+        title: "Let the heuristic order the search",
+        body: "Warnsdorff's rule alone is fast but greedy, so it can walk into a dead end. Using it only to decide which move to try first kept the speed and made the search complete: on 8x8 it found a tour from all 64 squares without a single backtrack.",
+      },
+      {
+        glyph: "!",
+        title: "Measure work, not just time",
+        body: "I counted every square the knight stepped onto, retreats included, instead of only timing runs. That made the comparison fair on any computer and showed exactly where brute force falls apart.",
+      },
+      {
+        glyph: "!",
+        title: "Test the impossible cases",
+        body: "The tests prove that no tour exists on 3x3 or 4x4, and that on 5x5 a tour can only start on the 13 squares of one color. A bug that always 'finds' something would fail them.",
+      },
+      {
+        glyph: "!?",
+        title: "Compare tie-breaks, not just methods",
+        body: "When two squares tie under Warnsdorff's rule, the choice matters. Picking the square farthest from the center finished at least 96.7% of starts on every board from 8x8 to 40x40. Picking at random fell to 65%.",
+      },
+      {
+        glyph: "?!",
+        title: "Pure Python",
+        body: "Easy to read and test, but slow. I chose clarity first; a compiled version is the obvious next step.",
+      },
+    ],
+    outcome: [
+      "On 8x8, brute force didn't finish a single tour within a million steps. The Warnsdorff-ordered search finished all 64 in exactly 64 steps each.",
+      "The greedy rule scales in a straight line: a 256x256 tour, 65,536 squares, takes about 93 ms.",
+      "The one surprise was 7x7: it trips every tie-break rule, and it's the only board where even the Warnsdorff-ordered search hit the cap once.",
+      "12 tests, a command-line tool, and a benchmark script that regenerates every number and chart on this page.",
+    ],
+    postGame: [
+      "A good heuristic beats raw speed. No computer makes brute force practical on 8x8, but one sentence of insight from 1823 makes the problem easy.",
+      "Next, I'd port the inner loop to a compiled language and measure the speedup on the same benchmarks, then build huge tours by stitching small closed tours together, a known way to get linear time with no failures.",
+    ],
+    links: [{ label: "Code on GitHub", href: "https://github.com/ajthakkar/knights-tour" }],
+    gaps: ["Read the reflection (The position, Key moves, Post-game) and rewrite anything that doesn't sound like you."],
+  },
   {
     slug: "roam-travel",
     number: "01",
@@ -392,7 +467,7 @@ export const honors = [
   },
   { title: "6th Place in Illinois, DECA Entrepreneurship Series", detail: "", date: "2024" },
   {
-    title: "USCF Expert (2070)",
+    title: "US Chess Expert (peak 2075)",
     detail: "One class below National Master; top 1% online on Chess.com and Lichess",
     date: "",
   },
@@ -429,14 +504,14 @@ export const education = [
 export const about = {
   story: [
     "I grew up in Naperville, Illinois, and I'm now a business student at Ohio State's Fisher College of Business.",
-    "Chess has been the constant. I've studied it for more than ten years and played 70+ rated tournaments, each a multi-day event with 4–5 hour classical games. I'm a USCF Expert (2070), one class below National Master, and in February 2026 I won the individual gold medal on Board 1 at the IHSA State Finals with a perfect 7/7.",
+    "Chess has been the constant. I've studied it for more than ten years and played 70+ rated tournaments, each a multi-day event with 4–5 hour classical games. I'm a US Chess Expert (peak 2075, August 2026), one class below National Master, and in February 2026 I won the individual gold medal on Board 1 at the IHSA State Finals with a perfect 7/7.",
     "I've also spent a lot of time teaching it: 1,000+ students at Elite Chess, from first-time beginners to tournament players. As captain at Naperville North, I helped grow the team from 20 to 30 regular players.",
     "In high school I co-founded Roam Travel, a travel accessory startup that sold 250+ units. Now I'm looking for problems where business, software, and AI meet.",
   ],
   interests: [
     {
       name: "Chess",
-      line: "USCF Expert (2070). Peak 2650 bullet on Lichess, 2500+ blitz and rapid on Lichess and Chess.com.",
+      line: "US Chess Expert (peak 2075). Online peaks: 2661 bullet on Lichess, and 2605 bullet and 2548 blitz on Chess.com.",
     },
     { name: "Poker", line: "Chess with hidden information, and a lot more luck." },
     { name: "Logic puzzles", line: "The kind with one right answer. A knight's tour solver is my next project." },
@@ -558,14 +633,8 @@ export type UpcomingQuest = {
 };
 
 export const upcoming: UpcomingQuest[] = [
-  {
-    title: "Knight's Tour Lab",
-    branch: "software",
-    state: "training",
-    dek: "A solver that races brute-force search against Warnsdorff's rule, on boards of any size.",
-    rewards: ["algorithms"],
-  },
   { title: "???", branch: "analytics", state: "locked", dek: "Locked. Coming soon.", rewards: [] },
+  { title: "???", branch: "finance", state: "locked", dek: "Locked. Coming soon.", rewards: [] },
   { title: "???", branch: "ai", state: "locked", dek: "Locked. Coming soon.", rewards: [] },
 ];
 

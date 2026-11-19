@@ -91,8 +91,8 @@ export default function Puzzle() {
   };
 
   const colors = dark
-    ? { light: "#b8afc6", dark: "#6c6181", mark: "rgba(199,247,74,0.45)", select: "rgba(199,247,74,0.62)" }
-    : { light: "#ece6da", dark: "#b6abc7", mark: "rgba(74,106,0,0.28)", select: "rgba(74,106,0,0.42)" };
+    ? { light: "#cdd6ab", dark: "#5f7a33", mark: "rgba(255,128,104,0.55)", select: "rgba(255,128,104,0.75)" }
+    : { light: "#eef1da", dark: "#8ba650", mark: "rgba(184,58,34,0.35)", select: "rgba(184,58,34,0.5)" };
 
   const squareStyles = useMemo(() => {
     const styles: Record<string, React.CSSProperties> = {};

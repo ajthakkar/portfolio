@@ -1,105 +1,86 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { profile } from "@/lib/content";
+import { ArrowUpRight } from "lucide-react";
+import accounts from "@/lib/chess-accounts.json";
 import { CountUp } from "./hud";
 
-type Live = {
-  site: "Lichess" | "Chess.com";
-  ratings: { label: string; value?: number }[];
-  playing?: string;
-  play: string;
-  url: string;
-};
+type Online = { site: string; rating: number; control: string; url: string };
 
-async function fetchLichess(user: string, signal: AbortSignal): Promise<Live> {
-  const res = await fetch(`https://lichess.org/api/user/${encodeURIComponent(user)}`, {
-    signal,
-    headers: { Accept: "application/json" },
-  });
-  if (!res.ok) throw new Error(String(res.status));
-  const data = await res.json();
-  const perfs = data.perfs ?? {};
-  return {
-    site: "Lichess",
-    ratings: [
-      { label: "Bullet", value: perfs.bullet?.rating },
-      { label: "Blitz", value: perfs.blitz?.rating },
-      { label: "Rapid", value: perfs.rapid?.rating },
-    ],
-    playing: typeof data.playing === "string" ? data.playing : undefined,
-    play: `https://lichess.org/?user=${encodeURIComponent(user)}#friend`,
-    url: `https://lichess.org/@/${encodeURIComponent(user)}`,
-  };
+const CONTROLS = ["bullet", "blitz", "rapid"] as const;
+
+/** Each site's best current rating, fetched live. */
+async function fetchOnline(signal: AbortSignal): Promise<Online[]> {
+  const results = await Promise.allSettled([
+    fetch(`https://api.chess.com/pub/player/${accounts.chesscom}/stats`, { signal })
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((d) => {
+        const best = CONTROLS.map((c) => ({ control: c, rating: d[`chess_${c}`]?.last?.rating as number | undefined }))
+          .filter((x) => typeof x.rating === "number")
+          .sort((a, b) => b.rating! - a.rating!)[0];
+        if (!best) throw new Error("no ratings");
+        return { site: "Chess.com", rating: best.rating!, control: best.control, url: `https://www.chess.com/member/${accounts.chesscom}` };
+      }),
+    fetch(`https://lichess.org/api/user/${accounts.lichess}`, { signal, headers: { Accept: "application/json" } })
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((d) => {
+        const best = CONTROLS.map((c) => ({ control: c, rating: d.perfs?.[c]?.rating as number | undefined }))
+          .filter((x) => typeof x.rating === "number")
+          .sort((a, b) => b.rating! - a.rating!)[0];
+        if (!best) throw new Error("no ratings");
+        return { site: "Lichess", rating: best.rating!, control: best.control, url: `https://lichess.org/@/${accounts.lichess}` };
+      }),
+  ]);
+  return results.flatMap((r) => (r.status === "fulfilled" ? [r.value] : []));
 }
 
-async function fetchChessCom(user: string, signal: AbortSignal): Promise<Live> {
-  const res = await fetch(`https://api.chess.com/pub/player/${encodeURIComponent(user.toLowerCase())}/stats`, { signal });
-  if (!res.ok) throw new Error(String(res.status));
-  const data = await res.json();
-  return {
-    site: "Chess.com",
-    ratings: [
-      { label: "Bullet", value: data.chess_bullet?.last?.rating },
-      { label: "Blitz", value: data.chess_blitz?.last?.rating },
-      { label: "Rapid", value: data.chess_rapid?.last?.rating },
-    ],
-    play: `https://www.chess.com/play/online/new?opponent=${encodeURIComponent(user)}`,
-    url: `https://www.chess.com/member/${encodeURIComponent(user)}`,
-  };
-}
-
-/** USCF rating, plus live online ratings and a "Play me" link once a username is set. */
-export function ChessRating() {
-  const { uscf, uscfTitle, lichess, chesscom } = profile.chess;
-  const [live, setLive] = useState<Live | null>(null);
+/** US Chess rating from the build, plus live online ratings and "Play me" links. */
+export function ChessRating({ uscf }: { uscf: { current: number; peak: number; title: string } | null }) {
+  const [online, setOnline] = useState<Online[]>([]);
 
   useEffect(() => {
-    if (!lichess && !chesscom) return;
     const controller = new AbortController();
-    const load = lichess ? fetchLichess(lichess, controller.signal) : fetchChessCom(chesscom, controller.signal);
-    load.then(setLive).catch(() => {
-      /* Offline or rate-limited: the USCF rating still shows. */
-    });
+    fetchOnline(controller.signal).then(setOnline).catch(() => {});
     return () => controller.abort();
-  }, [lichess, chesscom]);
-
-  const ratings = live?.ratings.filter((r) => typeof r.value === "number") ?? [];
+  }, []);
 
   return (
     <div className="space-y-2">
-      <p>
-        <CountUp value={String(uscf)} className="font-mono text-base text-ink" />{" "}
-        <span className="text-muted">USCF · {uscfTitle}</span>
-      </p>
-      {live && ratings.length > 0 && (
-        <p className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs text-muted">
-          <a href={live.url} target="_blank" rel="noopener noreferrer" className="link-underline text-copy">
-            {live.site}
-          </a>
-          {ratings.map((r) => (
-            <span key={r.label}>
-              {r.label} <span className="text-ink">{r.value}</span>
-            </span>
-          ))}
-          {live.playing && (
-            <a href={live.playing} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-accent">
-              <span className="blink inline-block h-1.5 w-1.5 bg-coral" />
-              Playing now
-            </a>
-          )}
+      {uscf && (
+        <p>
+          <CountUp value={String(uscf.current)} className="font-mono text-base text-ink" />{" "}
+          <span className="text-muted">
+            US Chess · {uscf.title} · peak {uscf.peak}
+          </span>
         </p>
       )}
-      {live && (
-        <a
-          href={live.play}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="pixel inline-flex items-center gap-1.5 border border-accent px-2 py-1 text-accent transition-colors hover:bg-accent hover:text-accent-ink"
-        >
-          ▸ Play me
-        </a>
+      {online.length > 0 && (
+        <p className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs text-muted">
+          <span aria-hidden="true" className="blink inline-block h-1.5 w-1.5 bg-accent" />
+          {online.map((o) => (
+            <a key={o.site} href={o.url} target="_blank" rel="noopener noreferrer" className="link-underline">
+              {o.site} <span className="text-ink">{o.rating}</span> {o.control}
+            </a>
+          ))}
+        </p>
       )}
+      <p className="flex flex-wrap gap-2 pt-0.5">
+        {[
+          { site: "Chess.com", href: `https://www.chess.com/play/online/new?opponent=${accounts.chesscom}` },
+          { site: "Lichess", href: `https://lichess.org/?user=${accounts.lichess}#friend` },
+        ].map((p) => (
+          <a
+            key={p.site}
+            href={p.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="pixel inline-flex items-center gap-1 border border-accent px-2 py-1 text-accent transition-colors hover:bg-accent hover:text-accent-ink"
+          >
+            Play me · {p.site}
+            <ArrowUpRight aria-hidden="true" className="h-2.5 w-2.5" />
+          </a>
+        ))}
+      </p>
     </div>
   );
 }

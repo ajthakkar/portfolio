@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build"
+    "build": "next build",
+    "ratings": "node scripts/update-ratings.mjs"
   },
   "dependencies": {
     "chess.js": "1.4.0",

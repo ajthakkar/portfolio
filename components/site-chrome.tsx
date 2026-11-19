@@ -68,17 +68,17 @@ export function SiteHeader() {
   );
 }
 
-/** A 2×2 board fragment that turns a quarter when hovered. */
+/** The logo: a 2×2 corner of the same lime board as the title screen. Turns a quarter on hover. */
 function Mark() {
   return (
     <span
       aria-hidden="true"
       className="grid h-7 w-7 grid-cols-2 grid-rows-2 overflow-hidden border border-ink/20 transition-transform duration-500 [transition-timing-function:cubic-bezier(.2,.7,.2,1)] group-hover:rotate-90"
     >
-      <span className="bg-sq-light" />
       <span className="bg-lime" />
-      <span className="bg-ink" />
-      <span className="bg-sq-light" />
+      <span className="bg-sq-dark" />
+      <span className="bg-sq-dark" />
+      <span className="bg-lime" />
     </span>
   );
 }
