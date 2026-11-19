@@ -14,18 +14,41 @@ export const profile = {
     { label: "LinkedIn", href: "https://www.linkedin.com/in/aayush--thakkar" },
     { label: "Email", href: "mailto:thakkar.186@osu.edu" },
   ],
+  /** Player card "class" line. */
+  playerClass: "Business Admin · Ohio State",
+  chess: {
+    uscf: 2070,
+    uscfTitle: "Expert",
+    /** Usernames turn on the live rating and the "Play me" link. Leave empty to hide them. */
+    lichess: "",
+    chesscom: "",
+  },
+  /** Gaps for the home page. Shown only in `npm run dev`. */
+  gaps: ["Your Lichess and/or Chess.com usernames, for the live rating and the 'Play me' button."],
 };
+
+/** The scrolling strip under the home page hero. */
+export const highlights = [
+  "USCF Expert · 2070",
+  "IHSA State Finals · Board 1 gold · 7/7",
+  "1,000+ chess students taught",
+  "Hack For The World · 1st overall",
+  "INCubatoredu · national top 5",
+  "ACT 36",
+  "National Merit Commended",
+  "DECA · 6th in Illinois",
+];
 
 export const now = {
   label: "Fall 2026",
   items: [
     "Running stakeholder interviews for BDAA's product discovery project with OSU University Libraries",
     "Treasurer on the Ohio State Chess Club executive board",
-    "Building the projects for my next case",
+    "Starting my next project: a knight's tour solver",
   ],
 };
 
-/* ─────────────────────────────── Cases ─────────────────────────────── */
+/* ─────────────────────────────── Projects ─────────────────────────────── */
 
 export type GlyphMark = "!!" | "!" | "!?" | "?!" | "?";
 
@@ -42,8 +65,10 @@ export type Move = { glyph: GlyphMark; title: string; body: string };
 export type Case = {
   slug: string;
   number: string;
-  kind: "Game" | "Miniature";
+  kind: "Main quest" | "Side quest";
   title: string;
+  /** Skill ids (see `branches` below) this project proves. */
+  rewards: string[];
   dek: string;
   period: string;
   role: string;
@@ -66,8 +91,9 @@ export const cases: Case[] = [
   {
     slug: "roam-travel",
     number: "01",
-    kind: "Game",
+    kind: "Main quest",
     title: "Roam Travel",
+    rewards: ["startups", "pitching", "startup-finance"],
     dek: "Taking a luggage strap from a handmade prototype to a patent-pending product, as a high school co-founder.",
     period: "Aug 2024 – Aug 2025",
     role: "Co-Founder, CTO & CFO",
@@ -132,8 +158,9 @@ export const cases: Case[] = [
   {
     slug: "constellation-energy",
     number: "02",
-    kind: "Game",
+    kind: "Main quest",
     title: "Long Constellation Energy",
+    rewards: ["equity-research", "valuation"],
     dek: "A stock pitch arguing that AI's power problem makes the largest US nuclear operator undervalued.",
     period: "Sep 2026",
     role: "Solo stock pitch",
@@ -191,8 +218,9 @@ export const cases: Case[] = [
   {
     slug: "hack-for-the-world",
     number: "03",
-    kind: "Miniature",
+    kind: "Side quest",
     title: "Hack For The World",
+    rewards: [],
     dek: "First place overall at a 12-hour sustainability hackathon.",
     period: "Feb 2026",
     role: "Team member",
@@ -217,16 +245,17 @@ export const cases: Case[] = [
   {
     slug: "this-site",
     number: "04",
-    kind: "Miniature",
+    kind: "Side quest",
     title: "This site",
+    rewards: ["web", "shipping", "ai-dev"],
     dek: "Designing and shipping a personal site with AI-assisted development.",
     period: "Nov 2026",
     role: "Designer & developer",
     tools: ["Next.js", "TypeScript", "Tailwind CSS", "Claude Code", "Vercel"],
     result: "Live on Vercel",
     stats: [
-      { value: "2", label: "versions shipped" },
-      { value: "0", label: "loading screens" },
+      { value: "3", label: "versions" },
+      { value: "20", label: "skills on the tree" },
     ],
     position: [
       "I wanted one place to show my work that doesn't read like a resume.",
@@ -243,12 +272,12 @@ export const cases: Case[] = [
       {
         glyph: "!",
         title: "Make the work the point",
-        body: "The strongest portfolios I studied led with proof, so this version is built around case studies instead of a list of roles.",
+        body: "The strongest portfolios I studied led with proof, so every skill on the tree links to the project that backs it, and locked skills show what's next.",
       },
       {
         glyph: "!?",
-        title: "Chess as a signature, not a theme",
-        body: "Annotation marks and a knight's tour carry the personality. The content stays plain and fast.",
+        title: "Play like a game, read like a resume",
+        body: "A title screen, a skill tree, a quest log, and an XP bar give it a game feel. Chess stays in the details: piece icons, annotation marks, and a puzzle. Every heading still says plainly what it is.",
       },
     ],
     outcome: ["A static Next.js site on Vercel. Every push to main redeploys it."],
@@ -410,15 +439,12 @@ export const about = {
       line: "USCF Expert (2070). Peak 2650 bullet on Lichess, 2500+ blitz and rapid on Lichess and Chess.com.",
     },
     { name: "Poker", line: "Chess with hidden information, and a lot more luck." },
-    { name: "Logic puzzles", line: "The knight's tour on the home page is one: 64 squares, each visited once." },
-    { name: "GeoGuessr", line: "Dropped somewhere random on Earth. Figure out where." },
-    { name: "Working out", line: "The one hobby that doesn't involve sitting still." },
+    { name: "Logic puzzles", line: "The kind with one right answer. A knight's tour solver is my next project." },
     { name: "Languages", line: "English, Gujarati, and Spanish." },
   ],
   gaps: [
     "A photo of you for the About page (portrait or candid).",
-    "One personal line or stat for poker, GeoGuessr, and working out.",
-    "Your Lichess or Chess.com username, if you'd like it linked.",
+    "A personal line for poker, or a stat that makes it yours.",
     "A position from one of your own games for the puzzle (I can swap it in).",
   ],
 };
@@ -433,3 +459,131 @@ export const puzzle = {
   source: "The finish of Paul Morphy's Opera Game, Paris 1858.",
   hint: "The queen is worth less than the mate. Look at the d-file.",
 };
+
+/* ─────────────────────────────── Skill tree ─────────────────────────────── */
+
+export type Piece = "king" | "queen" | "rook" | "bishop" | "knight";
+export type Proof = { label: string; href: string };
+export type Skill = {
+  id: string;
+  name: string;
+  line: string;
+  /** Proof from jobs or roles. Projects add themselves through their `rewards`. */
+  proof?: Proof[];
+};
+export type Branch = { id: string; name: string; piece: Piece; pieceNote: string; skills: Skill[] };
+
+const job = (label: string): Proof => ({ label, href: "/record/#experience" });
+
+export const branches: Branch[] = [
+  {
+    id: "business",
+    name: "Business",
+    piece: "king",
+    pieceNote: "The king: everything else exists to protect it.",
+    skills: [
+      { id: "startups", name: "Startups", line: "Taking a product from prototype to paying customers." },
+      { id: "pitching", name: "Pitching", line: "Selling an idea to judges, investors, and customers." },
+      {
+        id: "discovery",
+        name: "Product discovery",
+        line: "Interviews and research that decide what gets built.",
+        proof: [job("BDAA")],
+      },
+      {
+        id: "teaching",
+        name: "Teaching",
+        line: "Explaining hard things simply, 1,000+ students in.",
+        proof: [job("Elite Chess")],
+      },
+    ],
+  },
+  {
+    id: "finance",
+    name: "Finance",
+    piece: "queen",
+    pieceNote: "The queen: the most valuable piece on the board.",
+    skills: [
+      { id: "equity-research", name: "Equity research", line: "A thesis built from filings, earnings, and industry data." },
+      { id: "valuation", name: "Valuation", line: "Multiples, price targets, and exit criteria." },
+      { id: "startup-finance", name: "Startup finance", line: "Owning a small company's money as CFO." },
+      { id: "modeling", name: "Financial modeling", line: "Three-statement and DCF models in Excel." },
+    ],
+  },
+  {
+    id: "analytics",
+    name: "Analytics",
+    piece: "bishop",
+    pieceNote: "The bishop: sees the whole diagonal at once.",
+    skills: [
+      { id: "excel", name: "Excel", line: "Lookups, pivots, and models that other people can use." },
+      { id: "sql", name: "SQL", line: "Asking questions of real databases." },
+      { id: "dataviz", name: "Data visualization", line: "Charts and dashboards that make the point fast." },
+      { id: "statistics", name: "Statistics", line: "Knowing when a pattern is real." },
+    ],
+  },
+  {
+    id: "software",
+    name: "Software",
+    piece: "rook",
+    pieceNote: "The rook: straight lines and solid structure.",
+    skills: [
+      { id: "web", name: "Web development", line: "Next.js, React, TypeScript, and Tailwind." },
+      { id: "shipping", name: "Shipping", line: "Git, Vercel, and getting real things live." },
+      { id: "algorithms", name: "Algorithms", line: "Search, heuristics, and how fast they run." },
+      { id: "python", name: "Python", line: "Scripts, data work, and the language most ML runs on." },
+    ],
+  },
+  {
+    id: "ai",
+    name: "ML & AI",
+    piece: "knight",
+    pieceNote: "The knight: the only piece that jumps.",
+    skills: [
+      { id: "ai-dev", name: "AI-assisted dev", line: "Building with Claude Code and Cursor as pair programmers." },
+      { id: "automation", name: "Automation", line: "Workflows that run themselves." },
+      { id: "llm-apps", name: "LLM apps", line: "Products built on model APIs, with real evaluation." },
+      { id: "ml", name: "Machine learning", line: "Models trained, tested, and explained." },
+    ],
+  },
+];
+
+/** Projects that are underway or not started. They show in the quest log but have no page yet. */
+export type UpcomingQuest = {
+  title: string;
+  branch: string;
+  state: "training" | "locked";
+  dek: string;
+  rewards: string[];
+};
+
+export const upcoming: UpcomingQuest[] = [
+  {
+    title: "Knight's Tour Lab",
+    branch: "software",
+    state: "training",
+    dek: "A solver that races brute-force search against Warnsdorff's rule, on boards of any size.",
+    rewards: ["algorithms"],
+  },
+  { title: "???", branch: "analytics", state: "locked", dek: "Locked. Coming soon.", rewards: [] },
+  { title: "???", branch: "ai", state: "locked", dek: "Locked. Coming soon.", rewards: [] },
+];
+
+export type SkillState = "unlocked" | "training" | "locked";
+
+export function skillProof(skill: Skill): Proof[] {
+  const fromProjects = cases
+    .filter((c) => c.rewards.includes(skill.id))
+    .map((c) => ({ label: c.title, href: `/projects/${c.slug}/` }));
+  return [...fromProjects, ...(skill.proof ?? [])];
+}
+
+export function skillState(skill: Skill): SkillState {
+  if (skillProof(skill).length > 0) return "unlocked";
+  if (upcoming.some((q) => q.state === "training" && q.rewards.includes(skill.id))) return "training";
+  return "locked";
+}
+
+export const allSkills = branches.flatMap((b) => b.skills);
+export const skillName = (id: string) => allSkills.find((s) => s.id === id)?.name ?? id;
+export const branchName = (id: string) => branches.find((b) => b.id === id)?.name ?? id;

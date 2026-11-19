@@ -66,9 +66,9 @@ export function ThemeToggle() {
         const rect = event.currentTarget.getBoundingClientRect();
         setTheme(!dark, { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 });
       }}
-      aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
-      title={dark ? "Light squares" : "Dark squares"}
-      className="grid h-8 w-8 cursor-pointer place-items-center rounded-full border border-line text-muted transition-colors hover:border-ink/30 hover:text-ink"
+      aria-label={dark ? "Switch to day mode" : "Switch to night mode"}
+      title={dark ? "Day" : "Night"}
+      className="grid h-8 w-8 cursor-pointer place-items-center border border-line text-muted transition-colors hover:border-accent hover:text-accent"
     >
       {dark ? <Sun aria-hidden="true" className="h-3.5 w-3.5" /> : <Moon aria-hidden="true" className="h-3.5 w-3.5" />}
     </button>

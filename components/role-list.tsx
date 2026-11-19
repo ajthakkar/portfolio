@@ -38,7 +38,7 @@ export function RoleList({ roles, id, initiallyOpen = [] }: { roles: Role[]; id:
                 {role.monogram && (
                   <span
                     aria-hidden="true"
-                    className="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-line bg-paper-2 font-mono text-[11px] font-semibold text-accent transition-transform duration-300 group-hover:-rotate-6"
+                    className="grid h-10 w-10 shrink-0 place-items-center border border-line bg-paper-2 font-mono text-[11px] font-semibold text-accent transition-transform duration-300 group-hover:-rotate-6"
                   >
                     {role.monogram}
                   </span>

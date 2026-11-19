@@ -91,8 +91,8 @@ export default function Puzzle() {
   };
 
   const colors = dark
-    ? { light: "#8a7d6e", dark: "#5e5246", mark: "rgba(231,178,128,0.5)", select: "rgba(231,178,128,0.65)" }
-    : { light: "#ece3d3", dark: "#c7af8f", mark: "rgba(122,28,40,0.22)", select: "rgba(122,28,40,0.35)" };
+    ? { light: "#b8afc6", dark: "#6c6181", mark: "rgba(199,247,74,0.45)", select: "rgba(199,247,74,0.62)" }
+    : { light: "#ece6da", dark: "#b6abc7", mark: "rgba(74,106,0,0.28)", select: "rgba(74,106,0,0.42)" };
 
   const squareStyles = useMemo(() => {
     const styles: Record<string, React.CSSProperties> = {};
@@ -126,7 +126,7 @@ export default function Puzzle() {
       <div ref={boxRef} className="w-full">
         <div
           onAnimationEnd={() => setShaking(false)}
-          className={`overflow-hidden rounded-lg border border-ink/15 shadow-sm ${shaking ? "animate-shake" : ""}`}
+          className={`overflow-hidden border border-ink/15 shadow-sm ${shaking ? "animate-shake" : ""}`}
         >
           <Chessboard
             id="puzzle"
@@ -145,7 +145,7 @@ export default function Puzzle() {
         </div>
       </div>
       <div className="space-y-4">
-        <p className="font-display text-2xl tracking-tight text-ink">{puzzle.title}</p>
+        <p className="font-display text-2xl font-bold tracking-tight text-ink">{puzzle.title}</p>
         <p aria-live="polite" className={`font-mono text-sm ${status === "solved" ? "text-accent" : status === "wrong" ? "text-ink" : "text-muted"}`}>
           {message}
         </p>
@@ -155,7 +155,7 @@ export default function Puzzle() {
           <button
             type="button"
             onClick={reset}
-            className="inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-line px-3 py-1.5 font-mono text-xs text-muted transition-colors hover:border-ink/30 hover:text-ink"
+            className="inline-flex cursor-pointer items-center gap-1.5 border border-line px-3 py-1.5 font-mono text-xs text-muted transition-colors hover:border-ink/30 hover:text-ink"
           >
             <RotateCcw aria-hidden="true" className="h-3.5 w-3.5" />
             Reset

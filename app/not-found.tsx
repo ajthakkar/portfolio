@@ -3,16 +3,16 @@ import { Kicker } from "@/components/ui";
 
 export default function NotFound() {
   return (
-    <div className="mx-auto grid w-full max-w-5xl gap-10 px-4 pb-10 pt-16 sm:px-6 sm:pt-24 md:grid-cols-[1fr_220px] md:items-center">
+    <div className="mx-auto grid w-full max-w-6xl gap-10 px-4 pb-10 pt-16 sm:px-6 sm:pt-24 md:grid-cols-[1fr_220px] md:items-center">
       <div className="space-y-5">
         <Kicker>404 · Illegal move</Kicker>
-        <h1 className="font-display text-5xl leading-none tracking-[-0.02em] text-ink sm:text-7xl">
-          That square isn&apos;t <span className="italic text-accent">on the board.</span>
+        <h1 className="font-display text-5xl font-extrabold leading-[0.9] tracking-[-0.04em] text-ink sm:text-7xl">
+          That square isn&apos;t <span className="text-accent">on the board.</span>
         </h1>
         <p className="max-w-md text-base leading-relaxed text-copy">The page you&apos;re looking for doesn&apos;t exist. Take the move back.</p>
         <TransitionLink
           href="/"
-          className="inline-flex rounded-full bg-ink px-4 py-2 font-mono text-xs text-paper transition-opacity hover:opacity-85"
+          className="btn-game inline-flex bg-lime px-4 py-2.5 font-display text-sm font-bold text-lime-ink"
         >
           Back to the start
         </TransitionLink>

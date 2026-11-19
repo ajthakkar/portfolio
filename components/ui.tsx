@@ -1,5 +1,77 @@
 import type { ReactNode } from "react";
-import { glyphMeaning, type GlyphMark } from "@/lib/content";
+import { ChessBishop, ChessKing, ChessKnight, ChessQueen, ChessRook, Lock } from "lucide-react";
+import { glyphMeaning, type GlyphMark, type Piece, type SkillState } from "@/lib/content";
+
+const pieceIcons = { king: ChessKing, queen: ChessQueen, rook: ChessRook, bishop: ChessBishop, knight: ChessKnight };
+
+export function PieceIcon({ piece, className = "" }: { piece: Piece; className?: string }) {
+  const Icon = pieceIcons[piece];
+  return <Icon aria-hidden="true" className={className} />;
+}
+
+/** A panel with cut corners. The outer layer draws the border, the inner one the fill. */
+export function Panel({
+  children,
+  className = "",
+  inner = "",
+  small = false,
+}: {
+  children: ReactNode;
+  className?: string;
+  inner?: string;
+  small?: boolean;
+}) {
+  const notch = small ? "notch notch-sm" : "notch";
+  return (
+    <div className={`${notch} bg-line p-px ${className}`}>
+      <div className={`${notch} h-full bg-paper-2 ${inner}`}>{children}</div>
+    </div>
+  );
+}
+
+const chipStyle: Record<SkillState | "complete", string> = {
+  complete: "bg-lime text-lime-ink",
+  unlocked: "bg-lime text-lime-ink",
+  training: "border border-coral text-coral",
+  locked: "border border-line text-faint",
+};
+const chipLabel: Record<SkillState | "complete", string> = {
+  complete: "Complete",
+  unlocked: "Unlocked",
+  training: "In progress",
+  locked: "Locked",
+};
+
+export function StatusChip({ state, className = "" }: { state: SkillState | "complete"; className?: string }) {
+  return (
+    <span className={`pixel inline-flex items-center gap-1 px-1.5 py-[3px] ${chipStyle[state]} ${className}`}>
+      {state === "locked" && <Lock aria-hidden="true" className="h-2.5 w-2.5" />}
+      {chipLabel[state]}
+    </span>
+  );
+}
+
+/** A strip of highlights that scrolls sideways. Paused on hover and for reduced motion. */
+export function Ticker({ items }: { items: string[] }) {
+  return (
+    <div className="marquee-wrap overflow-hidden border-y border-line bg-paper-2/70 py-3">
+      <ul aria-label="Highlights" className="marquee flex w-max">
+        {[...items, ...items].map((item, i) => (
+          <li
+            key={`${item}-${i}`}
+            aria-hidden={i >= items.length ? true : undefined}
+            className="flex shrink-0 items-center gap-6 pr-6 font-mono text-xs uppercase tracking-wider text-muted"
+          >
+            <span aria-hidden="true" className="text-accent">
+              ✦
+            </span>
+            {item}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
 
 /* Chess annotation mark used to grade decisions in a case. */
 const glyphStyle: Record<GlyphMark, string> = {
@@ -54,7 +126,7 @@ export function CaseBoard({ seed, muted = false, className = "" }: { seed: strin
   const king = [...marked][0];
 
   return (
-    <svg viewBox="0 0 80 80" aria-hidden="true" className={`overflow-hidden rounded-md ${className}`}>
+    <svg viewBox="0 0 80 80" aria-hidden="true" className={`overflow-hidden ${className}`}>
       {Array.from({ length: 64 }, (_, i) => {
         const x = i % 8;
         const y = Math.floor(i / 8);
@@ -82,16 +154,22 @@ export function CaseBoard({ seed, muted = false, className = "" }: { seed: strin
   );
 }
 
+/** HUD label with a menu cursor, e.g. "▸ Skill tree". */
 export function Kicker({ children, className = "" }: { children: ReactNode; className?: string }) {
-  return <p className={`font-mono text-[11px] uppercase tracking-[0.14em] text-accent ${className}`}>{children}</p>;
+  return (
+    <p className={`pixel flex items-center gap-1.5 text-accent ${className}`}>
+      <span aria-hidden="true">▸</span>
+      {children}
+    </p>
+  );
 }
 
 export function SectionTitle({ kicker, title, aside }: { kicker: string; title: ReactNode; aside?: ReactNode }) {
   return (
     <div className="flex flex-col gap-3 border-b border-line pb-4 sm:flex-row sm:items-end sm:justify-between">
-      <div className="space-y-1.5">
+      <div className="space-y-2.5">
         <Kicker>{kicker}</Kicker>
-        <h2 className="font-display text-3xl tracking-tight text-ink sm:text-4xl">{title}</h2>
+        <h2 className="font-display text-3xl font-bold tracking-[-0.02em] text-ink sm:text-[2.6rem]">{title}</h2>
       </div>
       {aside}
     </div>

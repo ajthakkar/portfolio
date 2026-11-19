@@ -43,23 +43,44 @@ export function CommandMenu() {
     };
     return [
       { id: "home", group: "Pages", label: "Home", run: () => go("/") },
-      { id: "record", group: "Pages", label: "Record", hint: "Experience, honors, skills", run: () => go("/record/") },
+      { id: "projects", group: "Pages", label: "Projects", hint: "Quest log", run: () => go("/#projects") },
+      { id: "skills", group: "Pages", label: "Skill tree", hint: "Skills and their proof", run: () => go("/#skills") },
+      { id: "record", group: "Pages", label: "Record", hint: "Experience, honors, education", run: () => go("/record/") },
       { id: "about", group: "Pages", label: "About", run: () => go("/about/") },
       ...cases.map((c) => ({
         id: `case-${c.slug}`,
-        group: "Cases",
+        group: "Projects",
         label: c.title,
         hint: `${c.kind} ${c.number}`,
-        run: () => go(`/cases/${c.slug}/`),
+        run: () => go(`/projects/${c.slug}/`),
       })),
       { id: "puzzle", group: "Play", label: "Solve the chess puzzle", hint: "Mate in 2", run: () => go("/about/#puzzle") },
+      ...(profile.chess.lichess
+        ? [
+            {
+              id: "play-lichess",
+              group: "Play",
+              label: "Challenge me on Lichess",
+              run: external(`https://lichess.org/?user=${profile.chess.lichess}#friend`),
+            },
+          ]
+        : []),
       {
         id: "theme",
         group: "Actions",
-        label: "Toggle light / dark",
+        label: "Switch day / night",
         run: () => {
           close();
           setTheme(!document.documentElement.classList.contains("dark"));
+        },
+      },
+      {
+        id: "intro",
+        group: "Actions",
+        label: "Replay the title screen",
+        run: () => {
+          close();
+          window.dispatchEvent(new Event("replay-intro"));
         },
       },
       {
@@ -152,7 +173,7 @@ export function CommandMenu() {
         type="button"
         onClick={() => window.dispatchEvent(new Event("open-command-menu"))}
         aria-label="Open command menu"
-        className="flex h-8 cursor-pointer items-center gap-2 rounded-full border border-line px-2.5 font-mono text-[11px] text-muted transition-colors hover:border-ink/30 hover:text-ink"
+        className="flex h-8 cursor-pointer items-center gap-2 border border-line px-2.5 font-mono text-[11px] text-muted transition-colors hover:border-accent hover:text-accent"
       >
         <Search aria-hidden="true" className="h-3.5 w-3.5" />
         <kbd className="hidden font-mono sm:inline">{isMac ? "⌘K" : "Ctrl K"}</kbd>
@@ -165,7 +186,7 @@ export function CommandMenu() {
             role="dialog"
             aria-modal="true"
             aria-label="Command menu"
-            className="relative w-full max-w-md animate-pop-in overflow-hidden rounded-xl border border-line bg-paper shadow-[0_24px_60px_-20px_rgb(0_0_0/0.35)]"
+            className="relative w-full max-w-md animate-pop-in overflow-hidden border border-line bg-paper shadow-[6px_6px_0_0_rgb(var(--lime))]"
           >
             <div className="flex items-center gap-2.5 border-b border-line px-4">
               <Search aria-hidden="true" className="h-4 w-4 shrink-0 text-faint" />
@@ -173,7 +194,7 @@ export function CommandMenu() {
                 ref={inputRef}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Jump to a page, case, or action…"
+                placeholder="Fast travel to a page, project, or action…"
                 aria-label="Search commands"
                 aria-controls="command-list"
                 aria-activedescendant={filtered[active] ? `cmd-${filtered[active].id}` : undefined}
@@ -182,14 +203,14 @@ export function CommandMenu() {
               <kbd className="shrink-0 rounded border border-line px-1.5 py-0.5 font-mono text-[10px] text-faint">esc</kbd>
             </div>
             <ul ref={listRef} id="command-list" role="listbox" className="max-h-[50vh] overflow-y-auto p-1.5">
-              {filtered.length === 0 && <li className="px-3 py-6 text-center text-sm text-faint">No matches. Try “cases”.</li>}
+              {filtered.length === 0 && <li className="px-3 py-6 text-center text-sm text-faint">No matches. Try “projects”.</li>}
               {filtered.map((item, i) => {
                 const header = item.group !== lastGroup;
                 lastGroup = item.group;
                 return (
                   <li key={item.id} role="presentation">
                     {header && (
-                      <p className="px-3 pb-1 pt-2.5 font-mono text-[10px] uppercase tracking-wider text-faint">{item.group}</p>
+                      <p className="pixel px-3 pb-1.5 pt-3 text-faint">{item.group}</p>
                     )}
                     <div
                       id={`cmd-${item.id}`}
@@ -198,12 +219,19 @@ export function CommandMenu() {
                       data-index={i}
                       onMouseMove={() => setActive(i)}
                       onClick={() => item.run()}
-                      className={`flex cursor-pointer items-center justify-between gap-3 rounded-lg px-3 py-2 text-sm transition-colors ${
-                        i === active ? "bg-paper-2 text-ink" : "text-copy"
+                      className={`flex cursor-pointer items-center justify-between gap-3 px-3 py-2 text-sm transition-colors ${
+                        i === active ? "bg-lime text-lime-ink" : "text-copy"
                       }`}
                     >
-                      <span className="truncate">{item.label}</span>
-                      <span className="flex shrink-0 items-center gap-1 font-mono text-[11px] text-faint">
+                      <span className="truncate">
+                        <span aria-hidden="true" className={`mr-1.5 text-[10px] ${i === active ? "" : "invisible"}`}>
+                          ▸
+                        </span>
+                        {item.label}
+                      </span>
+                      <span
+                        className={`flex shrink-0 items-center gap-1 font-mono text-[11px] ${i === active ? "text-lime-ink/75" : "text-faint"}`}
+                      >
                         {item.hint}
                         {item.group === "Links" && <ArrowUpRight aria-hidden="true" className="h-3 w-3" />}
                       </span>
@@ -219,7 +247,7 @@ export function CommandMenu() {
       <div
         role="status"
         aria-live="polite"
-        className={`pointer-events-none fixed bottom-6 left-1/2 z-50 -translate-x-1/2 rounded-full bg-ink px-4 py-2 font-mono text-xs text-paper transition-all duration-200 ${
+        className={`pixel pointer-events-none fixed bottom-6 left-1/2 z-50 -translate-x-1/2 bg-lime px-4 py-2.5 text-lime-ink transition-all duration-200 ${
           toast ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
         }`}
       >

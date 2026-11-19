@@ -10,15 +10,15 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="mx-auto w-full max-w-5xl px-4 sm:px-6">
+    <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
       <header className="grid gap-10 pb-6 pt-12 sm:pt-20 md:grid-cols-[1fr_240px] md:items-start md:gap-14">
         <div className="space-y-5">
           <Kicker className="rise">About</Kicker>
           <h1
-            className="rise font-display text-5xl leading-none tracking-[-0.02em] text-ink sm:text-7xl"
+            className="rise font-display text-5xl font-extrabold leading-[0.9] tracking-[-0.04em] text-ink sm:text-7xl"
             style={{ "--i": 1 } as React.CSSProperties}
           >
-            Off the <span className="italic text-accent">board</span>
+            Off the <span className="text-accent">board</span>
           </h1>
           <div className="rise space-y-4 pt-2 text-base leading-[1.75] text-copy sm:text-lg" style={{ "--i": 2 } as React.CSSProperties}>
             {about.story.map((p) => (
@@ -29,15 +29,15 @@ export default function AboutPage() {
 
         {/* Photo slot: drop a file at public/me.jpg and swap this block for an <img>. */}
         <figure className="rise mx-auto w-full max-w-[240px] rotate-[2deg] transition-transform duration-500 hover:rotate-0" style={{ "--i": 3 } as React.CSSProperties}>
-          <div className="rounded-sm border border-line bg-paper p-2.5 pb-10 shadow-[0_18px_40px_-18px_rgb(0_0_0/0.35)]">
+          <div className="border border-line bg-paper p-2.5 pb-10 shadow-[0_18px_40px_-18px_rgb(0_0_0/0.35)]">
             <div className="grid aspect-[4/5] place-items-center bg-[repeating-conic-gradient(rgb(var(--sq-light))_0_25%,rgb(var(--sq-dark))_0_50%)] bg-[length:25%_20%]">
-              <span className="rounded-md bg-paper/90 px-3 py-1.5 font-display text-3xl italic text-accent">
+              <span className="bg-paper/90 px-3 py-1.5 font-display text-3xl text-accent">
                 {profile.firstName[0]}
                 {profile.lastName[0]}
               </span>
             </div>
           </div>
-          <figcaption className="-mt-8 text-center font-display text-sm italic text-muted">Columbus, Ohio</figcaption>
+          <figcaption className="-mt-8 text-center pixel text-faint">Columbus, Ohio</figcaption>
         </figure>
       </header>
 
@@ -47,14 +47,14 @@ export default function AboutPage() {
 
       <section aria-labelledby="interests-heading" className="pt-20 sm:pt-24">
         <SectionTitle kicker="Interests" title={<span id="interests-heading">What I do for fun</span>} />
-        <ul className="grid gap-px overflow-hidden rounded-2xl border border-line bg-line pt-px sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="grid gap-px overflow-hidden border border-line bg-line pt-px sm:grid-cols-2 lg:grid-cols-3">
           {about.interests.map((item, i) => (
             <li key={item.name} className="group bg-paper p-5 transition-colors hover:bg-paper-2 sm:p-6">
               <p className="flex items-center gap-2.5">
                 <span aria-hidden="true" className="font-mono text-[11px] text-faint">
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                <span className="font-display text-xl tracking-tight text-ink">{item.name}</span>
+                <span className="font-display text-xl font-bold tracking-tight text-ink">{item.name}</span>
               </p>
               <p className="mt-2 text-sm leading-relaxed text-muted">{item.line}</p>
             </li>

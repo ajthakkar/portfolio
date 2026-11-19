@@ -12,11 +12,11 @@ const sections = ["Experience", "Leadership", "Honors", "Skills", "Education"];
 
 export default function RecordPage() {
   return (
-    <div className="mx-auto w-full max-w-5xl px-4 sm:px-6">
+    <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
       <header className="space-y-5 pb-6 pt-12 sm:pt-20">
         <Kicker className="rise">Record</Kicker>
-        <h1 className="rise font-display text-5xl leading-none tracking-[-0.02em] text-ink sm:text-7xl" style={{ "--i": 1 } as React.CSSProperties}>
-          The <span className="italic text-accent">track</span> record
+        <h1 className="rise font-display text-5xl font-extrabold leading-[0.9] tracking-[-0.04em] text-ink sm:text-7xl" style={{ "--i": 1 } as React.CSSProperties}>
+          The <span className="text-accent">track</span> record
         </h1>
         <p className="rise max-w-xl text-base leading-relaxed text-copy sm:text-lg" style={{ "--i": 2 } as React.CSSProperties}>
           Everything from the resume, in one place. Rows open for detail.
@@ -26,7 +26,7 @@ export default function RecordPage() {
             <a
               key={s}
               href={`#${s.toLowerCase()}`}
-              className="rounded-full border border-line px-3 py-1 font-mono text-[11px] text-muted transition-colors hover:border-ink/30 hover:text-ink"
+              className="border border-line px-3 py-1 font-mono text-[11px] text-muted transition-colors hover:border-ink/30 hover:text-ink"
             >
               {s}
             </a>
@@ -72,7 +72,7 @@ export default function RecordPage() {
                 <dt className="font-mono text-[11px] uppercase tracking-wider text-faint sm:pt-1">{g.label}</dt>
                 <dd className="flex flex-wrap gap-1.5">
                   {g.items.split(/,\s*(?![^()]*\))/).map((item) => (
-                    <span key={item} className="rounded-md border border-line bg-paper-2/60 px-2 py-1 text-[13px] text-ink">
+                    <span key={item} className="border border-line bg-paper-2/60 px-2 py-1 text-[13px] text-ink">
                       {item}
                     </span>
                   ))}

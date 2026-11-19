@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { EvalBar, MoveList } from "@/components/case-reading";
+import { MoveList } from "@/components/case-reading";
+import { CountUp } from "@/components/hud";
 import { TransitionLink } from "@/components/transition-link";
-import { CaseBoard, ExternalLink, Gaps, Glyph, Kicker } from "@/components/ui";
-import { cases } from "@/lib/content";
+import { CaseBoard, ExternalLink, Gaps, Glyph, Kicker, Panel, StatusChip } from "@/components/ui";
+import { cases, skillName } from "@/lib/content";
 
 type Params = { params: { slug: string } };
 
@@ -21,8 +22,8 @@ function Block({ kicker, title, children }: { kicker: string; title: string; chi
   return (
     <section className="space-y-4">
       <div className="flex items-baseline gap-3">
-        <h2 className="font-display text-2xl tracking-tight text-ink sm:text-[1.75rem]">{title}</h2>
-        <span className="font-mono text-[11px] uppercase tracking-wider text-faint">{kicker}</span>
+        <h2 className="font-display text-2xl font-bold tracking-[-0.02em] text-ink sm:text-[1.75rem]">{title}</h2>
+        <span className="pixel text-faint">{kicker}</span>
       </div>
       {children}
     </section>
@@ -39,7 +40,7 @@ function Paragraphs({ items }: { items: string[] }) {
   );
 }
 
-export default function CasePage({ params }: Params) {
+export default function ProjectPage({ params }: Params) {
   const index = cases.findIndex((x) => x.slug === params.slug);
   if (index === -1) notFound();
   const c = cases[index];
@@ -53,27 +54,28 @@ export default function CasePage({ params }: Params) {
   ];
 
   return (
-    <article className="mx-auto w-full max-w-5xl px-4 sm:px-6">
-      <EvalBar />
-
+    <article className="mx-auto w-full max-w-6xl px-4 sm:px-6">
       <div className="pt-8 sm:pt-12">
         <TransitionLink
-          href="/#cases"
+          href="/#projects"
           className="group inline-flex items-center gap-1.5 font-mono text-xs text-muted transition-colors hover:text-ink"
         >
           <ArrowLeft aria-hidden="true" className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-0.5" />
-          All cases
+          Quest log
         </TransitionLink>
       </div>
 
       {/* Header */}
       <header className="grid gap-8 pb-12 pt-8 sm:pt-10 md:grid-cols-[1fr_180px] md:items-end">
         <div className="space-y-5">
-          <Kicker className="rise">
-            {c.kind} {c.number} · {c.result}
-          </Kicker>
+          <div className="rise flex flex-wrap items-center gap-3">
+            <StatusChip state="complete" />
+            <Kicker>
+              {c.kind} {c.number} · {c.result}
+            </Kicker>
+          </div>
           <h1
-            className="vt-name w-fit font-display text-5xl leading-[1] tracking-[-0.02em] text-ink sm:text-6xl lg:text-7xl"
+            className="vt-name w-fit font-display text-5xl font-extrabold leading-[0.95] tracking-[-0.04em] text-ink sm:text-6xl lg:text-7xl"
             style={{ "--vt-name": `title-${c.slug}` } as React.CSSProperties}
           >
             {c.title}
@@ -81,31 +83,43 @@ export default function CasePage({ params }: Params) {
           <p className="rise max-w-2xl text-lg leading-relaxed text-copy sm:text-xl" style={{ "--i": 1 } as React.CSSProperties}>
             {c.dek}
           </p>
+          {c.rewards.length > 0 && (
+            <div className="rise flex flex-wrap items-center gap-2" style={{ "--i": 2 } as React.CSSProperties}>
+              <span className="pixel text-faint">Skills proven</span>
+              {c.rewards.map((r) => (
+                <span key={r} className="border border-accent px-1.5 py-0.5 font-mono text-[11px] text-accent">
+                  +{skillName(r)}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
         <span className="vt-name hidden w-full md:block" style={{ "--vt-name": `board-${c.slug}` } as React.CSSProperties}>
-          <CaseBoard seed={c.slug} className="w-full shadow-sm" />
+          <CaseBoard seed={c.slug} className="w-full" />
         </span>
       </header>
 
       {/* Meta + stats */}
-      <div className="rise grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2" style={{ "--i": 2 } as React.CSSProperties}>
-        <dl className="grid content-start gap-3 bg-paper p-5 sm:p-6">
+      <Panel className="rise" inner="grid gap-px bg-line sm:grid-cols-2" >
+        <dl className="grid content-start gap-3 bg-paper-2 p-5 sm:p-6">
           {meta.map((m) => (
             <div key={m.label} className="grid grid-cols-[72px_1fr] gap-3 text-sm">
-              <dt className="font-mono text-[11px] uppercase tracking-wider text-faint">{m.label}</dt>
+              <dt className="pixel pt-1 text-faint">{m.label}</dt>
               <dd className="text-ink">{m.value}</dd>
             </div>
           ))}
         </dl>
         <dl className="grid grid-cols-2 gap-px bg-line">
           {c.stats.map((s) => (
-            <div key={s.label} className="flex flex-col justify-end gap-1 bg-paper p-5 sm:p-6">
+            <div key={s.label} className="flex flex-col justify-end gap-1 bg-paper-2 p-5 sm:p-6">
               <dt className="order-2 text-xs leading-snug text-muted">{s.label}</dt>
-              <dd className="order-1 font-display text-3xl tracking-tight text-accent sm:text-4xl">{s.value}</dd>
+              <dd className="order-1 font-display text-3xl font-extrabold tracking-[-0.03em] text-accent sm:text-4xl">
+                <CountUp value={s.value} />
+              </dd>
             </div>
           ))}
         </dl>
-      </div>
+      </Panel>
 
       {/* Body */}
       <div className="grid gap-12 pt-14 lg:grid-cols-[220px_1fr] lg:gap-16 lg:pt-20">
@@ -124,7 +138,7 @@ export default function CasePage({ params }: Params) {
             <ul className="space-y-3 text-[15px] leading-[1.75] text-copy sm:text-base">
               {c.plan.map((p) => (
                 <li key={p} className="flex gap-3">
-                  <span aria-hidden="true" className="mt-[0.7em] h-1.5 w-1.5 shrink-0 rotate-45 bg-accent" />
+                  <span aria-hidden="true" className="mt-[0.7em] h-1.5 w-1.5 shrink-0 bg-accent" />
                   <span>{p}</span>
                 </li>
               ))}
@@ -138,7 +152,7 @@ export default function CasePage({ params }: Params) {
                   <li
                     key={move.title}
                     id={`move-${i + 1}`}
-                    className="scroll-mt-24 rounded-xl border border-line bg-paper-2/50 p-4 transition-colors hover:border-ink/20 sm:p-5"
+                    className="scroll-mt-24 border border-line bg-paper-2/60 p-4 transition-colors hover:border-accent/60 sm:p-5"
                   >
                     <div className="flex items-center gap-3">
                       <span className="font-mono text-xs text-faint">{i + 1}.</span>
@@ -177,13 +191,13 @@ export default function CasePage({ params }: Params) {
       </div>
 
       {/* Next */}
-      <nav aria-label="Next case" className="mt-20 border-t border-line pt-8">
-        <TransitionLink href={`/cases/${next.slug}/`} className="group flex items-center justify-between gap-6">
-          <span className="space-y-1">
-            <span className="block font-mono text-[11px] uppercase tracking-wider text-faint">
-              Next · {next.kind} {next.number}
+      <nav aria-label="Next project" className="mt-20 border-t border-line pt-8">
+        <TransitionLink href={`/projects/${next.slug}/`} className="group flex items-center justify-between gap-6">
+          <span className="space-y-2">
+            <span className="pixel block text-faint">
+              Next quest · {next.kind} {next.number}
             </span>
-            <span className="block font-display text-3xl tracking-tight text-ink transition-colors group-hover:text-accent sm:text-4xl">
+            <span className="block font-display text-3xl font-extrabold tracking-[-0.03em] text-ink transition-colors group-hover:text-accent sm:text-4xl">
               {next.title}
             </span>
           </span>

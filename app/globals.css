@@ -2,34 +2,44 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Theme tokens (RGB triplets so Tailwind can apply opacity). */
+/* Theme tokens (RGB triplets so Tailwind can apply opacity).
+   Night is the default. Lime is the same in both themes and is used for fills;
+   accent is the text-safe version (lime at night, moss by day). */
 :root {
-  --paper: 247 244 238;
-  --paper-2: 239 234 224;
-  --ink: 36 32 27;
-  --copy: 74 66 55;
-  --muted: 94 86 77;
-  --faint: 112 103 90;
-  --line: 224 218 206;
-  --accent: 122 28 40;
-  --accent-ink: 247 244 238;
-  --sq-light: 236 227 211;
-  --sq-dark: 199 175 143;
+  --paper: 241 237 228;
+  --paper-2: 231 226 214;
+  --ink: 24 19 31;
+  --copy: 58 51 66;
+  --muted: 92 85 101;
+  --faint: 108 100 116;
+  --line: 212 205 192;
+  --accent: 74 106 0;
+  --accent-ink: 241 237 228;
+  --lime: 199 247 74;
+  --lime-ink: 24 19 31;
+  --coral: 184 58 34;
+  --sq-light: 230 224 211;
+  --sq-dark: 201 191 213;
+  --glow: 0.05;
   color-scheme: light;
 }
 
 html.dark {
-  --paper: 17 16 15;
-  --paper-2: 27 25 23;
-  --ink: 237 232 224;
-  --copy: 203 195 184;
-  --muted: 166 158 147;
-  --faint: 140 132 121;
-  --line: 47 44 40;
-  --accent: 231 178 128;
-  --accent-ink: 17 16 15;
-  --sq-light: 70 64 57;
-  --sq-dark: 44 40 36;
+  --paper: 17 14 23;
+  --paper-2: 28 23 37;
+  --ink: 243 238 228;
+  --copy: 210 203 214;
+  --muted: 166 158 176;
+  --faint: 136 128 148;
+  --line: 50 43 62;
+  --accent: 199 247 74;
+  --accent-ink: 17 14 23;
+  --lime: 199 247 74;
+  --lime-ink: 17 14 23;
+  --coral: 255 128 104;
+  --sq-light: 62 53 77;
+  --sq-dark: 36 30 46;
+  --glow: 0.09;
   color-scheme: dark;
 }
 
@@ -41,18 +51,21 @@ html {
 body {
   background-color: rgb(var(--paper));
   color: rgb(var(--ink));
-  /* A faint paper grain. */
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.045'/%3E%3C/svg%3E");
+  /* Two soft light sources at the top of the page: lime and violet. */
+  background-image:
+    radial-gradient(900px 520px at 8% -8%, rgb(var(--lime) / var(--glow)), transparent 62%),
+    radial-gradient(800px 520px at 100% -6%, rgb(150 92 255 / var(--glow)), transparent 60%);
+  background-repeat: no-repeat;
 }
 
 ::selection {
-  background: rgb(var(--accent) / 0.2);
+  background: rgb(var(--lime));
+  color: rgb(var(--lime-ink));
 }
 
 :focus-visible {
   outline: 2px solid rgb(var(--accent));
   outline-offset: 3px;
-  border-radius: 4px;
 }
 
 @layer components {
@@ -88,6 +101,63 @@ body {
   .collapse-grid > * {
     overflow: hidden;
   }
+
+  /* Panels with cut corners, like a game HUD. */
+  .notch {
+    --n: 14px;
+    clip-path: polygon(var(--n) 0, 100% 0, 100% calc(100% - var(--n)), calc(100% - var(--n)) 100%, 0 100%, 0 var(--n));
+  }
+  .notch-sm {
+    --n: 8px;
+  }
+
+  /* Small pixel-font label used for HUD text. */
+  .pixel {
+    font-family: var(--font-pixel), ui-monospace, monospace;
+    font-size: 10px;
+    line-height: 1.2;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  /* Game button: a hard shadow that presses in. */
+  .btn-game {
+    box-shadow: 4px 4px 0 0 rgb(var(--ink));
+    transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.15s ease, color 0.15s ease;
+  }
+  .btn-game:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 0 rgb(var(--ink));
+  }
+  .btn-game:active {
+    transform: translate(3px, 3px);
+    box-shadow: 1px 1px 0 0 rgb(var(--ink));
+  }
+
+  .blink {
+    animation: blink 1.1s steps(1) infinite;
+  }
+
+  .marquee {
+    animation: marquee 48s linear infinite;
+  }
+  .marquee-wrap:hover .marquee {
+    animation-play-state: paused;
+  }
+
+  /* A chessboard floor in perspective, drawn with lime grid lines. */
+  .board-floor {
+    background-image:
+      linear-gradient(rgb(var(--lime) / 0.28) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(var(--lime) / 0.28) 1px, transparent 1px),
+      repeating-conic-gradient(rgb(var(--sq-light)) 0 25%, rgb(var(--sq-dark)) 0 50%);
+    background-size: 96px 96px, 96px 96px, 192px 192px;
+    transform: perspective(420px) rotateX(58deg);
+    transform-origin: 50% 100%;
+    -webkit-mask-image: linear-gradient(to top, black 35%, transparent 100%);
+    mask-image: linear-gradient(to top, black 35%, transparent 100%);
+    animation: floor 3.6s linear infinite;
+  }
 }
 
 @keyframes rise {
@@ -98,6 +168,45 @@ body {
   to {
     opacity: 1;
     transform: none;
+  }
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes floor {
+  to {
+    background-position: 0 96px, 0 96px, 0 192px;
+  }
+}
+
+/* ───────────── Title screen ───────────── */
+
+.title-screen {
+  display: none;
+}
+html[data-intro] {
+  overflow: hidden;
+}
+html[data-intro] .title-screen {
+  display: flex;
+}
+/* Page entrances wait until the title screen is gone. */
+html[data-intro="on"] .rise {
+  animation-play-state: paused;
+}
+html[data-intro="leaving"] .title-screen {
+  animation: intro-out 0.65s cubic-bezier(0.7, 0, 0.2, 1) forwards;
+}
+@keyframes intro-out {
+  to {
+    transform: translateY(-100%);
   }
 }
 
@@ -142,10 +251,19 @@ html[data-vt="theme"]::view-transition-new(root) {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .rise {
+  .rise,
+  .blink,
+  .marquee,
+  .board-floor {
     animation: none;
   }
   .collapse-grid {
+    transition: none;
+  }
+  .btn-game,
+  .btn-game:hover,
+  .btn-game:active {
+    transform: none;
     transition: none;
   }
   ::view-transition-group(*),

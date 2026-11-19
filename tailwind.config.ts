@@ -15,18 +15,17 @@ const config: Config = {
         faint: token("faint"),
         line: token("line"),
         accent: { DEFAULT: token("accent"), ink: token("accent-ink") },
+        lime: { DEFAULT: token("lime"), ink: token("lime-ink") },
+        coral: token("coral"),
         sq: { light: token("sq-light"), dark: token("sq-dark") },
       },
       fontFamily: {
-        display: ["var(--font-display)", "Georgia", "serif"],
+        display: ["var(--font-display)", "system-ui", "sans-serif"],
         sans: ["var(--font-sans)", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
         mono: ["var(--font-mono)", "ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
+        pixel: ["var(--font-pixel)", "ui-monospace", "monospace"],
       },
       keyframes: {
-        rise: {
-          from: { opacity: "0", transform: "translateY(10px)" },
-          to: { opacity: "1", transform: "none" },
-        },
         "pop-in": {
           from: { opacity: "0", transform: "translateY(-6px) scale(0.98)" },
           to: { opacity: "1", transform: "none" },
