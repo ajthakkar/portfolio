@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import accounts from "@/lib/chess-accounts.json";
 import { CountUp } from "./hud";
+import { TransitionLink } from "./transition-link";
 
 type Online = { site: string; rating: number; control: string; url: string };
 
@@ -80,6 +81,13 @@ export function ChessRating({ uscf }: { uscf: { current: number; peak: number; t
             <ArrowUpRight aria-hidden="true" className="h-2.5 w-2.5" />
           </a>
         ))}
+        <TransitionLink
+          href="/projects/plays-like-me/"
+          className="pixel inline-flex items-center gap-1 border border-line px-2 py-1 text-muted transition-colors hover:border-accent hover:text-accent"
+        >
+          Offline? Play my AI
+          <ArrowRight aria-hidden="true" className="h-2.5 w-2.5" />
+        </TransitionLink>
       </p>
     </div>
   );

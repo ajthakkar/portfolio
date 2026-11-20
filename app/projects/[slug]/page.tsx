@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { MoveList } from "@/components/case-reading";
 import { ChessInsights } from "@/components/chess-insights";
 import { KnightsLab } from "@/components/knights-lab";
+import { PlaysLikeMeLoader } from "@/components/plays-like-me-loader";
 import { CountUp } from "@/components/hud";
 import { TransitionLink } from "@/components/transition-link";
 import { CaseBoard, ExternalLink, Gaps, Glyph, Kicker, Panel, StatusChip } from "@/components/ui";
@@ -156,6 +157,24 @@ export default function ProjectPage({ params }: Params) {
             </p>
           </div>
           <ChessInsights />
+        </section>
+      )}
+
+      {c.demo === "plays-like-me" && (
+        <section aria-labelledby="demo-heading" className="pt-14 lg:pt-20">
+          <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
+            <div className="space-y-2">
+              <Kicker>Play it</Kicker>
+              <h2 id="demo-heading" className="font-display text-3xl font-extrabold tracking-[-0.03em] text-ink">
+                Play the model of me
+              </h2>
+            </div>
+            <p className="max-w-sm text-sm text-muted">
+              Switch its opponent setting to the typical player at my level and watch where the two disagree. That
+              difference is what it learned about me.
+            </p>
+          </div>
+          <PlaysLikeMeLoader />
         </section>
       )}
 

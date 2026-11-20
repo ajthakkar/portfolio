@@ -1,0 +1,13 @@
+{
+  "version": "v2",
+  "me": {
+    "weights": "conditional",
+    "flag": 1.0,
+    "temperature": 1.22
+  },
+  "typical": {
+    "weights": "conditional",
+    "flag": 0.0,
+    "temperature": 1.16
+  }
+}

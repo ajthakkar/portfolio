@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { PuzzleLoader } from "@/components/puzzle-loader";
+import { TransitionLink } from "@/components/transition-link";
 import { RatingHistory } from "@/components/rating-history";
 import { Gaps, Kicker, SectionTitle } from "@/components/ui";
 import { about, playLinks, profile } from "@/lib/content";
@@ -89,6 +90,13 @@ export default function AboutPage() {
                   <ArrowUpRight aria-hidden="true" className="h-3.5 w-3.5" />
                 </a>
               ))}
+              <TransitionLink
+                href="/projects/plays-like-me/"
+                className="inline-flex items-center gap-1.5 border border-line px-3.5 py-2 font-display text-sm font-bold text-ink transition-colors hover:border-accent hover:text-accent"
+              >
+                Or play the AI trained on my games
+                <ArrowRight aria-hidden="true" className="h-3.5 w-3.5" />
+              </TransitionLink>
             </div>
           }
         />

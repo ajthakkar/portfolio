@@ -50,7 +50,7 @@ export const now = {
   items: [
     "Running stakeholder interviews for BDAA's product discovery project with OSU University Libraries",
     "Treasurer on the Ohio State Chess Club executive board",
-    "Picking my next project: a finance model or a machine learning build",
+    "Picking my next project, probably a finance model",
   ],
 };
 
@@ -92,10 +92,78 @@ export type Case = {
   /** Questions for Aayush. Shown only in `npm run dev`, never on the live site. */
   gaps?: string[];
   /** An interactive demo shown on the project page. */
-  demo?: "knights-tour" | "chess-insights";
+  demo?: "knights-tour" | "chess-insights" | "plays-like-me";
 };
 
 export const cases: Case[] = [
+  {
+    slug: "plays-like-me",
+    number: "08",
+    kind: "Main quest",
+    title: "Plays Like Me",
+    rewards: ["ml", "python", "web"],
+    dek: "A neural network trained on 442,805 of my chess moves to play like me, tested against a control to show it learned me and not just my rating. Play it below.",
+    period: "Nov 2026",
+    role: "Solo project",
+    tools: ["Python", "PyTorch", "python-chess", "NumPy", "TypeScript"],
+    result: "Predicts 40% of my moves · spots me in 81% of games",
+    stats: [
+      { value: "39.8%", label: "of my moves predicted exactly, in games it never saw" },
+      { value: "81%", label: "of unseen games where it can tell which side was me" },
+      { value: "7.5% → 1.2%", label: "calibration error after temperature scaling" },
+      { value: "0.9 MB", label: "network that runs in your browser, no ML library" },
+    ],
+    demo: "plays-like-me",
+    position: [
+      "Most of my chess is online, mostly bullet, and the Play me button only works when I'm on. I wanted something people could play when I'm not: a model that makes the moves I would.",
+      "It also had to hold up as machine learning, not just a demo. So the question wasn't only whether it could predict my moves, but whether it learned me or just how anyone at my rating plays.",
+    ],
+    plan: [
+      "Turn every rated game since 2017 into training examples: 1,080,539 positions, with my moves and my opponents' moves kept apart.",
+      "Use my opponents as the control. They're players at my rating who aren't me, so a model of them shows what generic looks like.",
+      "Train on games through May 2026 and test on my games since starting college, August to November, which no model sees.",
+      "Run the network in the browser so anyone can play it.",
+    ],
+    moves: [
+      {
+        glyph: "!!",
+        title: "Build the control first",
+        body: "A model trained only on my opponents predicts 34.9% of my moves. Without that number, 40% would mean nothing. With it, the gap is the part that's me.",
+      },
+      {
+        glyph: "!",
+        title: "Test on the future",
+        body: "A random split leaks: the same opening on the same night ends up in both training and test. Testing on later games is the honest version of asking whether it works on games it hasn't seen.",
+      },
+      {
+        glyph: "!",
+        title: "One network, one switch",
+        body: "My first version used separate models: a generic one, fine-tuned on my moves (38.1%). The second trains one network on everyone, with an input that says whether the move is mine (39.8%). It learns chess from twice the data, and flipping the switch makes it play like a typical player instead.",
+      },
+      {
+        glyph: "!?",
+        title: "Make its confidence honest",
+        body: "The raw network was overconfident. Temperature scaling, one number fitted on validation games, cut calibration error from 7.5% to 1.2%, so the percentages on this page mean what they say.",
+      },
+      {
+        glyph: "!",
+        title: "Check the browser against PyTorch",
+        body: "The site runs the network in 170 lines of TypeScript. A test compares it with PyTorch on 79 real positions: the same top move every time, with probabilities within 0.00001.",
+      },
+    ],
+    outcome: [
+      "On 78,440 of my moves from games it never saw, it picks my exact move 39.8% of the time and has it in its top three 64.6% of the time. A random legal move gets 7.2%.",
+      "It learned me, not my rating. Set to me, it wins on my moves (39.8% vs 38.6%); set to typical, it wins on my opponents' moves (38.0% vs 36.9%).",
+      "Given an unseen game, it can tell which side was me 81% of the time, even against higher-rated opponents. Most of that comes from my openings: set to me, it opens 1.d4 81% of the time, exactly as often as I do.",
+      "Where it differs from a typical player at my level, it pushes pawns and repositions more, and captures and checks less.",
+    ],
+    postGame: [
+      "The most important model here is the one I'm not featuring. The generic control is what turns 40% accuracy into evidence that it learned me.",
+      "It plays on instinct with no search, so it can hang a piece. Next, I'd add a small search on top that keeps my style but stops the blunders.",
+    ],
+    links: [{ label: "Code and full write-up on GitHub", href: "https://github.com/ajthakkar/plays-like-me" }],
+    gaps: ["Read the reflection (The position, Key moves, Post-game) and rewrite anything that doesn't sound like you."],
+  },
   {
     slug: "chess-analytics",
     number: "06",
