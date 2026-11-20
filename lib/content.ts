@@ -152,19 +152,18 @@ export const cases: Case[] = [
     ],
     outcome: [
       "No tilt. After a loss I score 0.6 points per 100 games lower than after a win, with a 95% interval of −2.4 to +1.2: indistinguishable from zero, and it rules out a hit bigger than about 17 rating points.",
-      "What a loss changes is whether I keep playing: I stop for the night after 23% of losses and 15% of wins.",
-      "No fatigue, even 20+ games into a session. My weakest hours are 5–9 PM and my strongest are 3–6 AM, worth about 50 rating points, though the players online at 4 AM are a different crowd.",
+      "What a loss changes is whether I keep playing: I stop for the night after 23% of losses and 15% of wins. That's deliberate. Stopping after a loss is how I keep from tilting, and the first result says it works.",
+      "No fatigue, even 20+ games into a session. My weakest hours are 5–9 PM and my strongest are 3–6 AM, worth about 50 rating points. That's about who I tend to play at that hour, not playing better tired.",
       "In bullet I win 12.6 more games per 100 on time than I lose, and more than half my bullet wins come on the clock.",
       "SQL queries for every comparison, 17 tests, and a README with every chart.",
     ],
     postGame: [
       "The first answers were wrong twice, and both times the mistake was in what I compared against, not in the effect I was looking for. Checking the baseline is most of the work.",
-      "I probably don't tilt because I already quit when a loss bothers me. Next, I'd run an engine over a sample of games to measure move quality instead of just results, and see whether the habit holds up in next year's games.",
+      "I don't tilt because I stop when a loss gets to me, and now I have numbers that say the habit works. Next, I'd run an engine over a sample of games to measure move quality instead of just results.",
     ],
     links: [{ label: "Code and full write-up on GitHub", href: "https://github.com/ajthakkar/chess-analytics" }],
     gaps: [
       "Read the reflection (The position, Key moves, Post-game) and rewrite anything that doesn't sound like you.",
-      "These findings are about your habits (quitting after losses, playing at 3–6 AM). Cut any you'd rather not have public.",
     ],
   },
   {
@@ -240,10 +239,10 @@ export const cases: Case[] = [
     kind: "Main quest",
     title: "Storm Outage Model",
     rewards: ["ml", "statistics", "python"],
-    dek: "HackOHI/O 2026, AEP's challenge: tell a customer how likely a storm is to knock out their power, and for how long. I replaced a guessed risk score with one measured from real storms.",
+    dek: "HackOHI/O 2026, AEP's challenge: tell a customer how likely a storm is to knock out their power, and for how long. We replaced a guessed risk score with one measured from real storms.",
     period: "Oct 2026",
-    role: "Outage model",
-    team: "Team of 4",
+    role: "Team member",
+    team: "4 students, no fixed roles",
     tools: ["Python", "pandas", "scikit-learn", "SciPy", "C# / WPF", "Claude Code"],
     result: "Held-out accuracy 0.39 → 0.72 on the worst storm",
     stats: [
@@ -254,7 +253,8 @@ export const cases: Case[] = [
     ],
     position: [
       "HackOHI/O is Ohio State's annual hackathon. AEP, the power company, asked for an outage concierge: before and during a storm, tell a customer how likely they are to lose power, how long it could last, and how to prepare, using AEP's anonymized grid map and damage records from real storms.",
-      "Our first build was a web app with three services and a 14-feature model. Late on the first night we dropped it for a teammate's simpler desktop app, L.A.R.P. Its risk score still ran on hand-picked weights, and that became my job.",
+      "Our first build was a web app with three services and a 14-feature model. Late on the first night we dropped it for a teammate's simpler desktop app, L.A.R.P. Its risk score still ran on hand-picked weights, so we rebuilt it.",
+      "None of us had a fixed role. All four of us worked on whatever needed doing and brainstormed prompt engineering ideas together.",
     ],
     plan: [
       "Answer two questions with numbers that trace back to the data: will I lose power, and how long until it's back?",
@@ -291,17 +291,13 @@ export const cases: Case[] = [
     outcome: [
       "On the three biggest storms, held-out AUC rose from 0.44 to 0.68 on average, and from 0.39 to 0.72 on the February 2025 ice storm.",
       "Restoration time follows AEP's own guide: damage is placed on the real network 200 times per storm type, each repair is priced from AEP's labor tables, and crews are scheduled to restore the most customers first.",
-      "The model shipped in L.A.R.P., the team's submission, with a write-up of every method we compared and why it lost. I also wrote plain-English answers to every question we expected from the judges.",
+      "The model shipped in L.A.R.P., our submission, with a write-up of every method we compared and why it lost, plus plain-English answers to the questions we expected from the judges.",
     ],
     postGame: [
       "The simplest model was the most accurate and the easiest to explain. Testing on storms the model hadn't seen is what proved it, and what showed the original score was worse than guessing.",
     ],
     links: [{ label: "L.A.R.P. on GitHub", href: "https://github.com/rlin122006/HackOHIO-2026-larp" }],
-    gaps: [
-      "How did the team place? Add it to the result line if you placed.",
-      "Confirm your role: I wrote 'Outage model' because you authored that commit and led the model decisions in your Claude Code sessions.",
-      "Your teammates' names, if you want to credit them.",
-    ],
+    gaps: ["Your teammates' names, if you want to credit them."],
   },
   {
     slug: "roam-travel",
@@ -376,9 +372,9 @@ export const cases: Case[] = [
     kind: "Main quest",
     title: "Long Constellation Energy",
     rewards: ["equity-research", "valuation"],
-    dek: "My application pitch to Buckeye Capital Investors: AI's power problem makes the largest US nuclear operator undervalued.",
+    dek: "A stock pitch arguing that AI's power problem makes the largest US nuclear operator undervalued.",
     period: "Sep 2026",
-    role: "Solo · BCI application",
+    role: "Solo stock pitch",
     tools: ["Equity research", "Valuation multiples", "Earnings reports", "SEC filings"],
     result: "Long at $285.93 · $355 target",
     stats: [
@@ -388,7 +384,6 @@ export const cases: Case[] = [
       { value: "12–36 mo", label: "holding period" },
     ],
     position: [
-      "Buckeye Capital Investors (BCI) is Ohio State's student investment club. To get an interview, applicants submit a stock pitch. This was mine.",
       "The main constraint on AI has shifted from chips and memory toward power and cooling. US data centers used 4.4% of national electricity in 2023 and could reach 6.7–12% by 2028, and the IEA expects global data center demand to more than double by 2030.",
       "Constellation Energy (NASDAQ: CEG) is the largest nuclear operator in the US, with about 55 GW of capacity after acquiring Calpine, and its fleet ran at about a 93% capacity factor in the second quarter.",
     ],
@@ -422,17 +417,12 @@ export const cases: Case[] = [
     outcome: [
       "Recommended a long position at the Sep 10, 2026 close of $285.93, with a 12-month target of $355 (about 24% upside) and a 12–36 month holding period.",
       "Downside cushions: roughly 30% of clean baseload output is already contracted with investment-grade buyers, and the 45U credit floors nuclear revenue at up to $15/MWh through 2032.",
-      "The pitch earned me a first-round interview. The feedback was that I did well, but not well enough to stand out, and I didn't advance.",
     ],
     postGame: [
-      "The pitch got me in the room. What I hadn't done was meet anyone: I applied knowing zero members. In a club that recruits through relationships as much as interviews, that's the move I'd change first.",
-      "The research habit stuck. Every number in the pitch is tied to a filing or an earnings release, and I flagged what I couldn't verify instead of guessing.",
+      "The habit I'd keep: every number in the pitch is tied to a filing or an earnings release, and anything I couldn't verify is flagged instead of guessed.",
     ],
     note: "A student stock pitch, not investment advice.",
-    gaps: [
-      "Check the outcome and post-game wording; cut the interview result if you'd rather not show it.",
-      "Want the full pitch PDF linked from this page?",
-    ],
+    gaps: ["Want the full pitch PDF linked from this page?"],
   },
   {
     slug: "hack-for-the-world",
@@ -442,8 +432,8 @@ export const cases: Case[] = [
     rewards: [],
     dek: "A first-person shooter in the browser: fight off oil zombies and repair a failing oil rig before it spills. First place overall.",
     period: "Feb 2026",
-    role: "Team of 4",
-    team: "4 students",
+    role: "Team member",
+    team: "4 students, no fixed roles",
     tools: ["JavaScript", "Three.js", "Vite", "WebGL", "GitHub"],
     result: "1st place overall",
     stats: [
@@ -455,6 +445,7 @@ export const cases: Case[] = [
     position: [
       "Hack For The World was a 12-hour sustainability hackathon at Naperville North, with high school teams from across Chicagoland.",
       "Instead of another dashboard, we built a game. An offshore oil rig is about to fail, oil zombies have overrun the deck, and you have to fight your way to the drill shaft and repair it before the timer runs out and the spill hits the ocean.",
+      "There were no fixed roles. We brainstormed together, tried building on one computer and on separate ones, and submitted our best final version.",
     ],
     plan: [
       "Make the sustainability message something you feel instead of read: if you lose, the rig fails.",
@@ -487,13 +478,11 @@ export const cases: Case[] = [
       "Won 1st place overall.",
       "A playable first-person shooter: pointer-lock mouse look, raycast shooting, zombie AI with wave spawning, a rig-failure timer, a hold-to-repair objective, and a live HUD.",
     ],
-    postGame: [],
-    links: [{ label: "Code on GitHub", href: "https://github.com/mmbar08/HACK26repo" }],
-    gaps: [
-      "What was your part (design, a system, the pitch, the presentation)? The page says 'we' until you tell me.",
-      "One line for Post-game: what you'd do differently, or what winning taught you.",
-      "Want a playable build hosted and linked from this page?",
+    postGame: [
+      "Four people, no fixed roles, 12 hours. We switched between crowding around one computer and splitting up across several, and the requirements doc is what let us split up without breaking each other's work.",
     ],
+    links: [{ label: "Code on GitHub", href: "https://github.com/mmbar08/HACK26repo" }],
+    gaps: ["Check the Post-game line.", "Want a playable build hosted and linked from this page?"],
   },
   {
     slug: "this-site",
