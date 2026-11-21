@@ -329,7 +329,7 @@ export const cases: Case[] = [
     ],
     links: [{ label: "Code and write-up on GitHub", href: "https://github.com/ajthakkar/chapter-and-verse" }],
     gaps: [
-      "Run the evaluation: set an Anthropic API key (or `ant auth login`), then `npm run evaluate -- --baseline` in Book-Quiz-Tool. It should cost a few dollars. The result goes in Result and Post-game.",
+      "Run the evaluation: set an Anthropic API key (or `ant auth login`), then `npm run evaluate -- --baseline` in the chapter-and-verse folder. It should cost a few dollars. The result goes in Result and Post-game.",
     ],
   },
   {
