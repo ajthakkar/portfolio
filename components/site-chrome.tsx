@@ -45,7 +45,7 @@ export function SiteHeader() {
                   key={item.label}
                   href={item.href}
                   aria-current={active ? "page" : undefined}
-                  className={`relative px-2.5 py-1.5 text-[13px] font-medium transition-colors sm:px-3 ${
+                  className={`relative px-2.5 py-3 text-sm font-medium transition-colors sm:px-3 ${
                     active ? "text-ink" : "text-muted hover:text-ink"
                   }`}
                 >

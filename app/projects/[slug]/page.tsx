@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { MoveList } from "@/components/case-reading";
 import { ChessInsights } from "@/components/chess-insights";
 import { KnightsLab } from "@/components/knights-lab";
 import { PlaysLikeMeLoader } from "@/components/plays-like-me-loader";
 import { CountUp } from "@/components/hud";
+import { Tldr } from "@/components/tldr";
 import { TransitionLink } from "@/components/transition-link";
-import { CaseBoard, ExternalLink, Gaps, Glyph, Kicker, Panel, StatusChip } from "@/components/ui";
+import { CaseBoard, ExternalLink, Gaps, Glyph, Kicker, Panel } from "@/components/ui";
 import { cases, skillName } from "@/lib/content";
 
 type Params = { params: { slug: string } };
@@ -18,7 +19,7 @@ export function generateStaticParams() {
 
 export function generateMetadata({ params }: Params): Metadata {
   const c = cases.find((x) => x.slug === params.slug);
-  return c ? { title: c.title, description: c.dek } : {};
+  return c ? { title: c.title, description: c.dek, openGraph: { title: c.title, description: c.dek, url: `/projects/${c.slug}/` } } : {};
 }
 
 function Block({ kicker, title, children }: { kicker: string; title: string; children: React.ReactNode }) {
@@ -64,19 +65,16 @@ export default function ProjectPage({ params }: Params) {
           className="group inline-flex items-center gap-1.5 font-mono text-xs text-muted transition-colors hover:text-ink"
         >
           <ArrowLeft aria-hidden="true" className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-0.5" />
-          Quest log
+          All projects
         </TransitionLink>
       </div>
 
       {/* Header */}
       <header className="grid gap-8 pb-12 pt-8 sm:pt-10 md:grid-cols-[1fr_180px] md:items-end">
         <div className="space-y-5">
-          <div className="rise flex flex-wrap items-center gap-3">
-            <StatusChip state="complete" />
-            <Kicker>
-              {c.kind} {c.number} · {c.result}
-            </Kicker>
-          </div>
+          <Kicker className="rise">
+            {c.area} · {c.period}
+          </Kicker>
           <h1
             className="vt-name w-fit font-display text-5xl font-extrabold leading-[0.95] tracking-[-0.04em] text-ink sm:text-6xl lg:text-7xl"
             style={{ "--vt-name": `title-${c.slug}` } as React.CSSProperties}
@@ -96,11 +94,30 @@ export default function ProjectPage({ params }: Params) {
               ))}
             </div>
           )}
+          {c.live && (
+            <div className="rise pt-1" style={{ "--i": 3 } as React.CSSProperties}>
+              <a
+                href={c.live.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-game inline-flex items-center gap-2 bg-lime px-5 py-3 font-display text-sm font-bold text-lime-ink"
+              >
+                {c.live.label}
+                <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
+              </a>
+            </div>
+          )}
         </div>
         <span className="vt-name hidden w-full md:block" style={{ "--vt-name": `board-${c.slug}` } as React.CSSProperties}>
           <CaseBoard seed={c.slug} className="w-full" />
         </span>
       </header>
+
+      {/* The 30-second version */}
+      <Panel className="rise mb-3" inner="p-5 sm:p-6">
+        <p className="pixel mb-4 text-accent">In 30 seconds</p>
+        <Tldr items={c.tldr} className="max-w-3xl" />
+      </Panel>
 
       {/* Meta + stats */}
       <Panel className="rise" inner="grid gap-px bg-line sm:grid-cols-2" >
@@ -237,6 +254,50 @@ export default function ProjectPage({ params }: Params) {
             {c.note && <p className="font-mono text-[11px] text-faint">{c.note}</p>}
           </Block>
 
+          {c.photos && c.photos.length > 0 && (
+            <Block kicker="From the project" title="Photos">
+              <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                {c.photos.map((ph, i) => (
+                  <figure key={ph.src} className={i === 0 && c.photos!.length % 2 === 1 ? "col-span-2" : ""}>
+                    <div className="overflow-hidden border border-line bg-paper-2">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={ph.src} alt={ph.alt} width={ph.width} height={ph.height} loading="lazy" className="h-auto w-full" />
+                    </div>
+                    <figcaption className="mt-2 text-[13px] leading-snug text-muted">
+                      {ph.caption}
+                      {ph.credit && <span className="text-faint"> · {ph.credit}</span>}
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            </Block>
+          )}
+
+          {c.press && c.press.length > 0 && (
+            <Block kicker="Press" title="Coverage">
+              <ul className="divide-y divide-line border-y border-line">
+                {c.press.map((pr) => (
+                  <li key={pr.href}>
+                    <a
+                      href={pr.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex items-start justify-between gap-4 py-3.5"
+                    >
+                      <span>
+                        <span className="pixel block text-muted">
+                          {pr.outlet} · {pr.date}
+                        </span>
+                        <span className="mt-1 block text-[15px] text-ink transition-colors group-hover:text-accent">{pr.title}</span>
+                      </span>
+                      <ArrowUpRight aria-hidden="true" className="mt-1 h-4 w-4 shrink-0 text-faint group-hover:text-accent" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </Block>
+          )}
+
           {c.postGame.length > 0 && (
             <Block kicker="What I'd change" title="Post-game">
               <Paragraphs items={c.postGame} />
@@ -251,8 +312,8 @@ export default function ProjectPage({ params }: Params) {
       <nav aria-label="Next project" className="mt-20 border-t border-line pt-8">
         <TransitionLink href={`/projects/${next.slug}/`} className="group flex items-center justify-between gap-6">
           <span className="space-y-2">
-            <span className="pixel block text-faint">
-              Next quest · {next.kind} {next.number}
+            <span className="pixel block text-muted">
+              Next project · {next.area}
             </span>
             <span className="block font-display text-3xl font-extrabold tracking-[-0.03em] text-ink transition-colors group-hover:text-accent sm:text-4xl">
               {next.title}

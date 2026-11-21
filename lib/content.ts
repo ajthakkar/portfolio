@@ -11,6 +11,7 @@ export const profile = {
   timeZone: "America/New_York",
   tagline:
     "Business student at Ohio State's Fisher College of Business. I like problems where business, software, and AI meet, and I've spent more than ten years playing tournament chess.",
+  lookingFor: "Looking for Summer 2027 internships in data, software and AI, finance, and consulting.",
   links: [
     { label: "GitHub", href: "https://github.com/ajthakkar" },
     { label: "LinkedIn", href: "https://www.linkedin.com/in/aayush--thakkar" },
@@ -24,7 +25,7 @@ export const profile = {
     chesscom: chessAccounts.chesscom,
     uscfId: chessAccounts.uscfId,
   },
-  gaps: [] as string[],
+  gaps: ["Check the 'Looking for' line under your name: which roles, and which summer."] as string[],
 };
 
 /** "Play me" links: open a challenge on each site. */
@@ -68,11 +69,18 @@ export const glyphMeaning: Record<GlyphMark, string> = {
 
 export type Move = { glyph: GlyphMark; title: string; body: string };
 
+export type Photo = { src: string; alt: string; caption: string; credit?: string; width: number; height: number };
+export type PressItem = { outlet: string; title: string; href: string; date: string };
+
 export type Case = {
   slug: string;
-  number: string;
-  kind: "Main quest" | "Side quest";
+  /** Plain label shown on cards, e.g. "Machine learning". */
+  area: string;
+  /** Featured projects lead the home page; the rest are listed compactly under them. */
+  featured?: boolean;
   title: string;
+  /** The 30-second version: the question, what I did, what happened. */
+  tldr: [string, string, string];
   /** Skill ids (see `branches` below) this project proves. */
   rewards: string[];
   dek: string;
@@ -93,16 +101,25 @@ export type Case = {
   gaps?: string[];
   /** An interactive demo shown on the project page. */
   demo?: "knights-tour" | "chess-insights" | "plays-like-me";
+  /** Live version of the project, shown as the main button on its page. */
+  live?: { label: string; href: string };
+  photos?: Photo[];
+  press?: PressItem[];
 };
 
 export const cases: Case[] = [
   {
     slug: "plays-like-me",
-    number: "08",
-    kind: "Main quest",
+    area: "Machine learning",
+    featured: true,
+    tldr: [
+      "Can a neural network learn how I play chess, and not just how anyone at my rating plays?",
+      "I trained a PyTorch network on 1 million positions from my games, used my opponents as the control, and tested it on games it never saw.",
+      "It predicts 39.8% of my moves, beats the control on my moves, and can tell which side was me in 81% of games.",
+    ],
     title: "Plays Like Me",
     rewards: ["ml", "python", "web"],
-    dek: "A neural network trained on 442,805 of my chess moves to play like me, tested against a control to show it learned me and not just my rating. Play it below.",
+    dek: "A neural network trained on 442,805 of my chess moves to play like me, tested against a control to show it learned me and not just my rating. You can play it in the browser.",
     period: "Nov 2026",
     role: "Solo project",
     tools: ["Python", "PyTorch", "python-chess", "NumPy", "TypeScript"],
@@ -165,9 +182,86 @@ export const cases: Case[] = [
     gaps: ["Read the reflection (The position, Key moves, Post-game) and rewrite anything that doesn't sound like you."],
   },
   {
+    slug: "book-quiz",
+    area: "LLM app",
+    featured: true,
+    tldr: [
+      "Can AI write reading quizzes that check whether a student read the book, and not just a summary of it?",
+      "I rebuilt my first version so the model works from the chapter itself and has to quote its evidence, and wrote a checker that throws out any question whose quote isn't in the book.",
+      "A free quiz app for five classic books, with spoiler control, three difficulty levels, and practice that adapts to a student's weak skills.",
+    ],
+    title: "Book Quiz Tool",
+    rewards: ["llm-apps", "web", "shipping"],
+    dek: "Reading quizzes written from a book's full text. Every answer has to quote the page it came from, and a checker throws out any question whose quote isn't really there.",
+    period: "Jun 2026, rebuilt Nov 2026",
+    role: "Solo project",
+    tools: ["TypeScript", "Next.js", "Claude API", "Zod", "Node test runner"],
+    result: "73 of 73 questions backed by checked passages",
+    stats: [
+      { value: "73/73", label: "demo questions whose evidence was found word for word in the book" },
+      { value: "5", label: "public-domain books, from grade 3 to grade 12" },
+      { value: "7", label: "reading skills tracked, with quizzes weighted toward the weakest" },
+      { value: "14", label: "tests on the checker, the reading-level math, and the picker" },
+    ],
+    live: { label: "Try the quiz", href: "https://ajthakkar.github.io/Book-Quiz-Tool/" },
+    position: [
+      "In June I built a tool to write comprehension questions for any book, and it didn't work well. The AI only got the title, so it repeated what reviews and other quizzes online say about the book, and its questions piled up on the same famous scenes. Someone who only read a summary could pass.",
+      "Version 2 starts from the text itself: public-domain books from Project Gutenberg, where the full text is free to use.",
+    ],
+    plan: [
+      "Give the model the actual chapter, and make it copy the passage that proves each answer.",
+      "Check every passage against the book in code, so a made-up quote can't get through.",
+      "Let a student say how far they've read and how hard they want it, and track which reading skills they miss.",
+    ],
+    moves: [
+      {
+        glyph: "!!",
+        title: "Make it show its work, then check it",
+        body: "Every question comes with one or two passages copied from the chapter. The checker searches the book for each one, and if it isn't there, in that chapter, the question is thrown out. That's the difference between trusting the model and verifying it.",
+      },
+      {
+        glyph: "!",
+        title: "Let the text decide the order",
+        body: "For put-these-events-in-order questions, the right answer comes from where each passage sits in the book, not from what the model says the order is.",
+      },
+      {
+        glyph: "!",
+        title: "Catch test-taking tricks",
+        body: "Students learn that the longest answer is usually the right one. The checker rejects any question where it is, and it caught 5 of my own 73 questions on the first pass.",
+      },
+      {
+        glyph: "!?",
+        title: "Reading level isn't maturity",
+        body: "Flesch–Kincaid rates The Great Gatsby (grade 6.1) easier than The Wizard of Oz (6.7). So each book shows both its measured reading level and the grades it's usually taught in.",
+      },
+      {
+        glyph: "?",
+        title: "The evaluation isn't run yet",
+        body: "The test that compares versions, whether a model can answer a question without the book, is written but needs an API key. The demo questions were written with Claude in Claude Code under the same rules and passed the same checker, and the README says so.",
+      },
+    ],
+    outcome: [
+      "A free app with no server: pick a grade and a book, say how far you've read, and get questions only on those chapters. After each answer it shows the passage the answer comes from.",
+      "73 questions across five books, grades 3 to 12, all passing the checker, and spread through each book instead of piled on the famous scenes.",
+      "Seven skills tracked over time, from key details to themes. A mixed quiz leans toward the ones a student misses.",
+    ],
+    postGame: [
+      "Next is running the evaluation. If a model can answer a question without the book, a student who skipped it probably can too, so that number for v1 and v2 will show whether the rebuild worked.",
+    ],
+    links: [{ label: "Code and write-up on GitHub", href: "https://github.com/ajthakkar/Book-Quiz-Tool" }],
+    gaps: [
+      "Run the evaluation: set an Anthropic API key (or `ant auth login`), then `npm run evaluate -- --baseline` in Book-Quiz-Tool. It should cost a few dollars. The result goes in Result and Post-game.",
+    ],
+  },
+  {
     slug: "chess-analytics",
-    number: "06",
-    kind: "Main quest",
+    area: "Data analysis",
+    featured: true,
+    tldr: [
+      "Do I really tilt after a loss, or play worse late at night?",
+      "I put 14,547 games into one SQL table, fitted my own baseline, and used error bars that treat each night as one unit.",
+      "No tilt and no fatigue. I quit after losses more often than after wins, which is how I avoid tilting.",
+    ],
     title: "Do I Tilt?",
     rewards: ["sql", "statistics", "dataviz", "python"],
     dek: "What 14,547 of my rated online games say about tilt, fatigue, time of day, the clock, and openings, tested with honest error bars.",
@@ -235,76 +329,14 @@ export const cases: Case[] = [
     ],
   },
   {
-    slug: "knights-tour",
-    number: "05",
-    kind: "Main quest",
-    title: "Knight's Tour",
-    rewards: ["algorithms", "python"],
-    dek: "Three ways to send a knight across every square of the board once, tested, measured, and raced in the browser.",
-    period: "Nov 2026",
-    role: "Solo project",
-    tools: ["Python", "pytest", "matplotlib", "TypeScript", "React"],
-    result: "64/64 tours on 8x8 with zero backtracks",
-    stats: [
-      { value: "64/64", label: "8x8 tours found with Warnsdorff order" },
-      { value: "0/64", label: "found by brute force within 1,000,000 steps" },
-      { value: "96.7%", label: "worst greedy success rate, 8x8 to 40x40" },
-      { value: "93 ms", label: "for a 65,536-square tour in pure Python" },
-    ],
-    demo: "knights-tour",
-    position: [
-      "The knight's tour is a puzzle more than a thousand years old: move a knight so it lands on every square of the board exactly once. An animated one used to sit on my homepage as decoration.",
-      "I wanted to understand how a tour is actually found, and to show I can take an algorithm from an idea to tested, measured code instead of just describing it.",
-    ],
-    plan: [
-      "Write three solvers in Python: brute-force backtracking, H. C. Warnsdorff's greedy rule from 1823 (always move to the square with the fewest onward moves), and a backtracking search that tries moves in Warnsdorff order.",
-      "Prove the answers are right with tests instead of eyeballing them, including the cases where no tour can exist.",
-      "Run every start square on boards up to 8x8, and the greedy rule on boards up to 40x40, then chart where each method breaks.",
-    ],
-    moves: [
-      {
-        glyph: "!!",
-        title: "Let the heuristic order the search",
-        body: "Warnsdorff's rule alone is fast but greedy, so it can walk into a dead end. Using it only to decide which move to try first kept the speed and made the search complete: on 8x8 it found a tour from all 64 squares without a single backtrack.",
-      },
-      {
-        glyph: "!",
-        title: "Measure work, not just time",
-        body: "I counted every square the knight stepped onto, retreats included, instead of only timing runs. That made the comparison fair on any computer and showed exactly where brute force falls apart.",
-      },
-      {
-        glyph: "!",
-        title: "Test the impossible cases",
-        body: "The tests prove that no tour exists on 3x3 or 4x4, and that on 5x5 a tour can only start on the 13 squares of one color. A bug that always 'finds' something would fail them.",
-      },
-      {
-        glyph: "!?",
-        title: "Compare tie-breaks, not just methods",
-        body: "When two squares tie under Warnsdorff's rule, the choice matters. Picking the square farthest from the center finished at least 96.7% of starts on every board from 8x8 to 40x40. Picking at random fell to 65%.",
-      },
-      {
-        glyph: "?!",
-        title: "Pure Python",
-        body: "Easy to read and test, but slow. I chose clarity first; a compiled version is the obvious next step.",
-      },
-    ],
-    outcome: [
-      "On 8x8, brute force didn't finish a single tour within a million steps. The Warnsdorff-ordered search finished all 64 in exactly 64 steps each.",
-      "The greedy rule scales in a straight line: a 256x256 tour, 65,536 squares, takes about 93 ms.",
-      "The one surprise was 7x7: it trips every tie-break rule, and it's the only board where even the Warnsdorff-ordered search hit the cap once.",
-      "12 tests, a command-line tool, and a benchmark script that regenerates every number and chart on this page.",
-    ],
-    postGame: [
-      "A good heuristic beats raw speed. No computer makes brute force practical on 8x8, but one sentence of insight from 1823 makes the problem easy.",
-      "Next, I'd port the inner loop to a compiled language and measure the speedup on the same benchmarks, then build huge tours by stitching small closed tours together, a known way to get linear time with no failures.",
-    ],
-    links: [{ label: "Code on GitHub", href: "https://github.com/ajthakkar/knights-tour" }],
-    gaps: ["Read the reflection (The position, Key moves, Post-game) and rewrite anything that doesn't sound like you."],
-  },
-  {
     slug: "hackohio-outage-model",
-    number: "07",
-    kind: "Main quest",
+    area: "Predictive modeling",
+    featured: true,
+    tldr: [
+      "How likely is a storm to cut a customer's power, and for how long?",
+      "We tested the app's risk score on storms it hadn't seen, then replaced it with a simple model measured from real storm damage.",
+      "On the worst storm, ranking accuracy went from 0.39, worse than a coin flip, to 0.72.",
+    ],
     title: "Storm Outage Model",
     rewards: ["ml", "statistics", "python"],
     dek: "HackOHI/O 2026, AEP's challenge: tell a customer how likely a storm is to knock out their power, and for how long. We replaced a guessed risk score with one measured from real storms.",
@@ -369,8 +401,13 @@ export const cases: Case[] = [
   },
   {
     slug: "roam-travel",
-    number: "01",
-    kind: "Main quest",
+    area: "Startup",
+    featured: true,
+    tldr: [
+      "Could three high school students turn a luggage strap into a real business?",
+      "We sold handmade straps before paying for manufacturing, changed the product based on feedback, and pitched at 20+ competitions.",
+      "250+ units sold, $10,000+ in pitch prizes, a top 5 national finish, and a patent-pending design.",
+    ],
     title: "Roam Travel",
     rewards: ["startups", "pitching", "startup-finance"],
     dek: "Taking a luggage strap from a handmade prototype to a patent-pending product, as a high school co-founder.",
@@ -386,8 +423,9 @@ export const cases: Case[] = [
       { value: "1,000+", label: "customer sign-ups" },
     ],
     position: [
-      "Roam Travel started in INCubatoredu, the startup incubator program in my high school's district. Three of us set out to build and sell a travel accessory: the Roam Link luggage strap.",
-      "I was CTO and CFO, so I owned both the product side and the money side.",
+      "Roam Travel started in INCubatoredu, the year-long startup class in my high school's district. The problem: travelers juggling a backpack, a duffel, and a carry-on through an airport. As I told NCTV17 at nationals, \"You can carry multiple bags just with one suitcase, with one handle.\"",
+      "The product is the Roam Link, an adjustable strap that holds bags on top of a carry-on and rolls up out of the way when it's not in use. I was CTO and CFO, so I owned both the product side and the money side.",
+      "I stepped away in August 2025. The company is still running.",
     ],
     plan: [
       "Prove demand before spending on production, then iterate on what customers actually said.",
@@ -422,22 +460,141 @@ export const cases: Case[] = [
     ],
     outcome: [
       "Sold 250+ units and earned $2,000+ in profit, with a Shopify store and a 1,000+ person sign-up list.",
-      "Won $10,000+ across 20+ pitch competitions, including $3,000 for 1st place at District 203's INCubatoredu Final Pitch Night.",
-      "Covered by the Chicago Tribune and NCTV17.",
+      "Won $10,000+ across 20+ pitch competitions, including $3,000 for 1st place out of 60 teams at District 203's INCubatoredu Final Pitch Night.",
+      "One of five national finalists at the 2025 INCubatoredu National Pitch in Chicago, and the first team from District 203 to get there.",
     ],
     postGame: [],
-    links: [{ label: "roamtravel.us", href: "https://roamtravel.us" }],
+    photos: [
+      {
+        src: "/projects/roam/national-pitch-2025.jpg",
+        alt: "About twenty students from the five finalist teams waving on stage in front of a National Pitch 2025 screen. The Roam Travel team is on the left in black Roam shirts.",
+        caption: "All five finalist teams on stage at the 2025 INCubatoredu National Pitch in Chicago. Roam Travel is on the left, in black.",
+        credit: "Photo: Uncharted Learning",
+        width: 1600,
+        height: 813,
+      },
+      {
+        src: "/projects/roam/roam-link.jpg",
+        alt: "A black Roam Link strap holding a backpack on top of a carry-on suitcase, under a palm tree.",
+        caption: "The Roam Link holding a backpack on a carry-on.",
+        credit: "Photo: Roam Travel",
+        width: 900,
+        height: 900,
+      },
+      {
+        src: "/projects/roam/roam-link-rollup.jpg",
+        alt: "The Roam Link rolled up and strapped to a suitcase handle, labeled roll-up storage.",
+        caption: "When it's not in use, the strap rolls up and stays on the handle.",
+        credit: "Photo: Roam Travel",
+        width: 900,
+        height: 1125,
+      },
+    ],
+    press: [
+      {
+        outlet: "NCTV17",
+        date: "Jul 15, 2025",
+        title: "Naperville student entrepreneurs compete, showcase product in National Pitch Night",
+        href: "https://www.nctv17.org/news/naperville-student-entrepreneurs-showcase-travel-device-during-national-pitch-night/",
+      },
+      {
+        outlet: "Chicago Tribune · Naperville Sun",
+        date: "Jul 4, 2025",
+        title: "Naperville-area students bringing their new product to national pitch competition",
+        href: "https://www.chicagotribune.com/2025/07/04/naperville-students-strap-luggage-product-incubatoredu/",
+      },
+      {
+        outlet: "Uncharted Learning",
+        date: "Jul 15, 2025",
+        title: "INCubatoredu 2025 National Student Pitch winners announced",
+        href: "https://www.unchartedlearning.org/blog/incubatoredu-2025-national-student-pitch-winners-announced",
+      },
+    ],
     gaps: [
-      "What problem does the Roam Link solve for travelers? One or two sentences for 'The position'.",
       "Pick one decision you'd grade '?' (a mistake) and say what you'd do instead. That goes in 'Post-game'.",
-      "Photos: the strap, the handmade batch, a pitch on stage, the Tribune clip.",
-      "Links to the Chicago Tribune and NCTV17 stories.",
+      "The Tribune story (Jul 4, 2025) names the founders as Bremen, Noah, and Alex Liu, and doesn't mention you. NCTV17 (Jul 15) names and quotes you. Linking both is fine as company coverage, but be ready to explain when you joined the team.",
+      "Photos from your LinkedIn (awards, pitches) can go here too. The built-in browser isn't signed in to LinkedIn, so send them or sign in there.",
+    ],
+  },
+  {
+    slug: "library-onboarding",
+    area: "Product · client project",
+    tldr: [
+      "How do you get first-year students to find out what the library offers before they need it?",
+      "Our BDAA team is working with Ohio State's University Libraries. We prototyped a 15-minute module built to drop into the GE Launch Seminar that almost every new student takes.",
+      "A working prototype, live, with a before-and-after check of which resources students know about.",
+    ],
+    title: "Library Onboarding Module",
+    rewards: ["discovery", "web", "shipping"],
+    dek: "A 15-minute module that introduces first-year Ohio State students to University Libraries, prototyped for BDAA's product discovery project with the Libraries.",
+    period: "Fall 2026",
+    role: "Team member",
+    team: "BDAA Product Development Track",
+    tools: ["Stakeholder interviews", "HTML", "CSS", "JavaScript", "GitHub Pages"],
+    result: "Working prototype, live on GitHub Pages",
+    stats: [
+      { value: "12", label: "library resources covered, each checked against library.osu.edu" },
+      { value: "5", label: "lessons of two to three minutes, each with a quick check" },
+      { value: "8", label: "question final check; a miss links back to its lesson" },
+      { value: "0", label: "student data sent anywhere: progress stays in the browser" },
+    ],
+    live: { label: "Try the module", href: "https://ajthakkar.github.io/osu-library-onboarding/" },
+    position: [
+      "The Big Data & Analytics Association's Product Development Track is working with Ohio State's University Libraries on a product discovery question: how do incoming students learn about library resources, and why do so many find out late?",
+      "I'm the team's main point of contact with the Libraries, and I organize our stakeholder interviews, from outreach and scheduling to follow-up.",
+    ],
+    plan: [
+      "Meet students where they already are: the GE Launch Seminar, which nearly every new student takes.",
+      "Keep it short enough to finish between classes: five lessons of two to three minutes each.",
+      "Measure awareness, not just completion: ask what students have heard of before they start, and compare at the end.",
+    ],
+    moves: [
+      {
+        glyph: "!",
+        title: "Build into a course students already take",
+        body: "A separate orientation is easy to skip. A module sized for GE Launch reaches students in a class they're already in.",
+      },
+      {
+        glyph: "!!",
+        title: "A pre-check that doubles as data",
+        body: "Before the first lesson, students mark which of 12 resources they've heard of. The last page compares that with what they've now seen: a simple before-and-after measure the Libraries could collect across sections.",
+      },
+      {
+        glyph: "!",
+        title: "Make a wrong answer useful",
+        body: "Each missed question on the final check links back to the lesson that covers it, instead of just marking it wrong.",
+      },
+      {
+        glyph: "!",
+        title: "Keep content apart from code",
+        body: "All lesson text, links, and quiz questions live in one file, so hours and services can be updated each semester without touching the layout.",
+      },
+      {
+        glyph: "!?",
+        title: "Look official, say it isn't",
+        body: "It uses Ohio State's colors and type so it feels native, which is exactly why every page says it's a student prototype, not an official library page.",
+      },
+    ],
+    outcome: [
+      "A working prototype, live: five lessons, quick checks, an 8-question final check, a printable toolkit, and a resource hub with every resource on one page.",
+      "Accessible by design: keyboard navigation, visible focus, screen-reader labels, and reduced-motion support.",
+      "Ideas for the next version: embed it in Carmen for GE Launch sections, and send pre-check and quiz results to the Libraries so they can see awareness gaps across sections.",
+    ],
+    postGame: [],
+    links: [{ label: "Code on GitHub", href: "https://github.com/ajthakkar/osu-library-onboarding" }],
+    gaps: [
+      "Who built the prototype: you, or the team together? The page says 'our team' for now.",
+      "Where does the project stand: have the Libraries seen it, and what did interviews turn up? One line for 'Post-game'.",
     ],
   },
   {
     slug: "constellation-energy",
-    number: "02",
-    kind: "Main quest",
+    area: "Equity research",
+    tldr: [
+      "Is the largest US nuclear operator undervalued, now that AI needs so much power?",
+      "I built a thesis from filings and earnings: the moat, the demand, the valuation, and when I'd sell.",
+      "Long at $285.93 with a $355 target, about 24% upside.",
+    ],
     title: "Long Constellation Energy",
     rewards: ["equity-research", "valuation"],
     dek: "A stock pitch arguing that AI's power problem makes the largest US nuclear operator undervalued.",
@@ -493,9 +650,84 @@ export const cases: Case[] = [
     gaps: ["Want the full pitch PDF linked from this page?"],
   },
   {
+    slug: "knights-tour",
+    area: "Algorithms",
+    tldr: [
+      "How do you actually find a knight's tour, and how fast can it be done?",
+      "I wrote three solvers in Python, proved them with tests, and benchmarked them on boards up to 40x40.",
+      "Ordering the search with a rule from 1823 found all 64 tours on 8x8 with zero backtracks.",
+    ],
+    title: "Knight's Tour",
+    rewards: ["algorithms", "python"],
+    dek: "Three ways to send a knight across every square of the board once, tested, measured, and raced in the browser.",
+    period: "Nov 2026",
+    role: "Solo project",
+    tools: ["Python", "pytest", "matplotlib", "TypeScript", "React"],
+    result: "64/64 tours on 8x8 with zero backtracks",
+    stats: [
+      { value: "64/64", label: "8x8 tours found with Warnsdorff order" },
+      { value: "0/64", label: "found by brute force within 1,000,000 steps" },
+      { value: "96.7%", label: "worst greedy success rate, 8x8 to 40x40" },
+      { value: "93 ms", label: "for a 65,536-square tour in pure Python" },
+    ],
+    demo: "knights-tour",
+    position: [
+      "The knight's tour is a puzzle more than a thousand years old: move a knight so it lands on every square of the board exactly once. An animated one used to sit on my homepage as decoration.",
+      "I wanted to understand how a tour is actually found, and to show I can take an algorithm from an idea to tested, measured code instead of just describing it.",
+    ],
+    plan: [
+      "Write three solvers in Python: brute-force backtracking, H. C. Warnsdorff's greedy rule from 1823 (always move to the square with the fewest onward moves), and a backtracking search that tries moves in Warnsdorff order.",
+      "Prove the answers are right with tests instead of eyeballing them, including the cases where no tour can exist.",
+      "Run every start square on boards up to 8x8, and the greedy rule on boards up to 40x40, then chart where each method breaks.",
+    ],
+    moves: [
+      {
+        glyph: "!!",
+        title: "Let the heuristic order the search",
+        body: "Warnsdorff's rule alone is fast but greedy, so it can walk into a dead end. Using it only to decide which move to try first kept the speed and made the search complete: on 8x8 it found a tour from all 64 squares without a single backtrack.",
+      },
+      {
+        glyph: "!",
+        title: "Measure work, not just time",
+        body: "I counted every square the knight stepped onto, retreats included, instead of only timing runs. That made the comparison fair on any computer and showed exactly where brute force falls apart.",
+      },
+      {
+        glyph: "!",
+        title: "Test the impossible cases",
+        body: "The tests prove that no tour exists on 3x3 or 4x4, and that on 5x5 a tour can only start on the 13 squares of one color. A bug that always 'finds' something would fail them.",
+      },
+      {
+        glyph: "!?",
+        title: "Compare tie-breaks, not just methods",
+        body: "When two squares tie under Warnsdorff's rule, the choice matters. Picking the square farthest from the center finished at least 96.7% of starts on every board from 8x8 to 40x40. Picking at random fell to 65%.",
+      },
+      {
+        glyph: "?!",
+        title: "Pure Python",
+        body: "Easy to read and test, but slow. I chose clarity first; a compiled version is the obvious next step.",
+      },
+    ],
+    outcome: [
+      "On 8x8, brute force didn't finish a single tour within a million steps. The Warnsdorff-ordered search finished all 64 in exactly 64 steps each.",
+      "The greedy rule scales in a straight line: a 256x256 tour, 65,536 squares, takes about 93 ms.",
+      "The one surprise was 7x7: it trips every tie-break rule, and it's the only board where even the Warnsdorff-ordered search hit the cap once.",
+      "12 tests, a command-line tool, and a benchmark script that regenerates every number and chart on this page.",
+    ],
+    postGame: [
+      "A good heuristic beats raw speed. No computer makes brute force practical on 8x8, but one sentence of insight from 1823 makes the problem easy.",
+      "Next, I'd port the inner loop to a compiled language and measure the speedup on the same benchmarks, then build huge tours by stitching small closed tours together, a known way to get linear time with no failures.",
+    ],
+    links: [{ label: "Code on GitHub", href: "https://github.com/ajthakkar/knights-tour" }],
+    gaps: ["Read the reflection (The position, Key moves, Post-game) and rewrite anything that doesn't sound like you."],
+  },
+  {
     slug: "hack-for-the-world",
-    number: "03",
-    kind: "Side quest",
+    area: "Game development",
+    tldr: [
+      "Can a game make an environmental message something you feel instead of read?",
+      "Four of us built a first-person shooter in the browser in 12 hours with Three.js, starting from a requirements doc.",
+      "1st place overall.",
+    ],
     title: "Hack For The World",
     rewards: [],
     dek: "A first-person shooter in the browser: fight off oil zombies and repair a failing oil rig before it spills. First place overall.",
@@ -554,8 +786,12 @@ export const cases: Case[] = [
   },
   {
     slug: "this-site",
-    number: "04",
-    kind: "Side quest",
+    area: "Web development",
+    tldr: [
+      "How do I show my work in a way that doesn't read like a resume?",
+      "I designed it, built it in Next.js with Claude Code, and shipped a simple version first.",
+      "Live on Vercel. Every push to main redeploys it.",
+    ],
     title: "This site",
     rewards: ["web", "shipping", "ai-dev"],
     dek: "Designing and shipping a personal site with AI-assisted development.",
@@ -565,6 +801,7 @@ export const cases: Case[] = [
     result: "Live on Vercel",
     stats: [
       { value: "3", label: "versions" },
+      { value: "5", label: "short versions, one per kind of role" },
       { value: "20", label: "skills on the tree" },
     ],
     position: [
@@ -587,7 +824,12 @@ export const cases: Case[] = [
       {
         glyph: "!?",
         title: "Play like a game, read like a resume",
-        body: "A title screen, a skill tree, a quest log, and an XP bar give it a game feel. Chess stays in the details: piece icons, annotation marks, and a puzzle. Every heading still says plainly what it is.",
+        body: "A title screen, a skill tree, and an XP bar give it a game feel. Chess stays in the details: piece icons, annotation marks, and a puzzle. Every heading still says plainly what it is.",
+      },
+      {
+        glyph: "!",
+        title: "One site, a short version for each role",
+        body: "A data recruiter and a finance recruiter care about different projects. Pages like /for/data/ and /for/finance/ lead with the three most relevant projects in the same design, so I can link the right one in each application.",
       },
     ],
     outcome: ["A static Next.js site on Vercel. Every push to main redeploys it."],
@@ -709,12 +951,14 @@ export const honors = [
 ];
 
 export const skills = [
-  { label: "Programming", items: "Python, Java, HTML" },
-  { label: "AI Tools", items: "Claude Code, Claude, Cursor, Prompt Engineering, Workflow Automation" },
+  { label: "Languages", items: "Python, SQL, TypeScript, JavaScript, Java, HTML/CSS" },
+  { label: "Data & ML", items: "pandas, NumPy, DuckDB, PyTorch, scikit-learn, statsmodels, matplotlib, pytest" },
+  { label: "Web", items: "Next.js, React, Tailwind CSS, Three.js, Git, Vercel" },
+  { label: "AI Tools", items: "Claude Code, Claude API, Cursor, Prompt Engineering, Workflow Automation" },
   { label: "Tools", items: "Excel (INDEX/MATCH, SUMIFS, NPV), Shopify, Linux" },
   { label: "Business", items: "Customer Discovery, Lean Startup Iteration, Investor Pitching, Partner Outreach" },
   { label: "Teaching", items: "Group and One-on-One Instruction, Lesson Planning, Training New Coaches" },
-  { label: "Languages", items: "English, Gujarati, Spanish" },
+  { label: "Spoken", items: "English, Gujarati, Spanish" },
 ];
 
 export const education = [
@@ -867,10 +1111,7 @@ export type UpcomingQuest = {
   rewards: string[];
 };
 
-export const upcoming: UpcomingQuest[] = [
-  { title: "???", branch: "finance", state: "locked", dek: "Locked. Coming soon.", rewards: [] },
-  { title: "???", branch: "ai", state: "locked", dek: "Locked. Coming soon.", rewards: [] },
-];
+export const upcoming: UpcomingQuest[] = [];
 
 export type SkillState = "unlocked" | "training" | "locked";
 

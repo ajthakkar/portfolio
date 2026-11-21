@@ -11,7 +11,7 @@
   --ink: 24 19 31;
   --copy: 58 51 66;
   --muted: 92 85 101;
-  --faint: 108 100 116;
+  --faint: 96 88 104;
   --line: 212 205 192;
   --accent: 74 106 0;
   --accent-ink: 241 237 228;
@@ -114,8 +114,8 @@ body {
   /* Small pixel-font label used for HUD text. */
   .pixel {
     font-family: var(--font-pixel), ui-monospace, monospace;
-    font-size: 10px;
-    line-height: 1.2;
+    font-size: 11px;
+    line-height: 1.25;
     letter-spacing: 0.04em;
     text-transform: uppercase;
   }

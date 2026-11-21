@@ -4,6 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ArrowUpRight, Search } from "lucide-react";
 import { cases, profile } from "@/lib/content";
+import { roleViews } from "@/lib/roles";
 import { navigateWithTransition } from "./transition-link";
 import { setTheme } from "./theme";
 
@@ -43,15 +44,21 @@ export function CommandMenu() {
     };
     return [
       { id: "home", group: "Pages", label: "Home", run: () => go("/") },
-      { id: "projects", group: "Pages", label: "Projects", hint: "Quest log", run: () => go("/#projects") },
+      { id: "projects", group: "Pages", label: "Projects", run: () => go("/#projects") },
       { id: "skills", group: "Pages", label: "Skill tree", hint: "Skills and their proof", run: () => go("/#skills") },
       { id: "record", group: "Pages", label: "Record", hint: "Experience, honors, education", run: () => go("/record/") },
       { id: "about", group: "Pages", label: "About", run: () => go("/about/") },
+      ...roleViews.map((r) => ({
+        id: `for-${r.slug}`,
+        group: "Short versions",
+        label: `For ${r.title} roles`,
+        run: () => go(`/for/${r.slug}/`),
+      })),
       ...cases.map((c) => ({
         id: `case-${c.slug}`,
         group: "Projects",
         label: c.title,
-        hint: `${c.kind} ${c.number}`,
+        hint: c.area,
         run: () => go(`/projects/${c.slug}/`),
       })),
       { id: "puzzle", group: "Play", label: "Solve the chess puzzle", hint: "Mate in 2", run: () => go("/about/#puzzle") },

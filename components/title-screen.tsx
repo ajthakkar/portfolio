@@ -4,10 +4,13 @@ import { useCallback, useEffect, useRef } from "react";
 import { profile } from "@/lib/content";
 import { prefersReducedMotion } from "./transition-link";
 
+/** How long the title screen holds before moving on by itself. */
+const HOLD_MS = 1400;
+
 /**
  * Shown on the first visit to the home page in a session. A script in the
  * layout sets html[data-intro="on"] before paint, so there is no flash.
- * Any key, click, tap, or scroll starts the game.
+ * It moves on by itself after a moment; any key, click, tap, or scroll skips it.
  */
 export function TitleScreen() {
   const startRef = useRef<HTMLButtonElement>(null);
@@ -38,7 +41,11 @@ export function TitleScreen() {
 
   useEffect(() => {
     const root = document.documentElement;
-    if (root.dataset.intro === "on") startRef.current?.focus({ preventScroll: true });
+    let timer = 0;
+    if (root.dataset.intro === "on") {
+      startRef.current?.focus({ preventScroll: true });
+      timer = window.setTimeout(start, HOLD_MS);
+    }
 
     const onKey = (event: KeyboardEvent) => {
       if (root.dataset.intro !== "on") return;
@@ -50,6 +57,8 @@ export function TitleScreen() {
       root.dataset.intro = "on";
       leaving.current = false;
       startRef.current?.focus({ preventScroll: true });
+      window.clearTimeout(timer);
+      timer = window.setTimeout(start, HOLD_MS);
     };
 
     window.addEventListener("keydown", onKey);
@@ -57,6 +66,7 @@ export function TitleScreen() {
     window.addEventListener("touchmove", start, { passive: true });
     window.addEventListener("replay-intro", onReplay);
     return () => {
+      window.clearTimeout(timer);
       window.removeEventListener("keydown", onKey);
       window.removeEventListener("wheel", start);
       window.removeEventListener("touchmove", start);
@@ -96,8 +106,8 @@ export function TitleScreen() {
           onClick={start}
           className="pixel blink mt-12 cursor-pointer px-3 py-2 text-[12px] text-ink outline-offset-4"
         >
-          <span className="[@media(hover:none)]:hidden">Press any key</span>
-          <span className="hidden [@media(hover:none)]:inline">Tap to start</span>
+          <span className="[@media(hover:none)]:hidden">Press any key to skip</span>
+          <span className="hidden [@media(hover:none)]:inline">Tap to skip</span>
         </button>
       </div>
 

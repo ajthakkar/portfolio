@@ -10,15 +10,28 @@ const sans = Instrument_Sans({ subsets: ["latin"], axes: ["wdth"], variable: "--
 const mono = JetBrains_Mono({ subsets: ["latin"], weight: ["400", "500", "600"], variable: "--font-mono" });
 const pixel = Silkscreen({ subsets: ["latin"], weight: ["400", "700"], variable: "--font-pixel" });
 
+const description =
+  "Business student at Ohio State building ML, data, and software projects: a neural network trained on my chess games, a storm outage model, a startup, and more.";
+
 export const metadata: Metadata = {
+  metadataBase: new URL("https://aayush-thakkar.vercel.app"),
   title: { default: "Aayush Thakkar", template: "%s · Aayush Thakkar" },
-  description: "Business student at Ohio State. Projects, a skill tree that links every skill to its proof, and a chess puzzle.",
+  description,
+  openGraph: {
+    type: "website",
+    siteName: "Aayush Thakkar",
+    title: "Aayush Thakkar",
+    description,
+    url: "/",
+    locale: "en_US",
+  },
+  twitter: { card: "summary_large_image" },
 };
 
 /* Night is the default theme; a saved "light" choice wins. */
 const themeScript = `try{if(localStorage.getItem("theme")!=="light")document.documentElement.classList.add("dark")}catch(e){document.documentElement.classList.add("dark")}`;
-/* Title screen: home page, once per session, never with reduced motion. */
-const introScript = `try{if(location.pathname==="/"&&!sessionStorage.getItem("intro-seen")&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.dataset.intro="on"}catch(e){}`;
+/* Title screen: home page, once per session, not when linked to a section, never with reduced motion. */
+const introScript = `try{if(location.pathname==="/"&&!location.hash&&!sessionStorage.getItem("intro-seen")&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.dataset.intro="on"}catch(e){}`;
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (

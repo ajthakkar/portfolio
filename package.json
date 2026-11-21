@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "ratings": "node scripts/update-ratings.mjs"
+    "ratings": "node scripts/update-ratings.mjs",
+    "postinstall": "node scripts/fix-og-windows.mjs"
   },
   "dependencies": {
     "chess.js": "1.4.0",
