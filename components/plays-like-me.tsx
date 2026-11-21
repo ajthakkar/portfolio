@@ -228,7 +228,7 @@ export default function PlaysLikeMe() {
             customSquareStyles={squareStyles}
             customLightSquareStyle={{ backgroundColor: colors.light }}
             customDarkSquareStyle={{ backgroundColor: colors.dark }}
-            customNotationStyle={{ fontFamily: "var(--font-mono)", fontSize: 10 }}
+            customNotationStyle={{ fontFamily: "var(--font-mono)", fontSize: 11 }}
             animationDuration={200}
           />
         </div>

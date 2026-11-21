@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { RoleList } from "@/components/role-list";
 import { Kicker, SectionTitle } from "@/components/ui";
-import { education, experience, honors, involvement, skills } from "@/lib/content";
+import { education, experience, honors, involvement, profile, skills } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Record",
@@ -19,7 +19,10 @@ export default function RecordPage() {
           The <span className="text-accent">track</span> record
         </h1>
         <p className="rise max-w-xl text-base leading-relaxed text-copy sm:text-lg" style={{ "--i": 2 } as React.CSSProperties}>
-          Everything from the resume, in one place. Rows open for detail.
+          Everything from the resume, in one place. Rows open for detail.{" "}
+          <a href={profile.resume} target="_blank" rel="noopener noreferrer" className="link-underline font-medium text-accent">
+            Download the resume (PDF) ↗
+          </a>
         </p>
         <nav aria-label="Sections" className="rise flex flex-wrap gap-2 pt-2" style={{ "--i": 3 } as React.CSSProperties}>
           {sections.map((s) => (

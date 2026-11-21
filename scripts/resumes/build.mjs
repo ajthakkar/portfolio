@@ -24,7 +24,7 @@ const css = `
 * { box-sizing: border-box; }
 body { font-family: "Times New Roman", Times, serif; font-size: 10.2pt; line-height: 1.18; color: #000; margin: 0; }
 h1 { font-size: 19pt; letter-spacing: 0.04em; text-align: center; margin: 0 0 2pt; }
-.contact { text-align: center; font-size: 9.6pt; margin-bottom: 5pt; }
+.contact { text-align: center; font-size: 9pt; margin-bottom: 5pt; white-space: nowrap; }
 .contact span + span::before { content: " | "; }
 h2 { font-size: 10.8pt; text-transform: uppercase; border-bottom: 0.9pt solid #000; margin: 6pt 0 3pt; padding-bottom: 1pt; }
 .entry { margin-bottom: 3.5pt; break-inside: avoid; }
@@ -76,7 +76,7 @@ function page(r) {
 for (const r of resumes) {
   const html = join(work, `${r.slug}.html`);
   writeFileSync(html, page(r));
-  const name = `Aayush-Thakkar-Resume-${r.slug[0].toUpperCase()}${r.slug.slice(1)}.pdf`;
+  const name = r.file ?? `Aayush-Thakkar-Resume-${r.slug[0].toUpperCase()}${r.slug.slice(1)}.pdf`;
   const pdf = join(outDir, name);
   if (existsSync(pdf)) rmSync(pdf);
   // Edge sometimes exits before the PDF lands; wait for it, and try a second time if needed.

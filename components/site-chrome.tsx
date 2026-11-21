@@ -9,7 +9,7 @@ import { ThemeToggle } from "./theme";
 import { TransitionLink } from "./transition-link";
 
 const nav = [
-  { href: "/#projects", match: "/projects", label: "Projects" },
+  { href: "/projects/", match: "/projects", label: "Projects" },
   { href: "/record/", match: "/record", label: "Record" },
   { href: "/about/", match: "/about", label: "About" },
 ];
@@ -108,10 +108,16 @@ export function SiteFooter() {
           {profile.name} · {profile.location} · <LocalTime />
         </p>
         <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+          <a href={`mailto:${profile.email}`} className="py-1 transition-colors hover:text-ink">
+            {profile.email}
+          </a>
+          <a href={profile.resume} target="_blank" rel="noopener noreferrer" className="py-1 transition-colors hover:text-ink">
+            Resume
+          </a>
           <button
             type="button"
             onClick={() => window.dispatchEvent(new Event("replay-intro"))}
-            className="cursor-pointer transition-colors hover:text-ink"
+            className="cursor-pointer py-1 transition-colors hover:text-ink"
           >
             Replay title screen
           </button>

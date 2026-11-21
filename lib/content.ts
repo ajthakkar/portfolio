@@ -12,13 +12,16 @@ export const profile = {
   tagline:
     "Business student at Ohio State's Fisher College of Business. I like problems where business, software, and AI meet, and I've spent more than ten years playing tournament chess.",
   lookingFor: "Looking for Summer 2027 internships in data, software and AI, finance, and consulting.",
+  /** The general resume; each /for/ page links its own tailored version instead. */
+  resume: "/resume/Aayush-Thakkar-Resume.pdf",
   links: [
+    { label: "Resume", href: "/resume/Aayush-Thakkar-Resume.pdf" },
     { label: "GitHub", href: "https://github.com/ajthakkar" },
     { label: "LinkedIn", href: "https://www.linkedin.com/in/aayush--thakkar" },
     { label: "Email", href: "mailto:thakkar.186@osu.edu" },
   ],
   /** Player card "class" line. */
-  playerClass: "Business Admin · Ohio State",
+  playerClass: "Business Admin · Ohio State · 4.0 GPA",
   chess: {
     /** Usernames and US Chess ID live in lib/chess-accounts.json (the ratings script reads them too). */
     lichess: chessAccounts.lichess,
@@ -36,6 +39,7 @@ export const playLinks = [
 
 /** The scrolling strip under the home page hero. */
 export const highlights = [
+  "4.0 GPA · Ohio State Fisher",
   "US Chess Expert · peak 2075",
   "IHSA State Finals · Board 1 gold · 7/7",
   "1,000+ chess students taught",
@@ -335,7 +339,7 @@ export const cases: Case[] = [
     tldr: [
       "Is the largest US nuclear operator undervalued, now that AI needs so much power? And when the stock fell after my pitch, was I wrong?",
       "I pitched it long in September, then built an Excel model from SEC filings: a 10-year DCF, the pitch's P/E target made explicit, comparable companies, and sensitivity tables.",
-      "Earnings beat and guidance rose twice, but the stock fell 17% as the whole sector repriced. At today's price the base case is about fair value, with 45% upside if management hits its 20% growth target.",
+      "Earnings beat and guidance rose twice, but the stock fell 17% as the whole sector repriced. With Nvidia down 42% and the AI spending behind the thesis in doubt, my call now is to exit.",
     ],
     title: "Constellation Energy: Pitch and Model",
     rewards: ["equity-research", "valuation", "modeling", "excel"],
@@ -343,7 +347,7 @@ export const cases: Case[] = [
     period: "Sep – Nov 2026",
     role: "Solo project",
     tools: ["Excel", "DCF", "Comparable companies", "SEC filings (XBRL)", "Python"],
-    result: "Earnings up 5%, multiple down 21%: the whole drop",
+    result: "Earnings up 5%, multiple down 21% · now an exit",
     stats: [
       { value: "23.8x → 18.8x", label: "P/E on 2026 earnings, pitch to now, while guidance rose 5.4%" },
       { value: "$276", label: "base-case 12-month target vs. a $237 price (19x 2027 EPS)" },
@@ -384,26 +388,25 @@ export const cases: Case[] = [
       {
         glyph: "!",
         title: "Define the exit before entering",
-        body: "The pitch said to exit if a major power contract were canceled, the Crane restart slipped past 2028, or hyperscaler spending stalled. Checked against the filings since, neither of the first two has happened; the third isn't something this model can test.",
+        body: "The pitch said to exit if a major power contract were canceled, the Crane restart slipped past 2028, or hyperscaler AI spending stalled. The first two haven't happened. The third isn't in the hyperscalers' filings yet, but since the pitch Nvidia is down 42% and chip stocks 29%: the market is pricing it in.",
       },
     ],
     outcome: [
       "Pitched long at the Sep 10, 2026 close of $285.93 with a 12-month target of $355. By Nov 20 the total return was −16.9%, against −8.7% for the S&P 500.",
       "Not because the business missed: Q3 adjusted EPS was $5.06 against $3.04 a year earlier, and 2026 guidance rose to $12.50–$12.80 from $11.50–$12.50 at the time of the pitch.",
       "The model's base case (15% growth, 11.2% cost of equity) puts the DCF value at $234 and the 12-month target at $276. At management's 20% growth, the DCF value is $345; in the bear case, $138.",
+      "My call as of Nov 20, 2026: exit. The company is still executing, but the reason to own it was AI-driven power demand, and with the tech selloff and policy uncertainty after the November elections, that's the part in question.",
     ],
     postGame: [
-      "The pitch gave one target, and it rested on the multiple staying near 24x. The model makes that visible: a range with the assumptions behind each end beats a single number.",
+      "I wouldn't own it anymore. My exit rules were tied to what the thesis needed: new deals, power prices, and policy. The AI side of that is shaky right now, and I'd rather get out on the risk than wait for it to show up in a filing.",
+      "The pitch gave one target, and it rested on the multiple staying near 24x. Next time I'd pitch a range and say what has to be true for each end of it.",
     ],
     links: [
       { label: "The model on GitHub, with the method", href: "https://github.com/ajthakkar/constellation-model" },
       { label: "The original pitch (PDF)", href: "/projects/constellation/Constellation-Energy-pitch.pdf" },
     ],
     note: "A student stock pitch and model, not investment advice.",
-    gaps: [
-      "Read the updated page and say in your own words whether you'd still own it at $237. Your view goes in Post-game.",
-      "Before interviews: practice walking through the Valuation sheet (where each number comes from, and why adjusted EPS and not GAAP).",
-    ],
+    gaps: ["Check that the exit reasoning in Result and Post-game says it the way you would."],
   },
   {
     slug: "hackohio-outage-model",
@@ -744,7 +747,7 @@ export const cases: Case[] = [
       "1st place overall.",
     ],
     title: "Hack For The World",
-    rewards: [],
+    rewards: ["web"],
     dek: "A first-person shooter in the browser: fight off oil zombies and repair a failing oil rig before it spills. First place overall.",
     period: "Feb 2026",
     role: "Team member",
@@ -980,7 +983,7 @@ export const education = [
   {
     school: "The Ohio State University, Fisher College of Business",
     degree: "B.S. in Business Administration",
-    note: "Entered with sophomore standing via 40+ AP credit hours",
+    note: "GPA 4.0/4.0 · Entered with sophomore standing via 40+ AP credit hours",
     dates: "Expected May 2029",
     location: "Columbus, OH",
   },

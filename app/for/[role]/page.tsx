@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ArrowRight, FileText } from "lucide-react";
+import { ContactCta } from "@/components/contact-cta";
 import { Tldr } from "@/components/tldr";
 import { TransitionLink } from "@/components/transition-link";
 import { ExternalLink, Kicker, Panel } from "@/components/ui";
@@ -17,12 +18,14 @@ export function generateMetadata({ params }: Params): Metadata {
   const view = roleViews.find((r) => r.slug === params.role);
   if (!view) return {};
   const title = `${profile.name} · ${view.title}`;
+  // Link previews cut off around 160 characters, so use the pitch's first sentence.
+  const description = view.pitch.split(/(?<=\.)\s/)[0];
   return {
     title: { absolute: title },
-    description: view.pitch,
+    description,
     openGraph: {
       title,
-      description: view.pitch,
+      description,
       url: `/for/${view.slug}/`,
       images: [{ url: "/opengraph-image", width: 1200, height: 630 }],
     },
@@ -115,7 +118,9 @@ export default function RolePage({ params }: Params) {
             <FileText aria-hidden="true" className="h-4 w-4" />
             Resume (PDF)
           </a>
-          {profile.links.map((link) => (
+          {profile.links
+            .filter((link) => link.href !== profile.resume)
+            .map((link) => (
             <ExternalLink key={link.label} href={link.href} className="py-1 hover:text-ink">
               {link.label}
             </ExternalLink>
@@ -208,6 +213,8 @@ export default function RolePage({ params }: Params) {
           </Section>
         </div>
       </div>
+
+      <ContactCta resume={view.resume} className="pt-16" />
 
       <nav aria-label="Other short versions" className="mt-16 flex flex-col gap-3 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
         <p className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted">

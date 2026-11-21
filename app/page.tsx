@@ -1,5 +1,6 @@
 import { ArrowDown, ArrowRight } from "lucide-react";
 import { ChessRating } from "@/components/chess-rating";
+import { ContactCta } from "@/components/contact-cta";
 import { CountUp } from "@/components/hud";
 import { QuestLog } from "@/components/quest-log";
 import { RoleList } from "@/components/role-list";
@@ -169,9 +170,18 @@ export default function Home() {
             kicker="Quest log"
             title={<span id="projects-heading">Projects</span>}
             aside={
-              <p className="max-w-xs text-sm text-muted sm:text-right">
-                The strongest work first. Each project lists the skills it proves, and the skill tree below links back.
-              </p>
+              <div className="max-w-xs space-y-2 sm:text-right">
+                <p className="text-sm text-muted">
+                  The strongest work first. Each project lists the skills it proves, and the skill tree below links back.
+                </p>
+                <TransitionLink
+                  href="/projects/"
+                  className="group inline-flex items-center gap-1.5 py-1 font-mono text-xs text-accent"
+                >
+                  All projects, by area
+                  <ArrowRight aria-hidden="true" className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                </TransitionLink>
+              </div>
             }
           />
           <div className="pt-6">
@@ -234,6 +244,7 @@ export default function Home() {
           </Panel>
         </section>
 
+        <ContactCta />
       </div>
     </>
   );

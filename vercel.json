@@ -1,8 +1,49 @@
 {
   "headers": [
-    { "source": "/opengraph-image", "headers": [{ "key": "Content-Type", "value": "image/png" }] },
-    { "source": "/opengraph-image/", "headers": [{ "key": "Content-Type", "value": "image/png" }] },
-    { "source": "/:path*/opengraph-image", "headers": [{ "key": "Content-Type", "value": "image/png" }] },
-    { "source": "/:path*/opengraph-image/", "headers": [{ "key": "Content-Type", "value": "image/png" }] }
+    {
+      "source": "/opengraph-image",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "image/png"
+        }
+      ]
+    },
+    {
+      "source": "/opengraph-image/",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "image/png"
+        }
+      ]
+    },
+    {
+      "source": "/:path*/opengraph-image",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "image/png"
+        }
+      ]
+    },
+    {
+      "source": "/:path*/opengraph-image/",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "image/png"
+        }
+      ]
+    },
+    {
+      "source": "/resume/:path*",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    }
   ]
 }

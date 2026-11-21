@@ -5,10 +5,11 @@ const SITE = "aayush-thakkar.vercel.app";
 
 export const contact = (slug) => [
   "Columbus, OH",
+  "630-210-1695",
   "thakkar.186@osu.edu",
   "linkedin.com/in/aayush--thakkar",
   "github.com/ajthakkar",
-  `${SITE}/for/${slug}`,
+  slug === "general" ? SITE : `${SITE}/for/${slug}`,
 ];
 
 const education = [
@@ -78,9 +79,9 @@ const P = {
     title: "",
     date: "Sep – Nov 2026",
     points: [
-      "Pitched a long at $285.93 with a $355 target on AI-driven power demand, the scarcity of new nuclear capacity, and a forward P/E below its own history",
+      "Pitched a long at $285.93 with a $355 target on AI-driven power demand, scarce new nuclear capacity, and a forward P/E below its own history",
       "Built an Excel model from SEC filings: 10-year equity DCF on adjusted EPS, P/E target, bear/base/bull scenarios, comps vs. Vistra, NRG, and Talen, and five sensitivity data tables",
-      "Showed the 17% drop after the pitch came entirely from the P/E falling (23.8x to 18.8x) while EPS guidance rose 5.4%; today's price implies 15–17.5% yearly EPS growth vs. management's 20%",
+      "After a 17% drop, showed it came entirely from the P/E falling (23.8x to 18.8x) while EPS guidance rose 5.4%; with AI-spending and policy risk rising, recommended exiting",
     ].slice(0, n),
   }),
   knights: (n = 2) => ({
@@ -165,8 +166,23 @@ const L = {
 const interests = "Chess, poker, logic puzzles, GeoGuessr, working out";
 const spoken = "English, Gujarati, Spanish";
 
-/* ── The five versions ───────────────────────────────────────────────────── */
+/* ── The versions: one general, one per role page ───────────────────────── */
 export const resumes = [
+  {
+    slug: "general",
+    file: "Aayush-Thakkar-Resume.pdf",
+    sections: [
+      { title: "Education", entries: education },
+      { title: "Projects", entries: [P.playsLikeMe(2), P.ceg(3), P.bookQuiz(1)] },
+      { title: "Experience", entries: [E.roam(["founded", "sales", "pitch"]), E.chess(2), E.bdaa(1)] },
+      { title: "Honors & Leadership", list: [H.hftw, H.natl, H.ihsa, H.uscf, L.club] },
+    ],
+    skills: [
+      ["Technical", "Python, SQL, TypeScript, Java, PyTorch, pandas, Excel (DCF, data tables), Git"],
+      ["AI", "Claude Code, Claude API, Cursor, prompt engineering, AI-assisted development and workflow automation"],
+      ["Spoken languages & interests", `${spoken} | ${interests}`],
+    ],
+  },
   {
     slug: "software",
     sections: [

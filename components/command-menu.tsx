@@ -44,10 +44,11 @@ export function CommandMenu() {
     };
     return [
       { id: "home", group: "Pages", label: "Home", run: () => go("/") },
-      { id: "projects", group: "Pages", label: "Projects", run: () => go("/#projects") },
+      { id: "projects", group: "Pages", label: "Projects", hint: "All of them, by area", run: () => go("/projects/") },
       { id: "skills", group: "Pages", label: "Skill tree", hint: "Skills and their proof", run: () => go("/#skills") },
       { id: "record", group: "Pages", label: "Record", hint: "Experience, honors, education", run: () => go("/record/") },
       { id: "about", group: "Pages", label: "About", run: () => go("/about/") },
+      { id: "resume", group: "Pages", label: "Resume (PDF)", run: external(profile.resume) },
       ...roleViews.map((r) => ({
         id: `for-${r.slug}`,
         group: "Short versions",

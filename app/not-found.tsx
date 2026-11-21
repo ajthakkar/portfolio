@@ -1,5 +1,8 @@
+import type { Metadata } from "next";
 import { TransitionLink } from "@/components/transition-link";
 import { Kicker } from "@/components/ui";
+
+export const metadata: Metadata = { title: "Page not found" };
 
 export default function NotFound() {
   return (

@@ -270,7 +270,7 @@ function ForestPlot({ sections, eloPerPoint }: { sections: Section[]; eloPerPoin
                   } focus-visible:ring-1 focus-visible:ring-accent`}
                 >
                   <span className="col-span-2 truncate pl-1 text-[13px] text-copy sm:col-span-1">
-                    {r.label} <span className="font-mono text-[10px] text-faint">{r.n.toLocaleString("en-US")}</span>
+                    {r.label} <span className="font-mono text-[11px] text-faint">{r.n.toLocaleString("en-US")}</span>
                   </span>
                   <span className="relative h-6 sm:h-7">
                     {ticks.map((t) => (
@@ -326,7 +326,7 @@ function ForestPlot({ sections, eloPerPoint }: { sections: Section[]; eloPerPoin
           {ticks.map((t, i) => (
             <span
               key={t}
-              className={`absolute -translate-x-1/2 font-mono text-[10px] text-faint ${(i - zeroTick) % 2 ? "hidden sm:block" : ""}`}
+              className={`absolute -translate-x-1/2 font-mono text-[11px] text-faint ${(i - zeroTick) % 2 ? "hidden sm:block" : ""}`}
               style={{ left: `${pct(t)}%` }}
             >
               {t > 0 ? `+${t}` : t}

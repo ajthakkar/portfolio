@@ -23,7 +23,7 @@ export function RoleList({ roles, id, initiallyOpen = [] }: { roles: Role[]; id:
         <button
           type="button"
           onClick={() => setOpen(allOpen ? new Set() : new Set(expandable))}
-          className="cursor-pointer font-mono text-[11px] text-accent transition-opacity hover:opacity-70"
+          className="cursor-pointer py-1.5 font-mono text-[11px] text-accent transition-opacity hover:opacity-70"
         >
           {allOpen ? "Collapse all" : "Expand all"}
         </button>

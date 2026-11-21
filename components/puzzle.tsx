@@ -139,7 +139,7 @@ export default function Puzzle() {
             customSquareStyles={squareStyles}
             customLightSquareStyle={{ backgroundColor: colors.light }}
             customDarkSquareStyle={{ backgroundColor: colors.dark }}
-            customNotationStyle={{ fontFamily: "var(--font-mono)", fontSize: 10 }}
+            customNotationStyle={{ fontFamily: "var(--font-mono)", fontSize: 11 }}
             animationDuration={220}
           />
         </div>
@@ -164,7 +164,7 @@ export default function Puzzle() {
             <button
               type="button"
               onClick={() => setShowHint(true)}
-              className="cursor-pointer font-mono text-xs text-accent transition-opacity hover:opacity-70"
+              className="cursor-pointer px-1 py-1.5 font-mono text-xs text-accent transition-opacity hover:opacity-70"
             >
               Hint
             </button>

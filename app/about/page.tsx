@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ContactCta } from "@/components/contact-cta";
 import { PuzzleLoader } from "@/components/puzzle-loader";
 import { TransitionLink } from "@/components/transition-link";
 import { RatingHistory } from "@/components/rating-history";
@@ -115,6 +116,8 @@ export default function AboutPage() {
           <PuzzleLoader />
         </div>
       </section>
+
+      <ContactCta />
     </div>
   );
 }

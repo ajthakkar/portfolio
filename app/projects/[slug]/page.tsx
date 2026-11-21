@@ -61,8 +61,8 @@ export default function ProjectPage({ params }: Params) {
     <article className="mx-auto w-full max-w-6xl px-4 sm:px-6">
       <div className="pt-8 sm:pt-12">
         <TransitionLink
-          href="/#projects"
-          className="group inline-flex items-center gap-1.5 font-mono text-xs text-muted transition-colors hover:text-ink"
+          href="/projects/"
+          className="group inline-flex items-center gap-1.5 py-1 font-mono text-xs text-muted transition-colors hover:text-ink"
         >
           <ArrowLeft aria-hidden="true" className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-0.5" />
           All projects
@@ -197,11 +197,11 @@ export default function ProjectPage({ params }: Params) {
 
       {/* Body */}
       <div className="grid gap-12 pt-14 lg:grid-cols-[220px_1fr] lg:gap-16 lg:pt-20">
-        <aside className="hidden lg:block">
+        <div className="hidden lg:block">
           <div className="sticky top-24">
             <MoveList moves={c.moves} />
           </div>
-        </aside>
+        </div>
 
         <div className="max-w-2xl space-y-14">
           <Block kicker="Context" title="The position">
