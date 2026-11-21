@@ -55,7 +55,7 @@ export const now = {
   items: [
     "Running stakeholder interviews for BDAA's product discovery project with OSU University Libraries",
     "Treasurer on the Ohio State Chess Club executive board",
-    "Building out my Constellation Energy model as the stock moves, and picking what to build next",
+    "Finishing Fair Odds, a calibration study of 22,625 Polymarket markets, and picking what to build next",
   ],
 };
 
@@ -104,7 +104,7 @@ export type Case = {
   /** Questions for Aayush. Shown only in `npm run dev`, never on the live site. */
   gaps?: string[];
   /** An interactive demo shown on the project page. */
-  demo?: "knights-tour" | "chess-insights" | "plays-like-me";
+  demo?: "knights-tour" | "chess-insights" | "plays-like-me" | "market-calibration";
   /** Live version of the project, shown as the main button on its page. */
   live?: { label: string; href: string };
   photos?: Photo[];
@@ -186,7 +186,82 @@ export const cases: Case[] = [
     gaps: ["Read the reflection (The position, Key moves, Post-game) and rewrite anything that doesn't sound like you."],
   },
   {
-    slug: "book-quiz",
+    slug: "fair-odds",
+    area: "Statistics",
+    featured: true,
+    tldr: [
+      "When a prediction market prices something at 30%, does it happen 30% of the time?",
+      "I pulled 22,625 resolved Polymarket markets, took each one's price 30, 7, and 1 day before the end, and checked how often each price came true, with error bars that treat each event as one unit.",
+      "Mostly yes. In the last week, contracts priced 5–40% come true about 3 points more often than priced, but a correction fitted on earlier years doesn't beat the market.",
+    ],
+    title: "Fair Odds",
+    rewards: ["statistics", "dataviz", "python"],
+    dek: "Do prediction-market prices mean what they say? A calibration study of 22,625 resolved Polymarket markets, at three horizons, by category, and out of sample.",
+    period: "Nov 2026",
+    role: "Solo project",
+    tools: ["Python", "pandas", "NumPy", "matplotlib", "pytest", "Polymarket API"],
+    result: "Close to calibrated · a small bias that doesn't pay",
+    stats: [
+      { value: "22,625", label: "resolved yes/no markets from 11,923 events, 2024–2026" },
+      { value: "<1%", label: "of the forecast error that comes from prices being miscalibrated" },
+      { value: "+3.0 pts", label: "how much more often contracts priced 5–40% came true, a week out" },
+      { value: "44%", label: "less forecast error a day out than a month out, on the same 4,834 markets" },
+    ],
+    demo: "market-calibration",
+    position: [
+      "Prediction markets turn questions like who wins an election or a game into prices. A contract that pays $1 if something happens trades at 30 cents when the market thinks it's 30% likely, and those prices get quoted as odds.",
+      "That only works if the prices are calibrated: of everything priced at 30%, about 30% should happen. Polymarket's full history is public, so I checked.",
+    ],
+    plan: [
+      "Pull every resolved yes/no market with at least $50,000 traded from Polymarket's public API, plus the daily price history for a fixed 40% sample.",
+      "Take each market's price 30, 7, and 1 day before it ended, and compare the price with what happened.",
+      "Get the error bars right: in a 20-candidate race exactly one market wins, so resample whole events, not single markets.",
+      "Then try to beat the market: fit a correction on 2024–25 and test it on 2026.",
+    ],
+    moves: [
+      {
+        glyph: "!!",
+        title: "Check whether the timing knows the answer",
+        body: "For “will X happen by June 30?”, a yes usually comes early and a no waits for the deadline, so “1 day before the end” lands at different times depending on the outcome. I reran everything on markets where that can't happen. The gap shrank by about a quarter, but it held.",
+      },
+      {
+        glyph: "!",
+        title: "Measure from when it was decided",
+        body: "A market's recorded close can come a day after the game ended. Measuring from there would count prices that already knew the result as forecasts, so every snapshot is taken before the earlier of the scheduled end and the recorded close.",
+      },
+      {
+        glyph: "!",
+        title: "Resample events, not markets",
+        body: "Markets in the same event move together: if one candidate wins, the other 19 lose. Treating 22,625 markets as independent would make every interval too narrow, so the bootstrap draws whole events.",
+      },
+      {
+        glyph: "!?",
+        title: "Try to beat it, honestly",
+        body: "A pattern in past data only matters if it holds in new data. A correction fitted on 2024–25 made 2026 forecasts no better (Brier 0.15297 vs. 0.15286 for the raw prices), so the bias isn't a strategy.",
+      },
+      {
+        glyph: "?",
+        title: "Daily prices only",
+        body: "For closed markets, Polymarket's price history only goes down to one point a day, so “1 day out” is the last daily price at least 24 hours before the end. Trade-level data would sharpen the last-day result.",
+      },
+    ],
+    outcome: [
+      "Mostly calibrated. At every horizon, miscalibration is under 1% of the forecast error (the Brier score); the rest is real uncertainty. A month out, the calibration slope is 1.01, where 1.00 is perfect.",
+      "In the last week there's a small, consistent bias: contracts priced 5–40% came true 3.0 points more often than priced 7 days out (95% interval 1.7–4.4) and 3.7 points 1 day out (2.7–4.8).",
+      "No classic favorite–longshot bias: contracts at 10% or less came true slightly more often than priced, not less. Politics, sports, crypto, economics, and tech all have calibration slopes consistent with 1.",
+      "On the same 4,834 markets, the Brier score falls from 0.081 a month out to 0.059 a week out and 0.045 a day out: the prices get better as the end nears, as they should.",
+      "The bias doesn't pay. A correction fitted on 2024–25 markets made 2026 forecasts no better than the raw prices.",
+    ],
+    postGame: [
+      "My first answer was too big. The by-a-date timing problem made the gap look like 4–5 points, and only the subset where timing can't depend on the outcome showed how much of it was real.",
+      "Next, I'd use trade-level data to account for the spread, since the last trade isn't always a price you could buy at, and add Kalshi to see whether two markets on the same question disagree.",
+    ],
+    links: [{ label: "Code and full write-up on GitHub", href: "https://github.com/ajthakkar/fair-odds" }],
+    note: "A study of forecasting accuracy, not betting advice.",
+    gaps: ["Read the reflection (The position, Key moves, Post-game) and rewrite anything that doesn't sound like you."],
+  },
+  {
+    slug: "chapter-and-verse",
     area: "LLM app",
     featured: true,
     tldr: [
@@ -194,7 +269,7 @@ export const cases: Case[] = [
       "I rebuilt my first version so the model works from the chapter itself and has to quote its evidence, and wrote a checker that throws out any question whose quote isn't in the book.",
       "A free quiz app for five classic books, with spoiler control, three difficulty levels, and practice that adapts to a student's weak skills.",
     ],
-    title: "Book Quiz Tool",
+    title: "Chapter & Verse",
     rewards: ["llm-apps", "web", "shipping"],
     dek: "Reading quizzes written from a book's full text. Every answer has to quote the page it came from, and a checker throws out any question whose quote isn't really there.",
     period: "Jun 2026, rebuilt Nov 2026",
@@ -207,10 +282,10 @@ export const cases: Case[] = [
       { value: "7", label: "reading skills tracked, with quizzes weighted toward the weakest" },
       { value: "14", label: "tests on the checker, the reading-level math, and the picker" },
     ],
-    live: { label: "Try the quiz", href: "https://ajthakkar.github.io/Book-Quiz-Tool/" },
+    live: { label: "Try the quiz", href: "https://ajthakkar.github.io/chapter-and-verse/" },
     position: [
       "In June I built a tool to write comprehension questions for any book, and it didn't work well. The AI only got the title, so it repeated what reviews and other quizzes online say about the book, and its questions piled up on the same famous scenes. Someone who only read a summary could pass.",
-      "Version 2 starts from the text itself: public-domain books from Project Gutenberg, where the full text is free to use.",
+      "Version 2 starts from the text itself: public-domain books from Project Gutenberg, where the full text is free to use. The name comes from the idiom: to cite chapter and verse is to point to the exact source, which is what every answer has to do.",
     ],
     plan: [
       "Give the model the actual chapter, and make it copy the passage that proves each answer.",
@@ -252,7 +327,7 @@ export const cases: Case[] = [
     postGame: [
       "Next is running the evaluation. If a model can answer a question without the book, a student who skipped it probably can too, so that number for v1 and v2 will show whether the rebuild worked.",
     ],
-    links: [{ label: "Code and write-up on GitHub", href: "https://github.com/ajthakkar/Book-Quiz-Tool" }],
+    links: [{ label: "Code and write-up on GitHub", href: "https://github.com/ajthakkar/chapter-and-verse" }],
     gaps: [
       "Run the evaluation: set an Anthropic API key (or `ant auth login`), then `npm run evaluate -- --baseline` in Book-Quiz-Tool. It should cost a few dollars. The result goes in Result and Post-game.",
     ],
@@ -349,7 +424,7 @@ export const cases: Case[] = [
     tools: ["Excel", "DCF", "Comparable companies", "SEC filings (XBRL)", "Python"],
     result: "Earnings up 5%, multiple down 21% · now an exit",
     stats: [
-      { value: "23.8x → 18.8x", label: "P/E on 2026 earnings, pitch to now, while guidance rose 5.4%" },
+      { value: "18.8x", label: "P/E on 2026 earnings, down from 23.8x at the pitch, while guidance rose 5.4%" },
       { value: "$276", label: "base-case 12-month target vs. a $237 price (19x 2027 EPS)" },
       { value: "15–17.5%", label: "yearly EPS growth today's price needs, vs. management's 20% target" },
       { value: "96", label: "typed-in numbers in the model, each with its source" },
@@ -411,7 +486,6 @@ export const cases: Case[] = [
   {
     slug: "hackohio-outage-model",
     area: "Predictive modeling",
-    featured: true,
     tldr: [
       "How likely is a storm to cut a customer's power, and for how long?",
       "We tested the app's risk score on storms it hadn't seen, then replaced it with a simple model measured from real storm damage.",
@@ -807,8 +881,8 @@ export const cases: Case[] = [
     area: "Web development",
     tldr: [
       "How do I show my work in a way that doesn't read like a resume?",
-      "I designed it, built it in Next.js with Claude Code, and shipped a simple version first.",
-      "Live on Vercel. Every push to main redeploys it.",
+      "I designed it, built it in Next.js with Claude Code, shipped a simple version first, then audited it from a recruiter's point of view and fixed what that turned up.",
+      "Live on Vercel, with a short version and a tailored resume for each kind of role, and no accessibility errors on the automated check.",
     ],
     title: "This site",
     rewards: ["web", "shipping", "ai-dev"],
@@ -818,9 +892,9 @@ export const cases: Case[] = [
     tools: ["Next.js", "TypeScript", "Tailwind CSS", "Claude Code", "Vercel"],
     result: "Live on Vercel",
     stats: [
-      { value: "3", label: "versions" },
-      { value: "5", label: "short versions, one per kind of role" },
-      { value: "20", label: "skills on the tree" },
+      { value: "5", label: "short versions, one per kind of role, each with its own resume" },
+      { value: "0", label: "accessibility errors on axe-core, in both themes" },
+      { value: "20", label: "skills on the tree, each linked to its proof" },
     ],
     position: [
       "I wanted one place to show my work that doesn't read like a resume.",
@@ -847,10 +921,18 @@ export const cases: Case[] = [
       {
         glyph: "!",
         title: "One site, a short version for each role",
-        body: "A data recruiter and a finance recruiter care about different projects. Pages like /for/data/ and /for/finance/ lead with the three most relevant projects in the same design, so I can link the right one in each application.",
+        body: "A data recruiter and a finance recruiter care about different projects. Pages like /for/data/ and /for/finance/ lead with the three most relevant projects in the same design, each with a one-page resume tailored to that role, so I can link the right one in each application.",
+      },
+      {
+        glyph: "!",
+        title: "Audit it like a stranger would",
+        body: "I reviewed it as a recruiter skimming on a phone, an engineer reading code, and an accessibility checker would. That led to the projects page, plain labels instead of game jargon, link previews, bigger tap targets, and a title screen that gets out of the way.",
       },
     ],
-    outcome: ["A static Next.js site on Vercel. Every push to main redeploys it."],
+    outcome: [
+      "A static Next.js site on Vercel; every push to main redeploys it.",
+      "Resumes are generated from one data file, so each role's version stays in sync with the site, and they're kept out of search results.",
+    ],
     postGame: [],
   },
 ];

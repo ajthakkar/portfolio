@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { MoveList } from "@/components/case-reading";
 import { ChessInsights } from "@/components/chess-insights";
 import { KnightsLab } from "@/components/knights-lab";
+import { MarketCalibration } from "@/components/market-calibration";
 import { PlaysLikeMeLoader } from "@/components/plays-like-me-loader";
 import { CountUp } from "@/components/hud";
 import { Tldr } from "@/components/tldr";
@@ -174,6 +175,23 @@ export default function ProjectPage({ params }: Params) {
             </p>
           </div>
           <ChessInsights />
+        </section>
+      )}
+
+      {c.demo === "market-calibration" && (
+        <section aria-labelledby="demo-heading" className="pt-14 lg:pt-20">
+          <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
+            <div className="space-y-2">
+              <Kicker>Explore it</Kicker>
+              <h2 id="demo-heading" className="font-display text-3xl font-extrabold tracking-[-0.03em] text-ink">
+                Do the odds mean what they say?
+              </h2>
+            </div>
+            <p className="max-w-sm text-sm text-muted">
+              Each point groups contracts by their price. If the market is calibrated, the points sit on the dashed line.
+            </p>
+          </div>
+          <MarketCalibration />
         </section>
       )}
 

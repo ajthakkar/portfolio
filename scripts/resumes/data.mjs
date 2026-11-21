@@ -42,8 +42,19 @@ const P = {
       "Cut calibration error from 7.5% to 1.2% with temperature scaling; runs in the browser in ~170 lines of TypeScript, verified against PyTorch",
     ].slice(0, n),
   }),
+  fairOdds: (n = 3) => ({
+    org: "Fair Odds: Calibration Study of 22,625 Polymarket Markets",
+    place: "Python, pandas, NumPy",
+    title: "",
+    date: "Nov 2026",
+    points: [
+      "Tested whether market prices mean what they say: close to calibrated, but contracts priced 5–40% came true 3.0–3.7 points more often than priced in the final week",
+      "Used event-clustered bootstrap intervals, calibration slopes, and a Brier decomposition; a correction fitted on 2024–25 data didn't beat 2026 prices",
+      "Found snapshot timing that depended on the outcome in by-a-date markets; correcting it shrank the gap by about a quarter, and the result held",
+    ].slice(0, n),
+  }),
   bookQuiz: (n = 2) => ({
-    org: "Book Quiz Tool",
+    org: "Chapter & Verse: Reading Quizzes Grounded in the Text",
     place: "TypeScript, Next.js, Claude API",
     title: "",
     date: "Jun 2026; rebuilt Nov 2026",
@@ -173,7 +184,7 @@ export const resumes = [
     file: "Aayush-Thakkar-Resume.pdf",
     sections: [
       { title: "Education", entries: education },
-      { title: "Projects", entries: [P.playsLikeMe(2), P.ceg(3), P.bookQuiz(1)] },
+      { title: "Projects", entries: [P.playsLikeMe(2), P.fairOdds(1), P.ceg(2)] },
       { title: "Experience", entries: [E.roam(["founded", "sales", "pitch"]), E.chess(2), E.bdaa(1)] },
       { title: "Honors & Leadership", list: [H.hftw, H.natl, H.ihsa, H.uscf, L.club] },
     ],
@@ -202,13 +213,13 @@ export const resumes = [
     slug: "data",
     sections: [
       { title: "Education", entries: education },
-      { title: "Projects", entries: [P.tilt(3), P.outage(2), P.playsLikeMe(2)] },
+      { title: "Projects", entries: [P.fairOdds(3), P.tilt(2), P.outage(1)] },
       { title: "Experience", entries: [E.bdaa(2), E.roam(["founded", "sales", "lean"]), E.chess(1)] },
       { title: "Honors & Leadership", list: [H.hftw, H.uscf, L.club] },
     ],
     skills: [
       ["Data", "SQL (DuckDB), Python (pandas, statsmodels, scikit-learn, matplotlib), Excel"],
-      ["Statistics", "Regression, calibration, clustered standard errors, multiple-testing correction, held-out testing"],
+      ["Statistics", "Regression, calibration, cluster bootstrap, clustered standard errors, multiple-testing correction, held-out testing"],
       ["Also", "PyTorch, TypeScript, Git, Claude Code"],
       ["Spoken languages & interests", `${spoken} | ${interests}`],
     ],
@@ -217,14 +228,14 @@ export const resumes = [
     slug: "finance",
     sections: [
       { title: "Education", entries: education },
-      { title: "Projects", entries: [P.ceg(3), P.tilt(2)] },
+      { title: "Projects", entries: [P.ceg(3), P.fairOdds(2)] },
       { title: "Experience", entries: [E.roam(["founded", "sales", "pitch", "shopify"]), E.chess(2), E.bdaa(1)] },
       { title: "Honors & Leadership", list: [H.natl, H.d203, H.deca, H.ihsa, L.club] },
     ],
     skills: [
       ["Finance", "Equity research, DCF and comparable-company valuation, reading 10-Ks, 10-Qs, and earnings releases"],
       ["Excel", "Data tables, scenario models, INDEX/MATCH, SUMIFS, NPV"],
-      ["Data", "Python (pandas), SQL, statistics"],
+      ["Data", "Python (pandas), SQL, statistics (calibration, bootstrap, regression)"],
       ["Spoken languages & interests", `${spoken} | ${interests}`],
     ],
   },
@@ -232,12 +243,12 @@ export const resumes = [
     slug: "quant",
     sections: [
       { title: "Education", entries: education },
-      { title: "Projects", entries: [P.playsLikeMe(3), P.tilt(2), P.knights(1)] },
+      { title: "Projects", entries: [P.fairOdds(3), P.playsLikeMe(2), P.tilt(1)] },
       { title: "Honors", list: [H.ihsa, H.uscf, H.hftw, H.natl] },
       { title: "Experience", entries: [E.chess(2), E.roam(["founded", "sales"]), E.bdaa(1)] },
     ],
     skills: [
-      ["Quantitative", "Probability and statistics, calibration, regression, hypothesis testing, algorithms"],
+      ["Quantitative", "Probability and statistics, calibration, bootstrap, regression, hypothesis testing, algorithms"],
       ["Programming", "Python (NumPy, pandas, PyTorch), SQL, TypeScript, Java"],
       ["Games & languages", `Tournament chess (US Chess Expert), poker | ${spoken}`],
     ],

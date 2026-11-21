@@ -45,5 +45,12 @@
         }
       ]
     }
+  ],
+  "redirects": [
+    {
+      "source": "/projects/book-quiz/",
+      "destination": "/projects/chapter-and-verse/",
+      "permanent": true
+    }
   ]
 }
