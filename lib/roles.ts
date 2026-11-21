@@ -15,11 +15,16 @@ export type RoleView = {
   skills: string[];
   /** Honors to show, matched by the start of their title. */
   honors: string[];
+  /** A one-page resume tailored to this role, built by `npm run resumes`. */
+  resume: string;
 };
+
+const resume = (slug: string) => `/resume/Aayush-Thakkar-Resume-${slug[0].toUpperCase()}${slug.slice(1)}.pdf`;
 
 export const roleViews: RoleView[] = [
   {
     slug: "software",
+    resume: resume("software"),
     label: "Software & AI",
     title: "Software, ML & AI",
     pitch:
@@ -31,6 +36,7 @@ export const roleViews: RoleView[] = [
   },
   {
     slug: "data",
+    resume: resume("data"),
     label: "Data & analytics",
     title: "Data & analytics",
     pitch:
@@ -42,17 +48,19 @@ export const roleViews: RoleView[] = [
   },
   {
     slug: "finance",
+    resume: resume("finance"),
     label: "Finance",
     title: "Finance",
     pitch:
-      "I'm a business student at Fisher. I was CFO of a startup I co-founded in high school, and I've written a long pitch on Constellation Energy. I'm also strong on the analytical side: SQL, Python, and statistics on real data.",
+      "I'm a business student at Fisher. I was CFO of a startup I co-founded in high school. I pitched Constellation Energy as a long, then built an Excel model from SEC filings to test the call after the stock fell. I'm also strong on the analytical side: SQL, Python, and statistics on real data.",
     projects: ["constellation-energy", "roam-travel", "chess-analytics", "hackohio-outage-model"],
     roles: ["Roam Travel", "Ohio State Chess Club", "Big Data & Analytics Association (BDAA)", "Elite Chess"],
-    skills: ["Equity research", "Valuation multiples", "Excel (INDEX/MATCH, SUMIFS, NPV)", "SEC filings", "Python", "SQL"],
+    skills: ["Equity research", "DCF & comps", "Excel data tables & scenarios", "SEC filings", "Python", "SQL"],
     honors: ["National Finalist", "1st of 60 Teams", "6th Place in Illinois, DECA"],
   },
   {
     slug: "quant",
+    resume: resume("quant"),
     label: "Quant & trading",
     title: "Quant & trading",
     pitch:
@@ -64,6 +72,7 @@ export const roleViews: RoleView[] = [
   },
   {
     slug: "consulting",
+    resume: resume("consulting"),
     label: "Consulting & product",
     title: "Consulting & product",
     pitch:

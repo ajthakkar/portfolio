@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, FileText } from "lucide-react";
 import { Tldr } from "@/components/tldr";
 import { TransitionLink } from "@/components/transition-link";
 import { ExternalLink, Kicker, Panel } from "@/components/ui";
@@ -103,9 +103,18 @@ export default function RolePage({ params }: Params) {
         </p>
         <nav
           aria-label="Profile links"
-          className="rise flex flex-wrap items-center gap-x-5 gap-y-2 font-mono text-xs text-muted"
+          className="rise flex flex-wrap items-center gap-x-5 gap-y-3 font-mono text-xs text-muted"
           style={{ "--i": 3 } as React.CSSProperties}
         >
+          <a
+            href={view.resume}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-game inline-flex items-center gap-2 bg-lime px-4 py-2.5 font-display text-sm font-bold text-lime-ink"
+          >
+            <FileText aria-hidden="true" className="h-4 w-4" />
+            Resume (PDF)
+          </a>
           {profile.links.map((link) => (
             <ExternalLink key={link.label} href={link.href} className="py-1 hover:text-ink">
               {link.label}

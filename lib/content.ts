@@ -51,7 +51,7 @@ export const now = {
   items: [
     "Running stakeholder interviews for BDAA's product discovery project with OSU University Libraries",
     "Treasurer on the Ohio State Chess Club executive board",
-    "Picking my next project, probably a finance model",
+    "Building out my Constellation Energy model as the stock moves, and picking what to build next",
   ],
 };
 
@@ -329,6 +329,83 @@ export const cases: Case[] = [
     ],
   },
   {
+    slug: "constellation-energy",
+    area: "Equity research",
+    featured: true,
+    tldr: [
+      "Is the largest US nuclear operator undervalued, now that AI needs so much power? And when the stock fell after my pitch, was I wrong?",
+      "I pitched it long in September, then built an Excel model from SEC filings: a 10-year DCF, the pitch's P/E target made explicit, comparable companies, and sensitivity tables.",
+      "Earnings beat and guidance rose twice, but the stock fell 17% as the whole sector repriced. At today's price the base case is about fair value, with 45% upside if management hits its 20% growth target.",
+    ],
+    title: "Constellation Energy: Pitch and Model",
+    rewards: ["equity-research", "valuation", "modeling", "excel"],
+    dek: "A long pitch on the largest US nuclear operator, then an Excel model built from SEC filings to test it, including why the stock fell after earnings beat.",
+    period: "Sep – Nov 2026",
+    role: "Solo project",
+    tools: ["Excel", "DCF", "Comparable companies", "SEC filings (XBRL)", "Python"],
+    result: "Earnings up 5%, multiple down 21%: the whole drop",
+    stats: [
+      { value: "23.8x → 18.8x", label: "P/E on 2026 earnings, pitch to now, while guidance rose 5.4%" },
+      { value: "$276", label: "base-case 12-month target vs. a $237 price (19x 2027 EPS)" },
+      { value: "15–17.5%", label: "yearly EPS growth today's price needs, vs. management's 20% target" },
+      { value: "96", label: "typed-in numbers in the model, each with its source" },
+    ],
+    live: { label: "Download the model (Excel)", href: "/projects/constellation/CEG-valuation.xlsx" },
+    position: [
+      "The main constraint on AI has shifted from chips and memory toward power and cooling. US data centers used 4.4% of national electricity in 2023 and could reach 6.7–12% by 2028, and the IEA expects global data center demand to more than double by 2030.",
+      "Constellation Energy (NASDAQ: CEG) is the largest nuclear operator in the US, with about 55 GW of capacity after acquiring Calpine in January 2026. In September I pitched it as a long at $285.93 with a $355 target. Ten weeks later it was at $237, and I wanted to know whether the thesis was wrong or just the price.",
+    ],
+    plan: [
+      "The thesis: new reactors are slow and expensive (Vogtle 3 and 4 came online seven years late at $35 billion), hyperscalers are signing 20-year deals, and as an independent power producer Constellation captures rising power prices directly.",
+      "The model: pull every number from SEC filings and earnings releases, value the company on management's adjusted earnings, and show how much each assumption matters.",
+      "The check: split the price move since the pitch into what happened to earnings and what happened to the multiple, and test the pitch's exit triggers against what the company has reported since.",
+    ],
+    moves: [
+      {
+        glyph: "!!",
+        title: "Split the price move in two",
+        body: "The stock fell 17.0%. Guidance for 2026 earnings rose 5.4% and the P/E on those earnings fell 21.2%; multiplied together, that's exactly the price change. The business beat the pitch. Investors just paid less for each dollar of earnings, and Vistra and NRG fell about 21% too.",
+      },
+      {
+        glyph: "!",
+        title: "Value adjusted EPS, and say why",
+        body: "GAAP results swing with hedge gains and losses (Q2 GAAP EPS was $1.42 against $2.55 adjusted), and reported operating cash flow has even been negative some years. So the DCF starts from management's adjusted EPS and turns it into cash for shareholders with an explicit, tested assumption.",
+      },
+      {
+        glyph: "!",
+        title: "Ask what the price already assumes",
+        body: "A break-even table shows that at an 11.2% cost of equity, today's price holds up only if earnings grow about 15–17.5% a year through 2029. Management targets 20%, so the price assumes they fall short, but not by much.",
+      },
+      {
+        glyph: "!?",
+        title: "Comps that disagree",
+        body: "On trailing GAAP numbers Constellation trades at 14.1x EV/EBITDA against a 9.5x median for Vistra, NRG, and Talen, a 49% premium. The model shows the premium instead of hiding it: that premium is the bet on long-term contracted nuclear output.",
+      },
+      {
+        glyph: "!",
+        title: "Define the exit before entering",
+        body: "The pitch said to exit if a major power contract were canceled, the Crane restart slipped past 2028, or hyperscaler spending stalled. Checked against the filings since, neither of the first two has happened; the third isn't something this model can test.",
+      },
+    ],
+    outcome: [
+      "Pitched long at the Sep 10, 2026 close of $285.93 with a 12-month target of $355. By Nov 20 the total return was −16.9%, against −8.7% for the S&P 500.",
+      "Not because the business missed: Q3 adjusted EPS was $5.06 against $3.04 a year earlier, and 2026 guidance rose to $12.50–$12.80 from $11.50–$12.50 at the time of the pitch.",
+      "The model's base case (15% growth, 11.2% cost of equity) puts the DCF value at $234 and the 12-month target at $276. At management's 20% growth, the DCF value is $345; in the bear case, $138.",
+    ],
+    postGame: [
+      "The pitch gave one target, and it rested on the multiple staying near 24x. The model makes that visible: a range with the assumptions behind each end beats a single number.",
+    ],
+    links: [
+      { label: "The model on GitHub, with the method", href: "https://github.com/ajthakkar/constellation-model" },
+      { label: "The original pitch (PDF)", href: "/projects/constellation/Constellation-Energy-pitch.pdf" },
+    ],
+    note: "A student stock pitch and model, not investment advice.",
+    gaps: [
+      "Read the updated page and say in your own words whether you'd still own it at $237. Your view goes in Post-game.",
+      "Before interviews: practice walking through the Valuation sheet (where each number comes from, and why adjusted EPS and not GAAP).",
+    ],
+  },
+  {
     slug: "hackohio-outage-model",
     area: "Predictive modeling",
     featured: true,
@@ -586,68 +663,6 @@ export const cases: Case[] = [
       "Who built the prototype: you, or the team together? The page says 'our team' for now.",
       "Where does the project stand: have the Libraries seen it, and what did interviews turn up? One line for 'Post-game'.",
     ],
-  },
-  {
-    slug: "constellation-energy",
-    area: "Equity research",
-    tldr: [
-      "Is the largest US nuclear operator undervalued, now that AI needs so much power?",
-      "I built a thesis from filings and earnings: the moat, the demand, the valuation, and when I'd sell.",
-      "Long at $285.93 with a $355 target, about 24% upside.",
-    ],
-    title: "Long Constellation Energy",
-    rewards: ["equity-research", "valuation"],
-    dek: "A stock pitch arguing that AI's power problem makes the largest US nuclear operator undervalued.",
-    period: "Sep 2026",
-    role: "Solo stock pitch",
-    tools: ["Equity research", "Valuation multiples", "Earnings reports", "SEC filings"],
-    result: "Long at $285.93 · $355 target",
-    stats: [
-      { value: "$355", label: "12-month target" },
-      { value: "~24%", label: "upside" },
-      { value: "~24x", label: "forward P/E vs. 27–30x in 2024–25" },
-      { value: "12–36 mo", label: "holding period" },
-    ],
-    position: [
-      "The main constraint on AI has shifted from chips and memory toward power and cooling. US data centers used 4.4% of national electricity in 2023 and could reach 6.7–12% by 2028, and the IEA expects global data center demand to more than double by 2030.",
-      "Constellation Energy (NASDAQ: CEG) is the largest nuclear operator in the US, with about 55 GW of capacity after acquiring Calpine, and its fleet ran at about a 93% capacity factor in the second quarter.",
-    ],
-    plan: [
-      "Moat: new reactors are slow and expensive. Vogtle 3 and 4, the only new US reactors in three decades, came online seven years late at a cost of $35 billion.",
-      "Demand: hyperscalers are signing 20-year deals, including Microsoft for the Crane restart and Meta for Clinton's 1,121 MW plant.",
-      "Upside: as an independent power producer, Constellation sells into competitive markets and captures rising power prices directly.",
-    ],
-    moves: [
-      {
-        glyph: "!",
-        title: "Anchor on valuation",
-        body: "CEG traded near 24x forward earnings, below its own 27–30x in 2024–25, even as estimates rose. That gap is the opportunity.",
-      },
-      {
-        glyph: "!",
-        title: "Read past the GAAP number",
-        body: "Q2 GAAP EPS was $1.42 against $2.55 adjusted. The gap is mostly an unrealized mark-to-market loss on hedges, which is relatively standard.",
-      },
-      {
-        glyph: "!?",
-        title: "Lean on policy tailwinds",
-        body: "May 2025 executive orders target 400 GW of US nuclear capacity by 2050, about four times today's fleet. Existing plants benefit first, since restarts and uprates come online years before new reactors.",
-      },
-      {
-        glyph: "!",
-        title: "Define the exit before entering",
-        body: "I'd exit if a major PPA is canceled, the NRC delays Crane past 2028, or hyperscaler capex stalls noticeably.",
-      },
-    ],
-    outcome: [
-      "Recommended a long position at the Sep 10, 2026 close of $285.93, with a 12-month target of $355 (about 24% upside) and a 12–36 month holding period.",
-      "Downside cushions: roughly 30% of clean baseload output is already contracted with investment-grade buyers, and the 45U credit floors nuclear revenue at up to $15/MWh through 2032.",
-    ],
-    postGame: [
-      "The habit I'd keep: every number in the pitch is tied to a filing or an earnings release, and anything I couldn't verify is flagged instead of guessed.",
-    ],
-    note: "A student stock pitch, not investment advice.",
-    gaps: ["Want the full pitch PDF linked from this page?"],
   },
   {
     slug: "knights-tour",
@@ -955,7 +970,7 @@ export const skills = [
   { label: "Data & ML", items: "pandas, NumPy, DuckDB, PyTorch, scikit-learn, statsmodels, matplotlib, pytest" },
   { label: "Web", items: "Next.js, React, Tailwind CSS, Three.js, Git, Vercel" },
   { label: "AI Tools", items: "Claude Code, Claude API, Cursor, Prompt Engineering, Workflow Automation" },
-  { label: "Tools", items: "Excel (INDEX/MATCH, SUMIFS, NPV), Shopify, Linux" },
+  { label: "Tools", items: "Excel (DCF, data tables, INDEX/MATCH, SUMIFS, NPV), Shopify, Linux" },
   { label: "Business", items: "Customer Discovery, Lean Startup Iteration, Investor Pitching, Partner Outreach" },
   { label: "Teaching", items: "Group and One-on-One Instruction, Lesson Planning, Training New Coaches" },
   { label: "Spoken", items: "English, Gujarati, Spanish" },
@@ -1061,7 +1076,7 @@ export const branches: Branch[] = [
       { id: "equity-research", name: "Equity research", line: "A thesis built from filings, earnings, and industry data." },
       { id: "valuation", name: "Valuation", line: "Multiples, price targets, and exit criteria." },
       { id: "startup-finance", name: "Startup finance", line: "Owning a small company's money as CFO." },
-      { id: "modeling", name: "Financial modeling", line: "Three-statement and DCF models in Excel." },
+      { id: "modeling", name: "Financial modeling", line: "DCF, comparable companies, and sensitivity tables in Excel." },
     ],
   },
   {
