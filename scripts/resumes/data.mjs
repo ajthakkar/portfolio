@@ -3,14 +3,21 @@
 
 const SITE = "aayush-thakkar.vercel.app";
 
-export const contact = (slug) => [
-  "Columbus, OH",
-  "630-210-1695",
-  "thakkar.186@osu.edu",
-  "linkedin.com/in/aayush--thakkar",
-  "github.com/ajthakkar",
-  slug === "general" ? SITE : `${SITE}/for/${slug}`,
-];
+/** Contact line: [text, link]. Links are clickable in the PDF. */
+export const contact = (slug) => {
+  const site = slug === "general" ? SITE : `${SITE}/for/${slug}`;
+  return [
+    ["Columbus, OH"],
+    ["630-210-1695", "tel:+16302101695"],
+    ["thakkar.186@osu.edu", "mailto:thakkar.186@osu.edu"],
+    ["linkedin.com/in/aayush--thakkar", "https://www.linkedin.com/in/aayush--thakkar"],
+    ["github.com/ajthakkar", "https://github.com/ajthakkar"],
+    [site, `https://${site}/`],
+  ];
+};
+
+/** A project's page on the site, linked from its name in the PDF. */
+const page = (slug) => `https://${SITE}/projects/${slug}/`;
 
 const education = [
   {
@@ -33,6 +40,7 @@ const education = [
 const P = {
   playsLikeMe: (n = 3) => ({
     org: "Plays Like Me",
+    href: page("plays-like-me"),
     place: "Python, PyTorch, TypeScript",
     title: "",
     date: "Nov 2026",
@@ -44,6 +52,7 @@ const P = {
   }),
   fairOdds: (n = 3) => ({
     org: "Fair Odds: Calibration Study of 22,625 Polymarket Markets",
+    href: page("fair-odds"),
     place: "Python, pandas, NumPy",
     title: "",
     date: "Nov 2026",
@@ -55,6 +64,7 @@ const P = {
   }),
   bookQuiz: (n = 2) => ({
     org: "Chapter & Verse: Reading Quizzes Grounded in the Text",
+    href: page("chapter-and-verse"),
     place: "TypeScript, Next.js, Claude API",
     title: "",
     date: "Jun 2026; rebuilt Nov 2026",
@@ -65,6 +75,7 @@ const P = {
   }),
   tilt: (n = 3) => ({
     org: "Do I Tilt? Analysis of 14,547 Online Chess Games",
+    href: page("chess-analytics"),
     place: "SQL (DuckDB), Python, statsmodels",
     title: "",
     date: "Nov 2026",
@@ -76,6 +87,7 @@ const P = {
   }),
   outage: (n = 1) => ({
     org: "Storm Outage Model, HackOHI/O 2026 (team of 4, AEP challenge)",
+    href: page("hackohio-outage-model"),
     place: "Python, scikit-learn",
     title: "",
     date: "Oct 2026",
@@ -86,17 +98,19 @@ const P = {
   }),
   ceg: (n = 3) => ({
     org: "Constellation Energy (CEG): Long Pitch and Valuation Model",
+    href: page("constellation-energy"),
     place: "Excel, SEC filings",
     title: "",
     date: "Sep – Nov 2026",
     points: [
       "Pitched a long at $285.93 with a $355 target on AI-driven power demand, scarce new nuclear capacity, and a forward P/E below its own history",
       "Built an Excel model from SEC filings: 10-year equity DCF on adjusted EPS, P/E target, bear/base/bull scenarios, comps vs. Vistra, NRG, and Talen, and five sensitivity data tables",
-      "After a 17% drop, showed it came entirely from the P/E falling (23.8x to 18.8x) while EPS guidance rose 5.4%; with AI-spending and policy risk rising, recommended exiting",
+      "After a 17% drop, showed it came entirely from the P/E falling (23.8x to 18.8x) while EPS guidance rose 5.4%; with AI spending and policy risk rising, recommended exiting",
     ].slice(0, n),
   }),
   knights: (n = 2) => ({
     org: "Knight's Tour Solvers",
+    href: page("knights-tour"),
     place: "Python, pytest",
     title: "",
     date: "Nov 2026",
@@ -107,6 +121,7 @@ const P = {
   }),
   library: (n = 2) => ({
     org: "Library Onboarding Module, BDAA x OSU University Libraries (team)",
+    href: page("library-onboarding"),
     place: "Stakeholder interviews, prototyping",
     title: "",
     date: "Fall 2026",
@@ -163,7 +178,7 @@ const E = {
 /* ── Honors and leadership ───────────────────────────────────────────────── */
 const H = {
   hftw: ["<b>1st Place Overall, Hack For The World:</b> 12-hour sustainability hackathon", "Feb 2026"],
-  natl: ["<b>National Finalist (Top 5),</b> INCubatoredu National Pitch Competition, Chicago", "2025"],
+  natl: ["<b>National Finalist (Top 5),</b> INCubatoredu National Pitch Competition, Chicago", "Jul 2025"],
   d203: ["<b>1st of 60 teams,</b> District 203 INCubatoredu Final Pitch Night ($3,000 prize)", "2025"],
   deca: ["<b>6th in Illinois,</b> DECA Entrepreneurship Series", "2024"],
   ihsa: ["<b>Individual Gold Medal, Board 1, IHSA State Chess Finals:</b> perfect 7/7 score", "Feb 2026"],
@@ -184,7 +199,7 @@ export const resumes = [
     file: "Aayush-Thakkar-Resume.pdf",
     sections: [
       { title: "Education", entries: education },
-      { title: "Projects", entries: [P.playsLikeMe(2), P.fairOdds(1), P.ceg(2)] },
+      { title: "Projects", entries: [P.playsLikeMe(2), P.fairOdds(1), P.ceg(3)] },
       { title: "Experience", entries: [E.roam(["founded", "sales", "pitch"]), E.chess(2), E.bdaa(1)] },
       { title: "Honors & Leadership", list: [H.hftw, H.natl, H.ihsa, H.uscf, L.club] },
     ],
@@ -198,7 +213,7 @@ export const resumes = [
     slug: "software",
     sections: [
       { title: "Education", entries: education },
-      { title: "Projects", entries: [P.playsLikeMe(3), P.bookQuiz(2), P.outage(1)] },
+      { title: "Projects", entries: [P.playsLikeMe(3), P.bookQuiz(2), P.outage(2)] },
       { title: "Experience", entries: [E.bdaa(1), E.roam(["founded", "sales", "shopify"]), E.chess(1)] },
       { title: "Honors & Leadership", list: [H.hftw, H.ihsa, H.uscf, L.club] },
     ],
@@ -213,7 +228,7 @@ export const resumes = [
     slug: "data",
     sections: [
       { title: "Education", entries: education },
-      { title: "Projects", entries: [P.fairOdds(3), P.tilt(2), P.outage(1)] },
+      { title: "Projects", entries: [P.fairOdds(3), P.tilt(3), P.outage(1)] },
       { title: "Experience", entries: [E.bdaa(2), E.roam(["founded", "sales", "lean"]), E.chess(1)] },
       { title: "Honors & Leadership", list: [H.hftw, H.uscf, L.club] },
     ],
@@ -229,7 +244,7 @@ export const resumes = [
     sections: [
       { title: "Education", entries: education },
       { title: "Projects", entries: [P.ceg(3), P.fairOdds(2)] },
-      { title: "Experience", entries: [E.roam(["founded", "sales", "pitch", "shopify"]), E.chess(2), E.bdaa(1)] },
+      { title: "Experience", entries: [E.roam(["founded", "sales", "pitch", "shopify"]), E.chess(2), E.bdaa(2)] },
       { title: "Honors & Leadership", list: [H.natl, H.d203, H.deca, H.ihsa, L.club] },
     ],
     skills: [
@@ -243,7 +258,7 @@ export const resumes = [
     slug: "quant",
     sections: [
       { title: "Education", entries: education },
-      { title: "Projects", entries: [P.fairOdds(3), P.playsLikeMe(2), P.tilt(1)] },
+      { title: "Projects", entries: [P.fairOdds(3), P.playsLikeMe(2), P.tilt(2)] },
       { title: "Honors", list: [H.ihsa, H.uscf, H.hftw, H.natl] },
       { title: "Experience", entries: [E.chess(2), E.roam(["founded", "sales"]), E.bdaa(1)] },
     ],
@@ -258,7 +273,7 @@ export const resumes = [
     sections: [
       { title: "Education", entries: education },
       { title: "Experience", entries: [E.bdaa(2), E.roam(["founded", "lean", "sales", "pitch", "challenge"]), E.chess(3)] },
-      { title: "Projects", entries: [P.library(1), P.outage(1), P.ceg(1)] },
+      { title: "Projects", entries: [P.library(2), P.outage(1), P.ceg(1)] },
       { title: "Honors & Leadership", list: [H.natl, H.d203, H.hftw, H.deca, L.club, L.captain] },
     ],
     skills: [

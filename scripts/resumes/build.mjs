@@ -32,6 +32,7 @@ h2 { font-size: 10.8pt; text-transform: uppercase; border-bottom: 0.9pt solid #0
 .org { font-weight: bold; }
 .place { font-style: normal; }
 .title { font-style: italic; }
+a { color: inherit; text-decoration: none; }
 .date { font-style: italic; white-space: nowrap; }
 ul { margin: 1pt 0 0; padding-left: 12pt; }
 li { margin: 0.6pt 0; }
@@ -44,10 +45,12 @@ const esc = (s) => s.replace(/&(?!amp;)/g, "&amp;");
 
 function entry(e) {
   // Jobs: org | place, then title | dates. Projects without a subtitle: name | dates, then the tools in italics.
+  // A project's name links to its page on the site.
+  const org = e.href ? `<a href="${e.href}">${esc(e.org)}</a>` : esc(e.org);
   const rows = e.title
-    ? `<div class="row"><span class="org">${esc(e.org)}</span><span class="place">${esc(e.place)}</span></div>
+    ? `<div class="row"><span class="org">${org}</span><span class="place">${esc(e.place)}</span></div>
   <div class="row"><span class="title">${esc(e.title)}</span><span class="date">${esc(e.date)}</span></div>`
-    : `<div class="row"><span class="org">${esc(e.org)}</span><span class="date">${esc(e.date)}</span></div>
+    : `<div class="row"><span class="org">${org}</span><span class="date">${esc(e.date)}</span></div>
   <div class="row"><span class="title">${esc(e.place)}</span></div>`;
   return `<div class="entry">
   ${rows}
@@ -69,7 +72,7 @@ function page(r) {
     .join("")}</div>`;
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Aayush Thakkar, Resume</title><style>${css}</style></head>
 <body><h1>AAYUSH THAKKAR</h1><div class="contact">${contact(r.slug)
-    .map((c) => `<span>${c}</span>`)
+    .map(([text, href]) => `<span>${href ? `<a href="${href}">${text}</a>` : text}</span>`)
     .join("")}</div>${body}${skills}</body></html>`;
 }
 

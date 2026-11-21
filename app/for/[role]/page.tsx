@@ -6,6 +6,7 @@ import { Tldr } from "@/components/tldr";
 import { TransitionLink } from "@/components/transition-link";
 import { ExternalLink, Kicker, Panel } from "@/components/ui";
 import { cases, experience, honors, involvement, profile, skillName, type Case } from "@/lib/content";
+import { pageMeta } from "@/lib/meta";
 import { roleViews } from "@/lib/roles";
 
 type Params = { params: { role: string } };
@@ -18,18 +19,9 @@ export function generateMetadata({ params }: Params): Metadata {
   const view = roleViews.find((r) => r.slug === params.role);
   if (!view) return {};
   const title = `${profile.name} · ${view.title}`;
-  // Link previews cut off around 160 characters, so use the pitch's first sentence.
-  const description = view.pitch.split(/(?<=\.)\s/)[0];
-  return {
-    title: { absolute: title },
-    description,
-    openGraph: {
-      title,
-      description,
-      url: `/for/${view.slug}/`,
-      images: [{ url: "/opengraph-image", width: 1200, height: 630 }],
-    },
-  };
+  const description = view.summary;
+  // The preview image comes from opengraph-image.tsx next to this page.
+  return pageMeta({ title, description, path: `/for/${view.slug}/`, image: null, absoluteTitle: true });
 }
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
@@ -102,7 +94,7 @@ export default function RolePage({ params }: Params) {
         </p>
         <p className="rise flex max-w-3xl gap-2.5 text-[15px] font-medium leading-snug text-ink" style={{ "--i": 2 } as React.CSSProperties}>
           <span aria-hidden="true" className="mt-[5px] h-2.5 w-2.5 shrink-0 bg-accent" />
-          {profile.lookingFor}
+          {view.lookingFor}
         </p>
         <nav
           aria-label="Profile links"
@@ -214,7 +206,7 @@ export default function RolePage({ params }: Params) {
         </div>
       </div>
 
-      <ContactCta resume={view.resume} className="pt-16" />
+      <ContactCta resume={view.resume} lookingFor={view.lookingFor} className="pt-16" />
 
       <nav aria-label="Other short versions" className="mt-16 flex flex-col gap-3 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
         <p className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted">

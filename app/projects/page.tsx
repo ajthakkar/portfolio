@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 import { ProjectBrowser } from "@/components/project-browser";
 import { Kicker } from "@/components/ui";
 import { cases } from "@/lib/content";
+import { pageMeta } from "@/lib/meta";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Projects",
   description: "Everything I've built: machine learning, data analysis, an equity research model, a startup, and software, each with what I'd do differently.",
-};
+  path: "/projects/",
+});
 
 export default function ProjectsPage() {
   return (

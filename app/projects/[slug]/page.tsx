@@ -11,6 +11,7 @@ import { Tldr } from "@/components/tldr";
 import { TransitionLink } from "@/components/transition-link";
 import { CaseBoard, ExternalLink, Gaps, Glyph, Kicker, Panel } from "@/components/ui";
 import { cases, skillName } from "@/lib/content";
+import { pageMeta } from "@/lib/meta";
 
 type Params = { params: { slug: string } };
 
@@ -20,7 +21,8 @@ export function generateStaticParams() {
 
 export function generateMetadata({ params }: Params): Metadata {
   const c = cases.find((x) => x.slug === params.slug);
-  return c ? { title: c.title, description: c.dek, openGraph: { title: c.title, description: c.dek, url: `/projects/${c.slug}/` } } : {};
+  // The preview image comes from opengraph-image.tsx next to this page.
+  return c ? pageMeta({ title: c.title, description: c.dek, path: `/projects/${c.slug}/`, image: null }) : {};
 }
 
 function Block({ kicker, title, children }: { kicker: string; title: string; children: React.ReactNode }) {

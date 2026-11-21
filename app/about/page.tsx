@@ -6,11 +6,13 @@ import { TransitionLink } from "@/components/transition-link";
 import { RatingHistory } from "@/components/rating-history";
 import { Gaps, Kicker, SectionTitle } from "@/components/ui";
 import { about, playLinks, profile } from "@/lib/content";
+import { pageMeta } from "@/lib/meta";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "About",
   description: "Naperville to Columbus, ten years of tournament chess, and what I do off the board.",
-};
+  path: "/about/",
+});
 
 export default function AboutPage() {
   return (

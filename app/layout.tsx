@@ -3,6 +3,8 @@ import { Bricolage_Grotesque, Instrument_Sans, JetBrains_Mono, Silkscreen } from
 import { NavigationEvents } from "@/components/transition-link";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { TitleScreen } from "@/components/title-screen";
+import { profile } from "@/lib/content";
+import { SITE_URL, siteDescription } from "@/lib/meta";
 import "./globals.css";
 
 const display = Bricolage_Grotesque({ subsets: ["latin"], axes: ["opsz", "wdth"], variable: "--font-display" });
@@ -10,21 +12,11 @@ const sans = Instrument_Sans({ subsets: ["latin"], axes: ["wdth"], variable: "--
 const mono = JetBrains_Mono({ subsets: ["latin"], weight: ["400", "500", "600"], variable: "--font-mono" });
 const pixel = Silkscreen({ subsets: ["latin"], weight: ["400", "700"], variable: "--font-pixel" });
 
-const description =
-  "Business student at Ohio State building ML, data, and software projects: a neural network trained on my chess games, a storm outage model, a startup, and more.";
-
+/* Each page sets its own canonical URL and link-preview tags through pageMeta (lib/meta.ts). */
 export const metadata: Metadata = {
-  metadataBase: new URL("https://aayush-thakkar.vercel.app"),
-  title: { default: "Aayush Thakkar", template: "%s · Aayush Thakkar" },
-  description,
-  openGraph: {
-    type: "website",
-    siteName: "Aayush Thakkar",
-    title: "Aayush Thakkar",
-    description,
-    url: "/",
-    locale: "en_US",
-  },
+  metadataBase: new URL(SITE_URL),
+  title: { default: profile.name, template: `%s · ${profile.name}` },
+  description: siteDescription,
   twitter: { card: "summary_large_image" },
 };
 

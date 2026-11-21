@@ -11,7 +11,7 @@ export const profile = {
   timeZone: "America/New_York",
   tagline:
     "Business student at Ohio State's Fisher College of Business. I like problems where business, software, and AI meet, and I've spent more than ten years playing tournament chess.",
-  lookingFor: "Looking for Summer 2027 internships in data, software and AI, finance, and consulting.",
+  lookingFor: "Looking for Summer 2027 internships in data, software and AI, finance, quant, and consulting.",
   /** The general resume; each /for/ page links its own tailored version instead. */
   resume: "/resume/Aayush-Thakkar-Resume.pdf",
   links: [
@@ -28,7 +28,7 @@ export const profile = {
     chesscom: chessAccounts.chesscom,
     uscfId: chessAccounts.uscfId,
   },
-  gaps: ["Check the 'Looking for' line under your name: which roles, and which summer."] as string[],
+  gaps: [] as string[],
 };
 
 /** "Play me" links: open a challenge on each site. */
@@ -55,7 +55,7 @@ export const now = {
   items: [
     "Running stakeholder interviews for BDAA's product discovery project with OSU University Libraries",
     "Treasurer on the Ohio State Chess Club executive board",
-    "Finishing Fair Odds, a calibration study of 22,625 Polymarket markets, and picking what to build next",
+    "Applying for Summer 2027 internships, and picking what to build next",
   ],
 };
 
@@ -1035,7 +1035,7 @@ export const honors = [
   {
     title: "National Finalist (Top 5), INCubatoredu National Pitch Competition",
     detail: "Willis Tower, Chicago, with Roam Travel",
-    date: "2025",
+    date: "Jul 2025",
   },
   {
     title: "1st of 60 Teams, District 203 INCubatoredu Final Pitch Night",
@@ -1090,7 +1090,7 @@ export const about = {
   interests: [
     {
       name: "Chess",
-      line: "US Chess Expert (peak 2075). Online peaks: 2661 bullet on Lichess, and 2605 bullet and 2548 blitz on Chess.com.",
+      line: "US Chess Expert (peak 2075). Online: 2600+ in bullet on Chess.com and Lichess, and 2500+ in blitz on Chess.com.",
     },
     {
       name: "Poker",

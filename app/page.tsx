@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { ArrowDown, ArrowRight } from "lucide-react";
 import { ChessRating } from "@/components/chess-rating";
 import { ContactCta } from "@/components/contact-cta";
@@ -9,8 +10,29 @@ import { SkillTree } from "@/components/skill-tree";
 import { TransitionLink } from "@/components/transition-link";
 import { ExternalLink, Gaps, Kicker, Panel, PieceIcon, SectionTitle, Ticker } from "@/components/ui";
 import { allSkills, branches, experience, highlights, now, profile, skillState, type Branch } from "@/lib/content";
+import { pageMeta, SITE_URL, siteDescription } from "@/lib/meta";
 import { roleViews } from "@/lib/roles";
 import { uscfClass, uscfSummary } from "@/lib/ratings";
+
+export const metadata: Metadata = pageMeta({
+  title: profile.name,
+  description: siteDescription,
+  path: "/",
+  image: null,
+  absoluteTitle: true,
+});
+
+/** Tells search engines who the site is about and which profiles are the same person. */
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: profile.name,
+  url: SITE_URL,
+  email: `mailto:${profile.email}`,
+  description: profile.tagline,
+  affiliation: { "@type": "CollegeOrUniversity", name: "The Ohio State University, Fisher College of Business" },
+  sameAs: profile.links.filter((l) => l.href.startsWith("https://")).map((l) => l.href),
+};
 
 const stagger = (i: number) => ({ "--i": i }) as React.CSSProperties;
 
@@ -86,6 +108,7 @@ function PlayerCard() {
 export default function Home() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }} />
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
         {/* Hero */}
         <section className="grid items-center gap-12 pb-14 pt-10 sm:pt-16 lg:grid-cols-[1fr_380px] lg:gap-16 lg:pb-20">

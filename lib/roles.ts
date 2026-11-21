@@ -8,6 +8,10 @@ export type RoleView = {
   /** What a recruiter for this role is hiring for, in their words. */
   title: string;
   pitch: string;
+  /** One or two sentences for search results and link previews, under 160 characters. */
+  summary: string;
+  /** The "looking for" line on this page, narrowed to this kind of role. */
+  lookingFor: string;
   /** Project slugs, most relevant first. The first three are shown large. */
   projects: string[];
   /** Experience and involvement to show, by org name, in order. */
@@ -25,6 +29,8 @@ export const roleViews: RoleView[] = [
   {
     slug: "software",
     resume: resume("software"),
+    summary: "I build things and then try to prove they work: a neural network trained on my chess games, an LLM quiz app checked against the book, and a storm outage model.",
+    lookingFor: "Looking for a Summer 2027 internship in software, ML, or AI.",
     label: "Software & AI",
     title: "Software, ML & AI",
     pitch:
@@ -37,6 +43,8 @@ export const roleViews: RoleView[] = [
   {
     slug: "data",
     resume: resume("data"),
+    summary: "I like questions that data can actually answer, and I care about getting the comparison right before trusting the answer.",
+    lookingFor: "Looking for a Summer 2027 internship in data science or analytics.",
     label: "Data & analytics",
     title: "Data & analytics",
     pitch:
@@ -49,10 +57,12 @@ export const roleViews: RoleView[] = [
   {
     slug: "finance",
     resume: resume("finance"),
+    summary: "Fisher business student and former startup CFO. I pitched Constellation Energy as a long, then built an Excel model from SEC filings to test the call.",
+    lookingFor: "Looking for a Summer 2027 internship in finance.",
     label: "Finance",
     title: "Finance",
     pitch:
-      "I'm a business student at Fisher. I was CFO of a startup I co-founded in high school. I pitched Constellation Energy as a long, then built an Excel model from SEC filings to test the call after the stock fell. I'm also strong on the analytical side: SQL, Python, and statistics on real data, like testing whether prediction-market prices mean what they say.",
+      "I'm a business student at Fisher. I was CFO of a startup I co-founded in high school. I pitched Constellation Energy as a long, then built an Excel model from SEC filings to test the call after the stock fell. I also work in SQL, Python, and statistics on real data, like testing whether prediction-market prices mean what they say.",
     projects: ["constellation-energy", "fair-odds", "roam-travel", "chess-analytics"],
     roles: ["Roam Travel", "Ohio State Chess Club", "Big Data & Analytics Association (BDAA)", "Elite Chess"],
     skills: ["Equity research", "DCF & comps", "Excel data tables & scenarios", "SEC filings", "Python", "SQL"],
@@ -61,6 +71,8 @@ export const roleViews: RoleView[] = [
   {
     slug: "quant",
     resume: resume("quant"),
+    summary: "US Chess Expert (peak 2075), 2600+ in online bullet, and in the habit of checking whether a pattern is real before betting on it.",
+    lookingFor: "Looking for a Summer 2027 internship in quant research or trading.",
     label: "Quant & trading",
     title: "Quant & trading",
     pitch:
@@ -73,6 +85,9 @@ export const roleViews: RoleView[] = [
   {
     slug: "consulting",
     resume: resume("consulting"),
+    summary:
+      "I've worked with real clients and customers: Ohio State's University Libraries through BDAA, buyers of the product I co-founded, and AEP at HackOHI/O.",
+    lookingFor: "Looking for a Summer 2027 internship in consulting or product.",
     label: "Consulting & product",
     title: "Consulting & product",
     pitch:

@@ -2,8 +2,16 @@ import { FileText, Mail } from "lucide-react";
 import { profile } from "@/lib/content";
 import { ExternalLink, Kicker, Panel } from "./ui";
 
-/** The "get in touch" block at the end of a page. Role pages pass their own tailored resume. */
-export function ContactCta({ resume = profile.resume, className = "pt-20 sm:pt-28" }: { resume?: string; className?: string }) {
+/** The "get in touch" block at the end of a page. Role pages pass their own tailored resume and "looking for" line. */
+export function ContactCta({
+  resume = profile.resume,
+  lookingFor = profile.lookingFor,
+  className = "pt-20 sm:pt-28",
+}: {
+  resume?: string;
+  lookingFor?: string;
+  className?: string;
+}) {
   const linkedin = profile.links.find((l) => l.label === "LinkedIn");
   return (
     <section aria-labelledby="contact-heading" className={className}>
@@ -14,7 +22,7 @@ export function ContactCta({ resume = profile.resume, className = "pt-20 sm:pt-2
             Let&apos;s talk
           </h2>
           <p className="max-w-xl text-[15px] leading-relaxed text-copy sm:text-base">
-            {profile.lookingFor} Email is the fastest way to reach me.
+            {lookingFor} Email is the fastest way to reach me.
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-3">

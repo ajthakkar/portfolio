@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 import { RoleList } from "@/components/role-list";
 import { Kicker, SectionTitle } from "@/components/ui";
 import { education, experience, honors, involvement, profile, skills } from "@/lib/content";
+import { pageMeta } from "@/lib/meta";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Record",
   description: "Experience, leadership, honors, skills, and education.",
-};
+  path: "/record/",
+});
 
 const sections = ["Experience", "Leadership", "Honors", "Skills", "Education"];
 

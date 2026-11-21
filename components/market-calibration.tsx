@@ -17,7 +17,8 @@ const HORIZONS: [string, string][] = [
   ["7", "7 days out"],
   ["1", "1 day out"],
 ];
-const pct = (x: number) => `${(x * 100).toFixed(x < 0.1 || x > 0.9 ? 1 : 0)}%`;
+/** One decimal near 0% and 100%, where it matters (1.3%, 98.1%), but round edges stay round (5%, not 5.0%). */
+const pct = (x: number) => `${(x * 100).toFixed(x < 0.1 || x > 0.9 ? 1 : 0).replace(/\.0$/, "")}%`;
 
 /** Reliability diagram: market price vs. how often YES actually happened, with 95% intervals. */
 export function MarketCalibration() {
@@ -130,6 +131,7 @@ export function MarketCalibration() {
                   key={i}
                   onMouseEnter={() => setActive(i)}
                   onMouseLeave={() => setActive(null)}
+                  onClick={() => setActive(i)}
                   onFocus={() => setActive(i)}
                   onBlur={() => setActive(null)}
                   tabIndex={0}
@@ -169,7 +171,7 @@ export function MarketCalibration() {
                     </p>
                   </>
                 ) : (
-                  <p className="text-sm text-muted">Hover or tab to a point to see the numbers behind it.</p>
+                  <p className="text-sm text-muted">Tap, hover, or tab to a point to see the numbers behind it.</p>
                 )}
               </div>
               <dl className="grid grid-cols-2 gap-3">
