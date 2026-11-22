@@ -7,11 +7,12 @@ export const profile = {
   firstName: "Aayush",
   lastName: "Thakkar",
   email: "thakkar.186@osu.edu",
-  location: "Columbus, OH",
-  timeZone: "America/New_York",
+  /** Where I want to work, shown next to my name. Ohio State is clear from everything else. The clock beside it uses this time zone. */
+  location: "Chicago, IL",
+  timeZone: "America/Chicago",
   tagline:
     "Business student at Ohio State's Fisher College of Business. I like problems where business, software, and AI meet, and I've spent more than ten years playing tournament chess.",
-  lookingFor: "Looking for Summer 2027 internships in data, software and AI, finance, quant, and consulting.",
+  lookingFor: "Looking for Summer 2027 internships in data, software and AI, finance, quant, and consulting, ideally in Chicago.",
   /** The general resume; each /for/ page links its own tailored version instead. */
   resume: "/resume/Aayush-Thakkar-Resume.pdf",
   links: [
@@ -1082,7 +1083,7 @@ export const education = [
 
 export const about = {
   story: [
-    "I grew up in Naperville, Illinois, and I'm now a business student at Ohio State's Fisher College of Business.",
+    "I grew up in Naperville, outside Chicago, and I'm now a business student at Ohio State's Fisher College of Business.",
     "Chess has been the constant. I've studied it for more than ten years and played 70+ rated tournaments, each a multi-day event with 4–5 hour classical games. I'm a US Chess Expert (peak 2075, August 2026), one class below National Master, and in February 2026 I won the individual gold medal on Board 1 at the IHSA State Finals with a perfect 7/7.",
     "I've also spent a lot of time teaching it: 1,000+ students at Elite Chess, from first-time beginners to tournament players. As captain at Naperville North, I helped grow the team from 20 to 30 regular players.",
     "In high school I co-founded Roam Travel, a travel accessory startup that sold 250+ units. Now I'm looking for problems where business, software, and AI meet.",

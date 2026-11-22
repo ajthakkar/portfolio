@@ -30,7 +30,7 @@ export const roleViews: RoleView[] = [
     slug: "software",
     resume: resume("software"),
     summary: "I build things and then try to prove they work: a neural network trained on my chess games, an LLM quiz app checked against the book, and a storm outage model.",
-    lookingFor: "Looking for a Summer 2027 internship in software, ML, or AI.",
+    lookingFor: "Looking for a Summer 2027 internship in software, ML, or AI, ideally in Chicago.",
     label: "Software & AI",
     title: "Software, ML & AI",
     pitch:
@@ -44,7 +44,7 @@ export const roleViews: RoleView[] = [
     slug: "data",
     resume: resume("data"),
     summary: "I like questions that data can actually answer, and I care about getting the comparison right before trusting the answer.",
-    lookingFor: "Looking for a Summer 2027 internship in data science or analytics.",
+    lookingFor: "Looking for a Summer 2027 internship in data science or analytics, ideally in Chicago.",
     label: "Data & analytics",
     title: "Data & analytics",
     pitch:
@@ -58,7 +58,7 @@ export const roleViews: RoleView[] = [
     slug: "finance",
     resume: resume("finance"),
     summary: "Fisher business student and former startup CFO. I pitched Constellation Energy as a long, then built an Excel model from SEC filings to test the call.",
-    lookingFor: "Looking for a Summer 2027 internship in finance.",
+    lookingFor: "Looking for a Summer 2027 internship in finance, ideally in Chicago.",
     label: "Finance",
     title: "Finance",
     pitch:
@@ -72,7 +72,7 @@ export const roleViews: RoleView[] = [
     slug: "quant",
     resume: resume("quant"),
     summary: "US Chess Expert (peak 2075), 2600+ in online bullet, and in the habit of checking whether a pattern is real before betting on it.",
-    lookingFor: "Looking for a Summer 2027 internship in quant research or trading.",
+    lookingFor: "Looking for a Summer 2027 internship in quant research or trading, ideally in Chicago.",
     label: "Quant & trading",
     title: "Quant & trading",
     pitch:
@@ -87,7 +87,7 @@ export const roleViews: RoleView[] = [
     resume: resume("consulting"),
     summary:
       "I've worked with real clients and customers: Ohio State's University Libraries through BDAA, buyers of the product I co-founded, and AEP at HackOHI/O.",
-    lookingFor: "Looking for a Summer 2027 internship in consulting or product.",
+    lookingFor: "Looking for a Summer 2027 internship in consulting or product, ideally in Chicago.",
     label: "Consulting & product",
     title: "Consulting & product",
     pitch:

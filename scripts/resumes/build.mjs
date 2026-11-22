@@ -2,7 +2,7 @@
    Writes an HTML page per version, then prints it to PDF with headless Microsoft Edge (Windows).
    Run: npm run resumes */
 import { execFileSync } from "node:child_process";
-import { existsSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
@@ -73,9 +73,21 @@ function page(r) {
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Aayush Thakkar, Resume</title><style>${css}</style></head>
 <body><h1>AAYUSH THAKKAR</h1><div class="contact">${contact(r.slug)
     .map(([text, href]) => `<span>${href ? `<a href="${href}">${text}</a>` : text}</span>`)
-    .join("")}</div>${body}${skills}</body></html>`;
+    .join("")}</div>${body}${skills}${fitContact}</body></html>`;
 }
 
+/* The contact line stays on one line. If it's wider than the page, Edge would shrink the whole resume to fit,
+   by a different amount for each version. Shrink only the contact line instead, so every version prints at
+   the same body size. */
+const fitContact = `<script>
+const c = document.querySelector(".contact");
+for (let pt = 9; c.scrollWidth > c.clientWidth && pt > 7.5; pt -= 0.1) c.style.fontSize = pt.toFixed(1) + "pt";
+</script>`;
+
+/** Pages in a PDF: page objects, not the page tree. */
+const pageCount = (file) => (readFileSync(file, "latin1").match(/\/Type\s*\/Page(?!s)/g) ?? []).length;
+
+const overflow = [];
 for (const r of resumes) {
   const html = join(work, `${r.slug}.html`);
   writeFileSync(html, page(r));
@@ -96,7 +108,13 @@ for (const r of resumes) {
     for (let i = 0; i < 40 && !existsSync(pdf); i++) await new Promise((ok) => setTimeout(ok, 250));
   }
   if (!existsSync(pdf)) throw new Error(`Edge didn't produce ${name}`);
-  console.log(`wrote public/resume/${name}`);
+  const pages = pageCount(pdf);
+  console.log(`wrote public/resume/${name} (${pages} page${pages === 1 ? "" : "s"})`);
+  if (pages !== 1) overflow.push(name);
+}
+if (overflow.length) {
+  console.error(`Over one page: ${overflow.join(", ")}. Cut a bullet in scripts/resumes/data.mjs and run again.`);
+  process.exitCode = 1;
 }
 try {
   rmSync(work, { recursive: true, force: true });

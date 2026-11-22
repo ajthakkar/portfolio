@@ -7,7 +7,7 @@ const SITE = "aayush-thakkar.vercel.app";
 export const contact = (slug) => {
   const site = slug === "general" ? SITE : `${SITE}/for/${slug}`;
   return [
-    ["Columbus, OH"],
+    ["Chicago, IL"],
     ["630-210-1695", "tel:+16302101695"],
     ["thakkar.186@osu.edu", "mailto:thakkar.186@osu.edu"],
     ["linkedin.com/in/aayush--thakkar", "https://www.linkedin.com/in/aayush--thakkar"],
@@ -93,7 +93,7 @@ const P = {
     date: "Oct 2026",
     points: [
       "Our team replaced a hand-weighted outage risk score with a physics-based model fitted on 11 real storms; held-out AUC on the worst storm rose from 0.39 to 0.72",
-      "Tested every option on storms the model hadn't seen; the simple model beat logistic regression (0.68 vs. 0.60 AUC on big storms) and gradient boosting",
+      "On held-out storms, the simple model beat logistic regression (0.68 vs. 0.60 AUC on big storms) and gradient boosting",
     ].slice(0, n),
   }),
   ceg: (n = 3) => ({
