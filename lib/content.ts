@@ -7,9 +7,10 @@ export const profile = {
   firstName: "Aayush",
   lastName: "Thakkar",
   email: "thakkar.186@osu.edu",
-  /** Where I want to work, shown next to my name. Ohio State is clear from everything else. The clock beside it uses this time zone. */
+  /** Where I want to work, shown next to my name. Ohio State is clear from everything else. */
   location: "Chicago, IL",
-  timeZone: "America/Chicago",
+  /** Where I actually am (Ohio State, Columbus), so the clock tells people when I'll see their message. Shown with its zone, e.g. "10:42 PM EST". */
+  timeZone: "America/New_York",
   tagline:
     "Business student at Ohio State's Fisher College of Business. I like problems where business, software, and AI meet, and I've spent more than ten years playing tournament chess.",
   lookingFor: "Looking for Summer 2027 internships in data, software and AI, finance, quant, and consulting, ideally in Chicago.",

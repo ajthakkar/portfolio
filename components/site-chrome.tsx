@@ -88,7 +88,12 @@ export function LocalTime() {
   useEffect(() => {
     const format = () =>
       setTime(
-        new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit", timeZone: profile.timeZone }).format(new Date()),
+        new Intl.DateTimeFormat("en-US", {
+          hour: "numeric",
+          minute: "2-digit",
+          timeZone: profile.timeZone,
+          timeZoneName: "short",
+        }).format(new Date()),
       );
     format();
     const id = window.setInterval(format, 30_000);
