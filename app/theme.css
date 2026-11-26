@@ -245,14 +245,36 @@ a.chip:hover {
   line-height: 0.9;
 }
 
-/* Page transitions */
+/* A lime underline draws itself under the last name once the page has loaded. */
+.hero-last {
+  width: fit-content;
+  padding-bottom: 0.06em;
+  background-image: linear-gradient(rgb(var(--lime)), rgb(var(--lime)));
+  background-repeat: no-repeat;
+  background-position: 0 92%;
+  background-size: 100% 0.09em;
+  animation: underline-draw 1.1s var(--ease-out) 0.55s both;
+}
+@keyframes underline-draw {
+  from {
+    background-size: 0% 0.09em;
+  }
+}
+
+/* Page transitions: a short rise with a touch of blur. */
 :root {
-  --vt-in-shift: 10px;
-  --vt-blur: 0px;
+  --vt-in-shift: 12px;
+  --vt-blur: 3px;
+  --vt-in-duration: 420ms;
+  --rise-blur: 4px;
+  --reveal-blur: 3px;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .status-dot::after {
+    animation: none;
+  }
+  .hero-last {
     animation: none;
   }
   .btn,
