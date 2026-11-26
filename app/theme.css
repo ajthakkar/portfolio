@@ -1,54 +1,64 @@
-/* ───────────────────────── Theme: Refined ─────────────────────────
-   The current colors, toned down: lime is an accent, not a fill.
-   Every theme defines the same tokens and component classes, so swapping
-   this file (and app/fonts.ts) changes the whole look. */
+/* ───────────────────────── Theme: Editorial ─────────────────────────
+   Warm paper, a serif for the name and headings, one blue accent.
+   Reads like a well-made report. Light by default, with a dark mode.
+   Pages turn: sections slide up as they arrive, and titles carry over. */
 
 :root {
-  --paper: 246 244 239;
-  --paper-2: 255 255 255;
-  --ink: 22 18 28;
-  --copy: 58 52 66;
-  --muted: 98 91 107;
-  --faint: 120 113 128;
-  --line: 222 217 208;
-  --accent: 74 106 0;
-  --accent-ink: 250 249 245;
-  --lime: 199 247 74;
-  --lime-ink: 22 18 28;
-  --coral: 184 58 34;
-  --sq-light: 239 235 224;
-  --sq-dark: 211 227 160;
-  --glow: 0.05;
-  --radius: 16px;
-  --radius-sm: 10px;
-  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --paper: 246 244 238;
+  --paper-2: 255 255 253;
+  --ink: 22 21 19;
+  --copy: 58 56 52;
+  --muted: 104 100 94;
+  --faint: 128 124 117;
+  --line: 224 219 209;
+  --accent: 29 78 216;
+  --accent-ink: 255 255 253;
+  --lime: 29 78 216;
+  --lime-ink: 255 255 253;
+  --coral: 176 64 40;
+  --sq-light: 238 234 224;
+  --sq-dark: 214 220 240;
+  --radius: 6px;
+  --radius-sm: 6px;
+  --ease-out: cubic-bezier(0.19, 1, 0.22, 1);
   color-scheme: light;
 }
 
 html.dark {
-  --paper: 14 12 19;
-  --paper-2: 22 19 29;
-  --ink: 244 240 232;
-  --copy: 206 200 212;
-  --muted: 160 152 170;
-  --faint: 128 121 140;
-  --line: 44 39 54;
-  --accent: 199 247 74;
-  --accent-ink: 14 12 19;
-  --lime: 199 247 74;
-  --lime-ink: 14 12 19;
-  --coral: 255 128 104;
-  --sq-light: 48 54 32;
-  --sq-dark: 22 19 29;
-  --glow: 0.08;
+  --paper: 18 18 17;
+  --paper-2: 25 25 23;
+  --ink: 238 235 228;
+  --copy: 206 202 194;
+  --muted: 160 156 148;
+  --faint: 126 122 115;
+  --line: 48 47 44;
+  --accent: 150 174 255;
+  --accent-ink: 18 18 17;
+  --lime: 150 174 255;
+  --lime-ink: 18 18 17;
+  --coral: 240 140 110;
+  --sq-light: 44 44 40;
+  --sq-dark: 30 34 52;
   color-scheme: dark;
 }
 
-body {
-  background-image:
-    radial-gradient(1000px 560px at 10% -12%, rgb(var(--lime) / var(--glow)), transparent 62%),
-    radial-gradient(900px 560px at 100% -10%, rgb(150 92 255 / var(--glow)), transparent 60%);
-  background-repeat: no-repeat;
+/* Motion: long, calm slides. */
+:root {
+  --rise-shift: 22px;
+  --rise-duration: 1s;
+  --rise-stagger: 110ms;
+  --reveal-shift: 28px;
+  --vt-in-shift: 24px;
+  --vt-out-shift: -8px;
+  --vt-out-duration: 240ms;
+  --vt-in-duration: 640ms;
+  --vt-morph-duration: 640ms;
+}
+
+/* The serif only comes in one weight; keep headings at it, with normal spacing. */
+.font-display {
+  font-weight: 400 !important;
+  letter-spacing: -0.012em !important;
 }
 
 .label {
@@ -66,103 +76,108 @@ body {
   color: rgb(var(--accent));
 }
 
+.section-title {
+  font-size: clamp(2.2rem, 4.5vw, 3.4rem) !important;
+  line-height: 1.02;
+}
+
 .btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.72rem 1.15rem;
+  gap: 0.55rem;
+  padding: 0.78rem 1.25rem;
   border-radius: var(--radius-sm);
   font-size: 0.875rem;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.2;
   transition:
-    transform 0.18s var(--ease-out),
-    background-color 0.2s ease,
-    border-color 0.2s ease,
-    color 0.2s ease,
-    box-shadow 0.25s ease;
+    transform 0.3s var(--ease-out),
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.3s ease;
 }
 .btn:active {
-  transform: scale(0.97);
+  transform: scale(0.98);
 }
 .btn-sm {
-  padding: 0.5rem 0.85rem;
+  padding: 0.52rem 0.9rem;
   font-size: 0.8125rem;
 }
 .btn-primary {
+  background: rgb(var(--ink));
+  color: rgb(var(--paper));
+}
+.btn-primary:hover {
   background: rgb(var(--accent));
   color: rgb(var(--accent-ink));
 }
-.btn-primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 24px -8px rgb(var(--accent) / 0.55);
-}
 .btn-secondary {
-  border: 1px solid rgb(var(--line));
+  border: 1px solid rgb(var(--ink) / 0.25);
   color: rgb(var(--ink));
-  background: rgb(var(--paper-2) / 0.6);
 }
 .btn-secondary:hover {
-  border-color: rgb(var(--ink) / 0.4);
-  transform: translateY(-1px);
+  border-color: rgb(var(--ink));
 }
 
 .panel {
   border: 1px solid rgb(var(--line));
   border-radius: var(--radius);
-  background: rgb(var(--paper-2) / 0.75);
+  background: rgb(var(--paper-2));
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.04);
 }
 
-/* Project cards: a soft spotlight follows the pointer (see components/spotlight.tsx). */
+/* Project cards: paper that lifts, a title that turns blue and italic. */
 .card {
   position: relative;
   border: 1px solid rgb(var(--line));
   border-radius: var(--radius);
-  background: rgb(var(--paper-2) / 0.75);
+  background: rgb(var(--paper-2));
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.04);
   transition:
-    border-color 0.3s ease,
-    transform 0.35s var(--ease-out),
-    box-shadow 0.35s ease;
-}
-.card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgb(var(--accent) / 0.1), transparent 60%);
+    transform 0.5s var(--ease-out),
+    box-shadow 0.5s var(--ease-out),
+    border-color 0.3s ease;
 }
 .group:hover .card,
 .card[data-active="true"] {
-  border-color: rgb(var(--accent) / 0.45);
-  transform: translateY(-2px);
-  box-shadow: 0 18px 40px -24px rgb(0 0 0 / 0.45);
+  transform: translateY(-3px);
+  border-color: rgb(var(--ink) / 0.2);
+  box-shadow: 0 22px 40px -28px rgb(0 0 0 / 0.35);
 }
-.group:hover .card::before {
-  opacity: 1;
+.card-title {
+  transition: color 0.3s ease;
+}
+.group:hover .card-title {
+  color: rgb(var(--accent));
+  font-style: italic;
+}
+.card-index {
+  font-family: var(--font-display), serif;
+  font-size: 1.6rem;
+  font-style: italic;
+  line-height: 1;
 }
 
 .chip {
   display: inline-flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.3rem;
   border: 1px solid rgb(var(--line));
   border-radius: 999px;
-  padding: 0.15rem 0.6rem;
-  font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 11px;
+  padding: 0.16rem 0.62rem;
+  font-size: 12px;
   color: rgb(var(--copy));
+  background: rgb(var(--paper-2));
   transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease,
-    color 0.2s ease;
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease;
 }
 button.chip:hover,
 a.chip:hover {
-  border-color: rgb(var(--accent) / 0.6);
-  color: rgb(var(--ink));
+  border-color: rgb(var(--accent));
+  color: rgb(var(--accent));
 }
 .chip[data-active="true"] {
   background: rgb(var(--accent));
@@ -177,20 +192,20 @@ a.chip:hover {
   width: 8px;
   flex-shrink: 0;
   border-radius: 999px;
-  background: rgb(var(--accent));
+  background: rgb(46 160 90);
 }
 .status-dot::after {
   content: "";
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  background: rgb(var(--accent));
+  background: rgb(46 160 90);
   animation: status-pulse 2.4s var(--ease-out) infinite;
 }
 @keyframes status-pulse {
   from {
     transform: scale(1);
-    opacity: 0.6;
+    opacity: 0.5;
   }
   to {
     transform: scale(3);
@@ -200,12 +215,21 @@ a.chip:hover {
 
 .ticker {
   border-block: 1px solid rgb(var(--line));
-  background: rgb(var(--paper-2) / 0.5);
+}
+.ticker .marquee li {
+  font-family: var(--font-display), serif;
+  font-size: 1.05rem;
+  letter-spacing: 0;
+  text-transform: none;
+  font-style: italic;
 }
 .ticker-sep {
   color: rgb(var(--accent));
 }
 
+.nav-link[aria-current="page"] {
+  font-style: italic;
+}
 .nav-link[aria-current="page"]::after {
   content: "";
   position: absolute;
@@ -217,38 +241,35 @@ a.chip:hover {
 }
 
 .portrait {
-  border: 1px solid rgb(var(--line));
   border-radius: var(--radius);
   overflow: hidden;
-  padding: 4px;
-  background: rgb(var(--paper-2));
-}
-.portrait > div {
-  border-radius: calc(var(--radius) - 4px);
+  box-shadow: 0 20px 40px -24px rgb(0 0 0 / 0.4);
 }
 
 .row-link {
-  transition: background-color 0.25s ease;
+  transition: background-color 0.3s ease;
 }
 .row-link:hover {
-  background: rgb(var(--paper-2) / 0.7);
+  background: rgb(var(--paper-2));
 }
 
 .scroll-progress {
   background: rgb(var(--accent));
 }
 
+/* The name: a big serif, last name in italic blue. */
 .hero-name {
-  font-family: var(--font-display), system-ui, sans-serif;
-  font-weight: 700;
-  letter-spacing: -0.045em;
-  line-height: 0.9;
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 0.92;
 }
-
-/* Page transitions */
-:root {
-  --vt-in-shift: 10px;
-  --vt-blur: 0px;
+.hero-name {
+  font-size: clamp(4rem, 11vw, 7.6rem) !important;
+}
+.hero-last {
+  font-style: italic;
+  color: rgb(var(--accent));
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -16,8 +16,8 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image" },
 };
 
-/* Dark is the default theme; a saved "light" choice wins. */
-const themeScript = `try{if(localStorage.getItem("theme")!=="light")document.documentElement.classList.add("dark")}catch(e){document.documentElement.classList.add("dark")}`;
+/* Light is the default for this theme; a saved "dark" choice wins. */
+const themeScript = `try{if(localStorage.getItem("theme")==="dark")document.documentElement.classList.add("dark")}catch(e){}`;
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
