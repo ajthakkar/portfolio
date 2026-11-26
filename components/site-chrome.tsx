@@ -92,7 +92,7 @@ export function LocalTime() {
           hour: "numeric",
           minute: "2-digit",
           timeZone: profile.timeZone,
-          timeZoneName: "short",
+          timeZoneName: "shortGeneric",
         }).format(new Date()),
       );
     format();

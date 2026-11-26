@@ -9,8 +9,8 @@ export const profile = {
   email: "thakkar.186@osu.edu",
   /** Where I want to work, shown next to my name. Ohio State is clear from everything else. */
   location: "Chicago, IL",
-  /** Where I actually am (Ohio State, Columbus), so the clock tells people when I'll see their message. Shown with its zone, e.g. "10:42 PM EST". */
-  timeZone: "America/New_York",
+  /** The clock beside the location uses Chicago time, labeled "CT" (correct in both standard and daylight time). */
+  timeZone: "America/Chicago",
   tagline:
     "Business student at Ohio State's Fisher College of Business. I like problems where business, software, and AI meet, and I've spent more than ten years playing tournament chess.",
   lookingFor: "Looking for Summer 2027 internships in data, software and AI, finance, quant, and consulting, ideally in Chicago.",
