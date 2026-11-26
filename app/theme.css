@@ -1,209 +1,237 @@
-/* ───────────────────────── Theme: Refined ─────────────────────────
-   The current colors, toned down: lime is an accent, not a fill.
-   Every theme defines the same tokens and component classes, so swapping
-   this file (and app/fonts.ts) changes the whole look. */
+/* ───────────────────────── Theme: Monochrome ─────────────────────────
+   Black and white, no accent color. Tight grotesk type, film grain,
+   blur-in page transitions, and project cards that invert on hover. */
 
 :root {
-  --paper: 246 244 239;
+  --paper: 250 250 250;
   --paper-2: 255 255 255;
-  --ink: 22 18 28;
-  --copy: 58 52 66;
-  --muted: 98 91 107;
-  --faint: 120 113 128;
-  --line: 222 217 208;
-  --accent: 74 106 0;
-  --accent-ink: 250 249 245;
-  --lime: 199 247 74;
-  --lime-ink: 22 18 28;
-  --coral: 184 58 34;
-  --sq-light: 239 235 224;
-  --sq-dark: 211 227 160;
-  --glow: 0.05;
-  --radius: 16px;
-  --radius-sm: 10px;
-  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ink: 10 10 10;
+  --copy: 42 42 42;
+  --muted: 92 92 92;
+  --faint: 125 125 125;
+  --line: 226 226 226;
+  --accent: 10 10 10;
+  --accent-ink: 250 250 250;
+  --lime: 10 10 10;
+  --lime-ink: 250 250 250;
+  --coral: 92 92 92;
+  --sq-light: 236 236 236;
+  --sq-dark: 214 214 214;
+  --radius: 2px;
+  --radius-sm: 999px;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --grain: 0.05;
   color-scheme: light;
 }
 
 html.dark {
-  --paper: 14 12 19;
-  --paper-2: 22 19 29;
-  --ink: 244 240 232;
-  --copy: 206 200 212;
-  --muted: 160 152 170;
-  --faint: 128 121 140;
-  --line: 44 39 54;
-  --accent: 199 247 74;
-  --accent-ink: 14 12 19;
-  --lime: 199 247 74;
-  --lime-ink: 14 12 19;
-  --coral: 255 128 104;
-  --sq-light: 48 54 32;
-  --sq-dark: 22 19 29;
-  --glow: 0.08;
+  --paper: 8 8 8;
+  --paper-2: 16 16 16;
+  --ink: 245 245 245;
+  --copy: 210 210 210;
+  --muted: 150 150 150;
+  --faint: 112 112 112;
+  --line: 36 36 36;
+  --accent: 245 245 245;
+  --accent-ink: 8 8 8;
+  --lime: 245 245 245;
+  --lime-ink: 8 8 8;
+  --coral: 170 170 170;
+  --sq-light: 40 40 40;
+  --sq-dark: 16 16 16;
+  --grain: 0.07;
   color-scheme: dark;
 }
 
-body {
-  background-image:
-    radial-gradient(1000px 560px at 10% -12%, rgb(var(--lime) / var(--glow)), transparent 62%),
-    radial-gradient(900px 560px at 100% -10%, rgb(150 92 255 / var(--glow)), transparent 60%);
-  background-repeat: no-repeat;
+/* Motion: things arrive out of a soft blur. */
+:root {
+  --rise-blur: 8px;
+  --rise-shift: 6px;
+  --rise-duration: 0.9s;
+  --rise-stagger: 90ms;
+  --reveal-blur: 6px;
+  --reveal-shift: 10px;
+  --vt-blur: 8px;
+  --vt-in-shift: 0px;
+  --vt-out-duration: 220ms;
+  --vt-in-duration: 520ms;
+  --vt-morph-duration: 560ms;
+}
+
+/* Film grain over everything, very faint. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: -50%;
+  z-index: 60;
+  pointer-events: none;
+  opacity: var(--grain);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 .label {
   font-family: var(--font-mono), ui-monospace, monospace;
   font-size: 11px;
   line-height: 1.3;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
 .kicker {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  color: rgb(var(--accent));
+  gap: 0.6rem;
+  color: rgb(var(--muted));
+}
+.kicker::before {
+  content: "";
+  width: 1.5rem;
+  height: 1px;
+  background: currentColor;
+}
+
+.font-display {
+  letter-spacing: -0.035em;
 }
 
 .btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.72rem 1.15rem;
-  border-radius: var(--radius-sm);
+  gap: 0.55rem;
+  padding: 0.75rem 1.3rem;
+  border-radius: 999px;
   font-size: 0.875rem;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.2;
   transition:
-    transform 0.18s var(--ease-out),
-    background-color 0.2s ease,
-    border-color 0.2s ease,
-    color 0.2s ease,
-    box-shadow 0.25s ease;
+    transform 0.25s var(--ease-out),
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease;
 }
 .btn:active {
   transform: scale(0.97);
 }
 .btn-sm {
-  padding: 0.5rem 0.85rem;
+  padding: 0.5rem 0.95rem;
   font-size: 0.8125rem;
 }
 .btn-primary {
-  background: rgb(var(--accent));
-  color: rgb(var(--accent-ink));
+  background: rgb(var(--ink));
+  color: rgb(var(--paper));
 }
 .btn-primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 8px 24px -8px rgb(var(--accent) / 0.55);
 }
 .btn-secondary {
   border: 1px solid rgb(var(--line));
   color: rgb(var(--ink));
-  background: rgb(var(--paper-2) / 0.6);
 }
 .btn-secondary:hover {
-  border-color: rgb(var(--ink) / 0.4);
-  transform: translateY(-1px);
+  border-color: rgb(var(--ink));
+}
+.btn svg {
+  transition: transform 0.3s var(--ease-out);
+}
+.btn:hover svg {
+  transform: translate(2px, -1px);
 }
 
 .panel {
   border: 1px solid rgb(var(--line));
   border-radius: var(--radius);
-  background: rgb(var(--paper-2) / 0.75);
+  background: rgb(var(--paper-2) / 0.6);
 }
 
-/* Project cards: a soft spotlight follows the pointer (see components/spotlight.tsx). */
+/* Project cards: a white sheet sweeps across on hover and inverts the card. */
 .card {
   position: relative;
+  isolation: isolate;
   border: 1px solid rgb(var(--line));
   border-radius: var(--radius);
-  background: rgb(var(--paper-2) / 0.75);
-  transition:
-    border-color 0.3s ease,
-    transform 0.35s var(--ease-out),
-    box-shadow 0.35s ease;
+  overflow: hidden;
+  transition: border-color 0.4s ease;
 }
 .card::before {
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: inherit;
+  z-index: 2;
   pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgb(var(--accent) / 0.1), transparent 60%);
+  background: #fff;
+  mix-blend-mode: difference;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.6s var(--ease-out);
+}
+.group:hover .card::before,
+.group:focus-visible .card::before {
+  transform: scaleX(1);
 }
 .group:hover .card,
 .card[data-active="true"] {
-  border-color: rgb(var(--accent) / 0.45);
-  transform: translateY(-2px);
-  box-shadow: 0 18px 40px -24px rgb(0 0 0 / 0.45);
-}
-.group:hover .card::before {
-  opacity: 1;
+  border-color: rgb(var(--ink));
 }
 
 .chip {
   display: inline-flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.3rem;
   border: 1px solid rgb(var(--line));
   border-radius: 999px;
-  padding: 0.15rem 0.6rem;
+  padding: 0.18rem 0.65rem;
   font-family: var(--font-mono), ui-monospace, monospace;
   font-size: 11px;
   color: rgb(var(--copy));
   transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease,
-    color 0.2s ease;
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease;
 }
 button.chip:hover,
 a.chip:hover {
-  border-color: rgb(var(--accent) / 0.6);
+  border-color: rgb(var(--ink));
   color: rgb(var(--ink));
 }
 .chip[data-active="true"] {
-  background: rgb(var(--accent));
-  border-color: rgb(var(--accent));
-  color: rgb(var(--accent-ink));
+  background: rgb(var(--ink));
+  border-color: rgb(var(--ink));
+  color: rgb(var(--paper));
 }
 
 .status-dot {
   position: relative;
   display: inline-block;
-  height: 8px;
-  width: 8px;
+  height: 7px;
+  width: 7px;
   flex-shrink: 0;
   border-radius: 999px;
-  background: rgb(var(--accent));
+  background: rgb(var(--ink));
 }
 .status-dot::after {
   content: "";
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  background: rgb(var(--accent));
-  animation: status-pulse 2.4s var(--ease-out) infinite;
+  border: 1px solid rgb(var(--ink));
+  animation: status-pulse 2.6s var(--ease-out) infinite;
 }
 @keyframes status-pulse {
   from {
     transform: scale(1);
-    opacity: 0.6;
+    opacity: 0.8;
   }
   to {
-    transform: scale(3);
+    transform: scale(3.2);
     opacity: 0;
   }
 }
 
 .ticker {
   border-block: 1px solid rgb(var(--line));
-  background: rgb(var(--paper-2) / 0.5);
 }
 .ticker-sep {
-  color: rgb(var(--accent));
+  color: rgb(var(--faint));
 }
 
 .nav-link[aria-current="page"]::after {
@@ -213,50 +241,52 @@ a.chip:hover {
   right: 0.75rem;
   bottom: 0.45rem;
   height: 1px;
-  background: rgb(var(--accent));
+  background: rgb(var(--ink));
 }
 
 .portrait {
   border: 1px solid rgb(var(--line));
-  border-radius: var(--radius);
-  overflow: hidden;
-  padding: 4px;
-  background: rgb(var(--paper-2));
+  padding: 6px;
+  filter: grayscale(1);
+  transition: filter 0.6s ease;
 }
-.portrait > div {
-  border-radius: calc(var(--radius) - 4px);
+.portrait:hover {
+  filter: grayscale(0);
 }
 
 .row-link {
-  transition: background-color 0.25s ease;
+  transition: padding 0.4s var(--ease-out), background-color 0.3s ease;
 }
 .row-link:hover {
-  background: rgb(var(--paper-2) / 0.7);
+  padding-left: 1rem;
 }
 
 .scroll-progress {
-  background: rgb(var(--accent));
+  background: rgb(var(--ink));
 }
 
+/* The name: huge and tight, last name in gray. */
 .hero-name {
   font-family: var(--font-display), system-ui, sans-serif;
-  font-weight: 700;
-  letter-spacing: -0.045em;
-  line-height: 0.9;
+  font-weight: 600;
+  letter-spacing: -0.06em;
+  line-height: 0.88;
+}
+.hero-last {
+  color: rgb(var(--faint));
 }
 
-/* Page transitions */
-:root {
-  --vt-in-shift: 10px;
-  --vt-blur: 0px;
+.text-accent {
+  color: rgb(var(--ink));
 }
 
 @media (prefers-reduced-motion: reduce) {
   .status-dot::after {
     animation: none;
   }
+  .card::before,
   .btn,
-  .card {
+  .row-link {
     transition: none;
   }
 }
