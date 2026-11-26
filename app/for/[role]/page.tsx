@@ -4,7 +4,7 @@ import { ArrowRight, FileText } from "lucide-react";
 import { ContactCta } from "@/components/contact-cta";
 import { Tldr } from "@/components/tldr";
 import { TransitionLink } from "@/components/transition-link";
-import { ExternalLink, Kicker, Panel } from "@/components/ui";
+import { Card, Chip, ExternalLink, Kicker, Panel } from "@/components/ui";
 import { cases, experience, honors, involvement, profile, skillName, type Case } from "@/lib/content";
 import { pageMeta } from "@/lib/meta";
 import { roleViews } from "@/lib/roles";
@@ -37,9 +37,9 @@ function LeadProject({ c }: { c: Case }) {
   return (
     <li>
       <TransitionLink href={`/projects/${c.slug}/`} className="group block h-full">
-        <Panel small className="h-full transition-colors duration-200 group-hover:bg-accent" inner="flex h-full flex-col gap-4 p-5 sm:p-6">
+        <Card className="flex h-full flex-col gap-4 p-5 sm:p-6">
           <div className="space-y-1.5">
-            <p className="pixel text-muted">
+            <p className="label text-muted">
               {c.area} · {c.period}
             </p>
             <h3 className="font-display text-2xl font-bold tracking-[-0.02em] text-ink">{c.title}</h3>
@@ -48,9 +48,7 @@ function LeadProject({ c }: { c: Case }) {
           <div className="mt-auto flex flex-wrap items-center justify-between gap-3 pt-1">
             <span className="flex flex-wrap gap-1.5">
               {c.rewards.map((r) => (
-                <span key={r} className="border border-line px-1.5 py-0.5 font-mono text-[11px] text-copy">
-                  {skillName(r)}
-                </span>
+                <Chip key={r}>{skillName(r)}</Chip>
               ))}
             </span>
             <span className="inline-flex items-center gap-1 font-mono text-xs text-accent">
@@ -58,7 +56,7 @@ function LeadProject({ c }: { c: Case }) {
               <ArrowRight aria-hidden="true" className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
             </span>
           </div>
-        </Panel>
+        </Card>
       </TransitionLink>
     </li>
   );
@@ -87,7 +85,7 @@ export default function RolePage({ params }: Params) {
           {profile.name}
         </h1>
         <p className="rise text-sm font-medium text-muted" style={{ "--i": 1 } as React.CSSProperties}>
-          {profile.playerClass} · Class of 2029 · {profile.location}
+          {profile.standing} · Class of 2029 · {profile.location}
         </p>
         <p className="rise max-w-3xl text-base leading-relaxed text-copy sm:text-lg" style={{ "--i": 2 } as React.CSSProperties}>
           {view.pitch}
@@ -105,7 +103,7 @@ export default function RolePage({ params }: Params) {
             href={view.resume}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-game inline-flex items-center gap-2 bg-lime px-4 py-2.5 font-display text-sm font-bold text-lime-ink"
+            className="btn btn-primary btn-sm"
           >
             <FileText aria-hidden="true" className="h-4 w-4" />
             Resume (PDF)
@@ -142,7 +140,7 @@ export default function RolePage({ params }: Params) {
                     <span className="block font-display text-lg font-bold tracking-tight text-ink group-hover:text-accent">
                       {c.title}
                     </span>
-                    <span className="pixel mt-1 block text-muted">{c.area}</span>
+                    <span className="label mt-1 block text-muted">{c.area}</span>
                   </span>
                   <span className="hidden text-sm text-muted sm:block">{c.tldr[2]}</span>
                   <ArrowRight aria-hidden="true" className="h-4 w-4 text-faint group-hover:text-accent" />
@@ -210,7 +208,7 @@ export default function RolePage({ params }: Params) {
 
       <nav aria-label="Other short versions" className="mt-16 flex flex-col gap-3 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
         <p className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted">
-          <span className="pixel">Other versions</span>
+          <span className="label">Other versions</span>
           {others.map((r) => (
             <TransitionLink key={r.slug} href={`/for/${r.slug}/`} className="link-underline py-1 hover:text-ink">
               {r.label}

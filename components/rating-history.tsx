@@ -185,7 +185,7 @@ export function RatingHistory() {
           { label: "Rated since", value: stats ? stats.first[0].slice(0, 4) : "—", sub: siteDef.label },
         ].map((s) => (
           <div key={s.label} className="bg-paper p-4">
-            <dt className="pixel text-muted">{s.label}</dt>
+            <dt className="label text-muted">{s.label}</dt>
             <dd className="mt-2 font-display text-3xl font-extrabold tabular-nums tracking-[-0.03em] text-ink">{s.value}</dd>
             <dd className="mt-0.5 text-xs text-muted">{s.sub}</dd>
           </div>
@@ -206,7 +206,7 @@ export function RatingHistory() {
         <p>
           {live && (
             <span className="mr-2 inline-flex items-center gap-1.5 text-accent">
-              <span aria-hidden="true" className="blink inline-block h-1.5 w-1.5 bg-accent" />
+              <span aria-hidden="true" className="status-dot" />
               Live
             </span>
           )}

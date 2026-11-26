@@ -45,8 +45,8 @@ export function CommandMenu() {
     return [
       { id: "home", group: "Pages", label: "Home", run: () => go("/") },
       { id: "projects", group: "Pages", label: "Projects", hint: "All of them, by area", run: () => go("/projects/") },
-      { id: "skills", group: "Pages", label: "Skill tree", hint: "Skills and their proof", run: () => go("/#skills") },
-      { id: "record", group: "Pages", label: "Record", hint: "Experience, honors, education", run: () => go("/record/") },
+      { id: "skills", group: "Pages", label: "Skills", hint: "Each skill and the projects behind it", run: () => go("/#skills") },
+      { id: "record", group: "Pages", label: "Experience", hint: "Experience, honors, education", run: () => go("/record/") },
       { id: "about", group: "Pages", label: "About", run: () => go("/about/") },
       { id: "resume", group: "Pages", label: "Resume (PDF)", run: external(profile.resume) },
       ...roleViews.map((r) => ({
@@ -218,7 +218,7 @@ export function CommandMenu() {
                 return (
                   <li key={item.id} role="presentation">
                     {header && (
-                      <p className="pixel px-3 pb-1.5 pt-3 text-faint">{item.group}</p>
+                      <p className="label px-3 pb-1.5 pt-3 text-faint">{item.group}</p>
                     )}
                     <div
                       id={`cmd-${item.id}`}
@@ -255,7 +255,7 @@ export function CommandMenu() {
       <div
         role="status"
         aria-live="polite"
-        className={`pixel pointer-events-none fixed bottom-6 left-1/2 z-50 -translate-x-1/2 bg-lime px-4 py-2.5 text-lime-ink transition-all duration-200 ${
+        className={`label pointer-events-none fixed bottom-6 left-1/2 z-50 -translate-x-1/2 bg-lime px-4 py-2.5 text-lime-ink transition-all duration-200 ${
           toast ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
         }`}
       >

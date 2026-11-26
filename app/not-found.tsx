@@ -15,7 +15,7 @@ export default function NotFound() {
         <p className="max-w-md text-base leading-relaxed text-copy">The page you&apos;re looking for doesn&apos;t exist. Take the move back.</p>
         <TransitionLink
           href="/"
-          className="btn-game inline-flex bg-lime px-4 py-2.5 font-display text-sm font-bold text-lime-ink"
+          className="btn btn-primary btn-sm"
         >
           Back to the start
         </TransitionLink>

@@ -35,7 +35,7 @@ function Segmented<T extends string>({
 }) {
   return (
     <div className="space-y-1.5">
-      <p className="pixel text-faint">{label}</p>
+      <p className="label text-faint">{label}</p>
       <div role="group" aria-label={label} className="flex flex-wrap gap-1.5">
         {options.map((o) => (
           <button

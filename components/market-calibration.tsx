@@ -176,7 +176,7 @@ export function MarketCalibration() {
               </div>
               <dl className="grid grid-cols-2 gap-3">
                 <div>
-                  <dt className="pixel text-muted">Calibration slope</dt>
+                  <dt className="label text-muted">Calibration slope</dt>
                   <dd className="font-display text-2xl font-bold text-ink">
                     {group.slope.slope.toFixed(2)}
                     <span className="ml-1.5 font-mono text-xs font-normal text-faint">
@@ -186,7 +186,7 @@ export function MarketCalibration() {
                   <dd className="text-xs text-muted">1.00 is perfect. Above 1, prices sit too close to 50%.</dd>
                 </div>
                 <div>
-                  <dt className="pixel text-muted">Brier score</dt>
+                  <dt className="label text-muted">Brier score</dt>
                   <dd className="font-display text-2xl font-bold text-ink">{group.brier.toFixed(3)}</dd>
                   <dd className="text-xs text-muted">Average squared miss. 0 is perfect; always saying 50% scores 0.25.</dd>
                 </div>

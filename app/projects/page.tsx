@@ -22,7 +22,7 @@ export default function ProjectsPage() {
           Everything I&apos;ve <span className="text-accent">built</span>
         </h1>
         <p className="rise max-w-2xl text-base leading-relaxed text-copy sm:text-lg" style={{ "--i": 2 } as React.CSSProperties}>
-          {cases.length} projects, strongest first. Filter by the same five areas as the skill tree. Every page opens with a
+          {cases.length} projects, strongest first. Filter by the same five areas as the skills section. Every page opens with a
           30-second summary, then the decisions behind it and what I&apos;d change.
         </p>
       </header>

@@ -33,10 +33,10 @@ export default function AboutPage() {
           </div>
         </div>
 
-        {/* Character portrait. Swap public/me.jpg for a new photo any time. */}
+        {/* Portrait. Swap public/me.jpg for a new photo any time. */}
         <figure className="rise group mx-auto w-full max-w-[240px]" style={{ "--i": 3 } as React.CSSProperties}>
-          <div className="notch bg-accent p-[3px] transition-transform duration-300 group-hover:-translate-y-1">
-            <div className="notch overflow-hidden bg-paper-2">
+          <div className="portrait transition-transform duration-500 group-hover:-translate-y-1">
+            <div className="overflow-hidden">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/me.jpg"
@@ -48,8 +48,8 @@ export default function AboutPage() {
             </div>
           </div>
           <figcaption className="mt-3 flex items-center justify-between">
-            <span className="pixel text-accent">Player 1</span>
-            <span className="pixel text-faint">{profile.location}</span>
+            <span className="label text-ink">{profile.name}</span>
+            <span className="label text-faint">{profile.location}</span>
           </figcaption>
         </figure>
       </header>
@@ -87,7 +87,7 @@ export default function AboutPage() {
                   href={p.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-game inline-flex items-center gap-1.5 bg-lime px-3.5 py-2 font-display text-sm font-bold text-lime-ink"
+                  className="btn btn-primary btn-sm"
                 >
                   Play me on {p.site}
                   <ArrowUpRight aria-hidden="true" className="h-3.5 w-3.5" />

@@ -16,7 +16,7 @@ export default function RecordPage() {
   return (
     <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
       <header className="space-y-5 pb-6 pt-12 sm:pt-20">
-        <Kicker className="rise">Record</Kicker>
+        <Kicker className="rise">Experience</Kicker>
         <h1 className="rise font-display text-5xl font-extrabold leading-[0.9] tracking-[-0.04em] text-ink sm:text-7xl" style={{ "--i": 1 } as React.CSSProperties}>
           The <span className="text-accent">track</span> record
         </h1>

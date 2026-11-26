@@ -4,13 +4,13 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { profile } from "@/lib/content";
 import { CommandMenu } from "./command-menu";
-import { XpBar } from "./hud";
+import { ScrollProgress } from "./scroll-progress";
 import { ThemeToggle } from "./theme";
 import { TransitionLink } from "./transition-link";
 
 const nav = [
   { href: "/projects/", match: "/projects", label: "Projects" },
-  { href: "/record/", match: "/record", label: "Record" },
+  { href: "/record/", match: "/record", label: "Experience" },
   { href: "/about/", match: "/about", label: "About" },
 ];
 
@@ -45,15 +45,10 @@ export function SiteHeader() {
                   key={item.label}
                   href={item.href}
                   aria-current={active ? "page" : undefined}
-                  className={`relative px-2.5 py-3 text-sm font-medium transition-colors sm:px-3 ${
+                  className={`nav-link relative px-2.5 py-3 text-sm font-medium transition-colors sm:px-3 ${
                     active ? "text-ink" : "text-muted hover:text-ink"
                   }`}
                 >
-                  {active && (
-                    <span aria-hidden="true" className="absolute left-0 top-1/2 -translate-y-1/2 text-[9px] text-accent sm:left-0.5">
-                      ▸
-                    </span>
-                  )}
                   {item.label}
                 </TransitionLink>
               );
@@ -63,22 +58,22 @@ export function SiteHeader() {
           <ThemeToggle />
         </div>
       </div>
-      <XpBar />
+      <ScrollProgress />
     </header>
   );
 }
 
-/** The logo: a 2×2 corner of the same lime board as the title screen. Turns a quarter on hover. */
+/** The logo: a 2×2 corner of a chessboard. Turns a quarter on hover. */
 function Mark() {
   return (
     <span
       aria-hidden="true"
       className="grid h-7 w-7 grid-cols-2 grid-rows-2 overflow-hidden border border-ink/20 transition-transform duration-500 [transition-timing-function:cubic-bezier(.2,.7,.2,1)] group-hover:rotate-90"
     >
-      <span className="bg-lime" />
+      <span className="bg-accent" />
       <span className="bg-sq-dark" />
       <span className="bg-sq-dark" />
-      <span className="bg-lime" />
+      <span className="bg-accent" />
     </span>
   );
 }

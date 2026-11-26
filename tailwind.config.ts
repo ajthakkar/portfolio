@@ -23,7 +23,6 @@ const config: Config = {
         display: ["var(--font-display)", "system-ui", "sans-serif"],
         sans: ["var(--font-sans)", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
         mono: ["var(--font-mono)", "ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
-        pixel: ["var(--font-pixel)", "ui-monospace", "monospace"],
       },
       keyframes: {
         "pop-in": {

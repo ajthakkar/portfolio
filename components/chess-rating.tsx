@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import accounts from "@/lib/chess-accounts.json";
-import { CountUp } from "./hud";
 import { TransitionLink } from "./transition-link";
 
 type Online = { site: string; rating: number; control: string; url: string };
@@ -49,7 +48,7 @@ export function ChessRating({ uscf }: { uscf: { current: number; peak: number; t
     <div className="space-y-2">
       {uscf && (
         <p>
-          <CountUp value={String(uscf.current)} className="font-mono text-base text-ink" />{" "}
+          <span className="font-mono text-base tabular-nums text-ink">{uscf.current}</span>{" "}
           <span className="text-muted">
             US Chess · {uscf.title} · peak {uscf.peak}
           </span>
@@ -57,7 +56,7 @@ export function ChessRating({ uscf }: { uscf: { current: number; peak: number; t
       )}
       {online.length > 0 && (
         <p className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs text-muted">
-          <span aria-hidden="true" className="blink inline-block h-1.5 w-1.5 bg-accent" />
+          <span aria-hidden="true" className="status-dot" />
           {online.map((o) => (
             <a key={o.site} href={o.url} target="_blank" rel="noopener noreferrer" className="link-underline">
               {o.site} <span className="text-ink">{o.rating}</span> {o.control}
@@ -75,18 +74,18 @@ export function ChessRating({ uscf }: { uscf: { current: number; peak: number; t
             href={p.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="pixel inline-flex items-center gap-1 border border-accent px-2 py-1 text-accent transition-colors hover:bg-accent hover:text-accent-ink"
+            className="chip"
           >
-            Play me · {p.site}
-            <ArrowUpRight aria-hidden="true" className="h-2.5 w-2.5" />
+            Play me on {p.site}
+            <ArrowUpRight aria-hidden="true" className="h-3 w-3" />
           </a>
         ))}
         <TransitionLink
           href="/projects/plays-like-me/"
-          className="pixel inline-flex items-center gap-1 border border-line px-2 py-1 text-muted transition-colors hover:border-accent hover:text-accent"
+          className="chip text-muted"
         >
-          Offline? Play my AI
-          <ArrowRight aria-hidden="true" className="h-2.5 w-2.5" />
+          Or play my AI
+          <ArrowRight aria-hidden="true" className="h-3 w-3" />
         </TransitionLink>
       </p>
     </div>

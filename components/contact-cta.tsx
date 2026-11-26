@@ -28,7 +28,7 @@ export function ContactCta({
         <div className="flex flex-wrap items-center gap-3">
           <a
             href={`mailto:${profile.email}`}
-            className="btn-game inline-flex items-center gap-2 bg-lime px-5 py-3 font-display text-sm font-bold text-lime-ink"
+            className="btn btn-primary"
           >
             <Mail aria-hidden="true" className="h-4 w-4" />
             {profile.email}
@@ -37,7 +37,7 @@ export function ContactCta({
             href={resume}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-game inline-flex items-center gap-2 border-2 border-ink bg-paper px-5 py-[10px] font-display text-sm font-bold text-ink"
+            className="btn btn-secondary"
           >
             <FileText aria-hidden="true" className="h-4 w-4" />
             Resume (PDF)

@@ -6,10 +6,9 @@ import { ChessInsights } from "@/components/chess-insights";
 import { KnightsLab } from "@/components/knights-lab";
 import { MarketCalibration } from "@/components/market-calibration";
 import { PlaysLikeMeLoader } from "@/components/plays-like-me-loader";
-import { CountUp } from "@/components/hud";
 import { Tldr } from "@/components/tldr";
 import { TransitionLink } from "@/components/transition-link";
-import { CaseBoard, ExternalLink, Gaps, Glyph, Kicker, Panel } from "@/components/ui";
+import { Chip, ExternalLink, Gaps, Glyph, Kicker, Panel } from "@/components/ui";
 import { cases, skillName } from "@/lib/content";
 import { pageMeta } from "@/lib/meta";
 
@@ -30,7 +29,7 @@ function Block({ kicker, title, children }: { kicker: string; title: string; chi
     <section className="space-y-4">
       <div className="flex items-baseline gap-3">
         <h2 className="font-display text-2xl font-bold tracking-[-0.02em] text-ink sm:text-[1.75rem]">{title}</h2>
-        <span className="pixel text-faint">{kicker}</span>
+        <span className="label text-faint">{kicker}</span>
       </div>
       {children}
     </section>
@@ -73,7 +72,7 @@ export default function ProjectPage({ params }: Params) {
       </div>
 
       {/* Header */}
-      <header className="grid gap-8 pb-12 pt-8 sm:pt-10 md:grid-cols-[1fr_180px] md:items-end">
+      <header className="pb-12 pt-8 sm:pt-10">
         <div className="space-y-5">
           <Kicker className="rise">
             {c.area} · {c.period}
@@ -89,11 +88,9 @@ export default function ProjectPage({ params }: Params) {
           </p>
           {c.rewards.length > 0 && (
             <div className="rise flex flex-wrap items-center gap-2" style={{ "--i": 2 } as React.CSSProperties}>
-              <span className="pixel text-faint">Skills proven</span>
+              <span className="label mr-1 text-faint">Skills</span>
               {c.rewards.map((r) => (
-                <span key={r} className="border border-accent px-1.5 py-0.5 font-mono text-[11px] text-accent">
-                  +{skillName(r)}
-                </span>
+                <Chip key={r}>{skillName(r)}</Chip>
               ))}
             </div>
           )}
@@ -103,7 +100,7 @@ export default function ProjectPage({ params }: Params) {
                 href={c.live.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-game inline-flex items-center gap-2 bg-lime px-5 py-3 font-display text-sm font-bold text-lime-ink"
+                className="btn btn-primary"
               >
                 {c.live.label}
                 <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
@@ -111,14 +108,11 @@ export default function ProjectPage({ params }: Params) {
             </div>
           )}
         </div>
-        <span className="vt-name hidden w-full md:block" style={{ "--vt-name": `board-${c.slug}` } as React.CSSProperties}>
-          <CaseBoard seed={c.slug} className="w-full" />
-        </span>
       </header>
 
       {/* The 30-second version */}
       <Panel className="rise mb-3" inner="p-5 sm:p-6">
-        <p className="pixel mb-4 text-accent">In 30 seconds</p>
+        <p className="label mb-4 text-accent">In 30 seconds</p>
         <Tldr items={c.tldr} className="max-w-3xl" />
       </Panel>
 
@@ -127,7 +121,7 @@ export default function ProjectPage({ params }: Params) {
         <dl className="grid content-start gap-3 bg-paper-2 p-5 sm:p-6">
           {meta.map((m) => (
             <div key={m.label} className="grid grid-cols-[72px_1fr] gap-3 text-sm">
-              <dt className="pixel pt-1 text-faint">{m.label}</dt>
+              <dt className="label pt-1 text-faint">{m.label}</dt>
               <dd className="text-ink">{m.value}</dd>
             </div>
           ))}
@@ -137,7 +131,7 @@ export default function ProjectPage({ params }: Params) {
             <div key={s.label} className="flex flex-col justify-end gap-1 bg-paper-2 p-5 sm:p-6">
               <dt className="order-2 text-xs leading-snug text-muted">{s.label}</dt>
               <dd className="order-1 font-display text-3xl font-extrabold tracking-[-0.03em] text-accent sm:text-4xl">
-                <CountUp value={s.value} />
+                {s.value}
               </dd>
             </div>
           ))}
@@ -305,7 +299,7 @@ export default function ProjectPage({ params }: Params) {
                       className="group flex items-start justify-between gap-4 py-3.5"
                     >
                       <span>
-                        <span className="pixel block text-muted">
+                        <span className="label block text-muted">
                           {pr.outlet} · {pr.date}
                         </span>
                         <span className="mt-1 block text-[15px] text-ink transition-colors group-hover:text-accent">{pr.title}</span>
@@ -332,7 +326,7 @@ export default function ProjectPage({ params }: Params) {
       <nav aria-label="Next project" className="mt-20 border-t border-line pt-8">
         <TransitionLink href={`/projects/${next.slug}/`} className="group flex items-center justify-between gap-6">
           <span className="space-y-2">
-            <span className="pixel block text-muted">
+            <span className="label block text-muted">
               Next project · {next.area}
             </span>
             <span className="block font-display text-3xl font-extrabold tracking-[-0.03em] text-ink transition-colors group-hover:text-accent sm:text-4xl">

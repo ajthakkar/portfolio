@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
-import { ChessBishop, ChessKing, ChessKnight, ChessQueen, ChessRook, Lock } from "lucide-react";
-import { glyphMeaning, type GlyphMark, type Piece, type SkillState } from "@/lib/content";
+import { ChessBishop, ChessKing, ChessKnight, ChessQueen, ChessRook } from "lucide-react";
+import { glyphMeaning, type GlyphMark, type Piece } from "@/lib/content";
 
 const pieceIcons = { king: ChessKing, queen: ChessQueen, rook: ChessRook, bishop: ChessBishop, knight: ChessKnight };
 
@@ -9,44 +9,34 @@ export function PieceIcon({ piece, className = "" }: { piece: Piece; className?:
   return <Icon aria-hidden="true" className={className} />;
 }
 
-/** A panel with cut corners. The outer layer draws the border, the inner one the fill. */
+/** A bordered surface. Its look (radius, border, fill) comes from the theme. */
 export function Panel({
   children,
   className = "",
   inner = "",
-  small = false,
 }: {
   children: ReactNode;
   className?: string;
   inner?: string;
   small?: boolean;
 }) {
-  const notch = small ? "notch notch-sm" : "notch";
+  return <div className={`panel ${className} ${inner}`}>{children}</div>;
+}
+
+/** A project card. Hover effects come from the theme; `active` marks it as matching the selected skill. */
+export function Card({ children, className = "", active = false }: { children: ReactNode; className?: string; active?: boolean }) {
   return (
-    <div className={`${notch} bg-line p-px ${className}`}>
-      <div className={`${notch} h-full bg-paper-2 ${inner}`}>{children}</div>
+    <div className={`card ${className}`} data-active={active || undefined}>
+      {children}
     </div>
   );
 }
 
-const chipStyle: Record<SkillState | "complete", string> = {
-  complete: "bg-lime text-lime-ink",
-  unlocked: "bg-lime text-lime-ink",
-  training: "border border-coral text-coral",
-  locked: "border border-line text-faint",
-};
-const chipLabel: Record<SkillState | "complete", string> = {
-  complete: "Complete",
-  unlocked: "Unlocked",
-  training: "In progress",
-  locked: "Locked",
-};
-
-export function StatusChip({ state, className = "" }: { state: SkillState | "complete"; className?: string }) {
+/** A skill tag. */
+export function Chip({ children, active = false, className = "" }: { children: ReactNode; active?: boolean; className?: string }) {
   return (
-    <span className={`pixel inline-flex items-center gap-1 px-1.5 py-[3px] ${chipStyle[state]} ${className}`}>
-      {state === "locked" && <Lock aria-hidden="true" className="h-2.5 w-2.5" />}
-      {chipLabel[state]}
+    <span className={`chip ${className}`} data-active={active || undefined}>
+      {children}
     </span>
   );
 }
@@ -54,7 +44,7 @@ export function StatusChip({ state, className = "" }: { state: SkillState | "com
 /** A strip of highlights that scrolls sideways. Paused on hover and for reduced motion. */
 export function Ticker({ items }: { items: string[] }) {
   return (
-    <div className="marquee-wrap overflow-hidden border-y border-line bg-paper-2/70 py-3">
+    <div className="ticker marquee-wrap overflow-hidden py-3">
       <ul aria-label="Highlights" className="marquee flex w-max">
         {[...items, ...items].map((item, i) => (
           <li
@@ -62,8 +52,8 @@ export function Ticker({ items }: { items: string[] }) {
             aria-hidden={i >= items.length ? true : undefined}
             className="flex shrink-0 items-center gap-6 pr-6 font-mono text-xs uppercase tracking-wider text-muted"
           >
-            <span aria-hidden="true" className="text-accent">
-              ✦
+            <span aria-hidden="true" className="ticker-sep">
+              ·
             </span>
             {item}
           </li>
@@ -107,61 +97,9 @@ export function GlyphLegend() {
   );
 }
 
-/* A small 8×8 "position" unique to each case, generated from its slug. */
-function seeded(text: string) {
-  let h = 2166136261;
-  for (const ch of text) h = Math.imul(h ^ ch.charCodeAt(0), 16777619);
-  return () => {
-    h = Math.imul(h ^ (h >>> 15), 2246822507);
-    h = Math.imul(h ^ (h >>> 13), 3266489909);
-    return ((h ^= h >>> 16) >>> 0) / 4294967296;
-  };
-}
-
-export function CaseBoard({ seed, muted = false, className = "" }: { seed: string; muted?: boolean; className?: string }) {
-  const rand = seeded(seed);
-  const marked = new Set<number>();
-  const count = 6 + Math.floor(rand() * 4);
-  while (marked.size < count) marked.add(Math.floor(rand() * 64));
-  const king = [...marked][0];
-
-  return (
-    <svg viewBox="0 0 80 80" aria-hidden="true" className={`overflow-hidden ${className}`}>
-      {Array.from({ length: 64 }, (_, i) => {
-        const x = i % 8;
-        const y = Math.floor(i / 8);
-        const isMarked = marked.has(i) && !muted;
-        return (
-          <rect
-            key={i}
-            x={x * 10}
-            y={y * 10}
-            width="10"
-            height="10"
-            className={
-              i === king && !muted
-                ? "fill-accent"
-                : isMarked
-                  ? "fill-ink/70 transition-opacity duration-300 group-hover:opacity-40"
-                  : (x + y) % 2 === 0
-                    ? "fill-sq-light"
-                    : "fill-sq-dark"
-            }
-          />
-        );
-      })}
-    </svg>
-  );
-}
-
-/** HUD label with a menu cursor, e.g. "▸ Skill tree". */
+/** The small label above a heading, e.g. "Selected work". */
 export function Kicker({ children, className = "" }: { children: ReactNode; className?: string }) {
-  return (
-    <p className={`pixel flex items-center gap-1.5 text-accent ${className}`}>
-      <span aria-hidden="true">▸</span>
-      {children}
-    </p>
-  );
+  return <p className={`label kicker ${className}`}>{children}</p>;
 }
 
 export function SectionTitle({ kicker, title, aside }: { kicker: string; title: ReactNode; aside?: ReactNode }) {
@@ -169,7 +107,7 @@ export function SectionTitle({ kicker, title, aside }: { kicker: string; title: 
     <div className="flex flex-col gap-3 border-b border-line pb-4 sm:flex-row sm:items-end sm:justify-between">
       <div className="space-y-2.5">
         <Kicker>{kicker}</Kicker>
-        <h2 className="font-display text-3xl font-bold tracking-[-0.02em] text-ink sm:text-[2.6rem]">{title}</h2>
+        <h2 className="section-title font-display text-3xl font-bold tracking-[-0.02em] text-ink sm:text-[2.6rem]">{title}</h2>
       </div>
       {aside}
     </div>

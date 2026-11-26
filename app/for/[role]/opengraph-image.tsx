@@ -17,7 +17,7 @@ export default async function Image({ params }: { params: { role: string } }) {
   return new ImageResponse(
     (
       <OgCard
-        kicker={`${profile.playerClass} · Class of 2029`}
+        kicker={`${profile.standing} · Class of 2029`}
         title={profile.name}
         highlight={view ? view.title : undefined}
         lines={view ? [view.lookingFor] : []}

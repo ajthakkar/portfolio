@@ -184,7 +184,7 @@ export function KnightsLab() {
       <div className="flex flex-col gap-4 border border-line bg-paper-2/60 p-4 lg:flex-row lg:items-center lg:justify-between">
         <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
           <div className="flex items-center gap-2">
-            <span className="pixel text-muted">Board</span>
+            <span className="label text-muted">Board</span>
             {[5, 6, 7, 8].map((size) => (
               <button
                 key={size}
@@ -204,7 +204,7 @@ export function KnightsLab() {
             ))}
           </div>
           <label className="flex items-center gap-2">
-            <span className="pixel text-muted">Start</span>
+            <span className="label text-muted">Start</span>
             <select
               value={start}
               onChange={(e) => pick(Number(e.target.value))}
@@ -218,7 +218,7 @@ export function KnightsLab() {
             </select>
           </label>
           <label className="flex items-center gap-2">
-            <span className="pixel text-muted">Speed</span>
+            <span className="label text-muted">Speed</span>
             <input
               type="range"
               min={0}
@@ -237,7 +237,7 @@ export function KnightsLab() {
           <button
             type="button"
             onClick={() => (running ? setRunning(false) : play())}
-            className="btn-game inline-flex items-center gap-2 bg-lime px-4 py-2 font-display text-sm font-bold text-lime-ink"
+            className="btn btn-primary btn-sm"
           >
             {running ? <Pause aria-hidden="true" className="h-4 w-4" /> : <Play aria-hidden="true" className="h-4 w-4" />}
             {running ? "Pause" : finished ? "Race again" : "Start race"}
@@ -245,7 +245,7 @@ export function KnightsLab() {
           <button
             type="button"
             onClick={() => reset(n, start)}
-            className="btn-game inline-flex items-center gap-2 border-2 border-ink bg-paper px-3 py-[6px] font-display text-sm font-bold text-ink"
+            className="btn btn-secondary btn-sm"
           >
             <RotateCcw aria-hidden="true" className="h-4 w-4" />
             Reset

@@ -22,8 +22,8 @@ export const profile = {
     { label: "LinkedIn", href: "https://www.linkedin.com/in/aayush--thakkar" },
     { label: "Email", href: "mailto:thakkar.186@osu.edu" },
   ],
-  /** Player card "class" line. */
-  playerClass: "Business Admin · Ohio State · 4.0 GPA",
+  /** One line: what and where I study. */
+  standing: "Business Admin · Ohio State · 4.0 GPA",
   chess: {
     /** Usernames and US Chess ID live in lib/chess-accounts.json (the ratings script reads them too). */
     lichess: chessAccounts.lichess,
@@ -896,7 +896,7 @@ export const cases: Case[] = [
     stats: [
       { value: "5", label: "short versions, one per kind of role, each with its own resume" },
       { value: "0", label: "accessibility errors on axe-core, in both themes" },
-      { value: "20", label: "skills on the tree, each linked to its proof" },
+      { value: "20", label: "skills, each linked to the projects that show it" },
     ],
     position: [
       "I wanted one place to show my work that doesn't read like a resume.",
@@ -913,12 +913,12 @@ export const cases: Case[] = [
       {
         glyph: "!",
         title: "Make the work the point",
-        body: "The strongest portfolios I studied led with proof, so every skill on the tree links to the project that backs it, and locked skills show what's next.",
+        body: "The strongest portfolios I studied led with proof, so every skill links to the projects that back it.",
       },
       {
-        glyph: "!?",
-        title: "Play like a game, read like a resume",
-        body: "A title screen, a skill tree, and an XP bar give it a game feel. Chess stays in the details: piece icons, annotation marks, and a puzzle. Every heading still says plainly what it is.",
+        glyph: "?!",
+        title: "The game theme, and why I dropped it",
+        body: "The second version had a title screen, a skill tree, and an XP bar. It was fun, but it read as a game before it read as my work. So I took the game layer out, kept the colors and transitions, and left chess in a few details: piece icons, annotation marks, and a puzzle.",
       },
       {
         glyph: "!",
@@ -928,7 +928,7 @@ export const cases: Case[] = [
       {
         glyph: "!",
         title: "Audit it like a stranger would",
-        body: "I reviewed it as a recruiter skimming on a phone, an engineer reading code, and an accessibility checker would. That led to the projects page, plain labels instead of game jargon, link previews, bigger tap targets, and a title screen that gets out of the way.",
+        body: "I reviewed it as a recruiter skimming on a phone, an engineer reading code, and an accessibility checker would. That led to the projects page, plain labels instead of game jargon, link previews, and bigger tap targets.",
       },
     ],
     outcome: [

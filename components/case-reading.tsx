@@ -25,7 +25,7 @@ export function MoveList({ moves }: { moves: { glyph: GlyphMark; title: string }
 
   return (
     <nav aria-label="Key moves" className="space-y-3">
-      <p className="pixel text-faint">Key moves</p>
+      <p className="label text-faint">Key moves</p>
       <ol className="space-y-1">
         {moves.map((move, i) => (
           <li key={move.title}>

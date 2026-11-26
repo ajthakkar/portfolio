@@ -249,7 +249,7 @@ function ForestPlot({ sections, eloPerPoint }: { sections: Section[]; eloPerPoin
     <div className="mt-5">
       {sections.map((section, si) => (
         <div key={section.title ?? si} className={si ? "mt-5" : ""}>
-          {section.title && <p className="pixel mb-1 text-faint">{section.title}</p>}
+          {section.title && <p className="label mb-1 text-faint">{section.title}</p>}
           <ul>
             {section.rows.map((r) => {
               const on = active === r.label;
